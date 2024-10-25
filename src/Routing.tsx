@@ -1,8 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
-import Index from "./screens/index";
 
-function App() {
+import Index from "./screens/index";
+import Dashboard from "./screens/dashboard";
+import ScanBusInitials from "./screens/ticketing/scanBusInitials";
+
+function Routing() {
   return (
     <div>
       <ToastContainer
@@ -18,6 +21,9 @@ function App() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path="/scanBusInitials" element={<ScanBusInitials />} />
+          {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
           {/* <Route path="/signIn" element={<SignIn />} /> */}
         </Routes>
@@ -26,4 +32,4 @@ function App() {
   );
 }
 
-export default App;
+export default Routing;
