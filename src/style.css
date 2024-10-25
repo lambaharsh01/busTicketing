@@ -1,0 +1,65 @@
+.charterBlueText {
+  color: #355ba6;
+}
+
+.charterBlueBackground {
+  color: #355ba6;
+}
+
+.creamBackground {
+  background-color: #fefafa;
+}
+
+.iconSectionBlue {
+  background-color: #e4f3fe;
+}
+
+.iconSectionYellow {
+  background-color: #fceb54;
+}
+
+.aThousandZindex {
+  /* because the z index of the map and its icon was 999 */
+  z-index: 1000;
+}
+
+.blink {
+  animation: blink 2s infinite;
+}
+
+@keyframes blink {
+  0% {
+    opacity: 0;
+  }
+  25% {
+    opacity: 0.5;
+  }
+  50% {
+    opacity: 1;
+  }
+  75% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+/* MAP */
+.leaflet-control-attribution {
+  display: none;
+}
+.leaflet-top {
+  z-index: 499 !important;
+}
+
+/* OVERLY */
+.overlayWhenViewNavigationIsOpen {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 500;
+}

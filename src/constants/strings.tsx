@@ -1,11 +1,5 @@
 // src/constants/strings.js
 const STRINGS = {
-  PLACEHOLDERS: {
-    USERNAME: "Enter your username",
-    PASSWORD: "Enter your password",
-    SEARCH: "Search...",
-    EMAIL: "Enter your email",
-  },
   BUTTON_TEXTS: {
     SUBMIT: "Submit",
     LOGIN: "Login",
@@ -21,6 +15,14 @@ const STRINGS = {
     PASSWORD: "Password",
     EMAIL: "Email",
   },
+};
+
+export const PLACEHOLDERS = {
+  DASHBOARD_SEARCH: "Where do you want to go?",
+  USERNAME: "Enter your username",
+  PASSWORD: "Enter your password",
+  SEARCH: "Search...",
+  EMAIL: "Enter your email",
 };
 
 export default STRINGS;
