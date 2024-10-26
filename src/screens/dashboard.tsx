@@ -19,12 +19,14 @@ import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  const [lastSource, setLastSource] = useState("khera Vilage");
-  const [lastDestination, setLastDestination] = useState("khera Vilage");
+  // const [lastSource, setLastSource] = useState<string>("khera Vilage");
+  // const [lastDestination, setLastDestination] = useState<string>("khera Vilage");
+  const lastSource:string = "khera Vilage";
+  const lastDestination:string= "khera Vilage";
 
   // Dragging
   const dragThreshold = 100; // Drag distance to hide the component
-  const [allOptionsOpen, setAllOptionsOpen] = useState(false);
+  const [allOptionsOpen, setAllOptionsOpen] = useState<boolean>(false);
 
   // useSpring to control smooth vertical translation
   const [{ y }, api] = useSpring(() => ({ y: 1000 }));
@@ -113,7 +115,7 @@ export default function Dashboard() {
                 <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
                   <IoTicket
                     className="text-4xl"
-                    onClick={() => navigate("/scanBusInitials")}
+                    onClick={() => navigate("/scan-bus-initials")}
                   />
                 </div>
               </div>
@@ -214,7 +216,7 @@ export default function Dashboard() {
                   <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
                     <IoTicket
                       className="text-4xl"
-                      onClick={() => navigate("/scanBusInitials")}
+                      onClick={() => navigate("/scan-bus-initials")}
                     />
                   </div>
                 </div>

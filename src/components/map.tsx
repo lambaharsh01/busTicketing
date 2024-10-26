@@ -39,7 +39,12 @@ const Map: React.FC<MapProps> = ({
   ]);
 
   return (
-    <MapContainer center={position} zoom={13} style={{ height, width }}>
+    <MapContainer 
+    key={position.join(',')}
+    center={position} 
+    zoom={13} 
+    style={{ height, width }}
+    >
       <TileLayer
         url="https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png"
         attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>'

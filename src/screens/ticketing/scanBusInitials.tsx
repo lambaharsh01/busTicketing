@@ -1,10 +1,21 @@
-import { CSSProperties, useRef, useState } from "react";
+import { CSSProperties, useRef, useContext, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import Camera from "../../components/camera";
+import { IoArrowBack } from "react-icons/io5";
 
 import { useSpring, animated } from "@react-spring/web"; /*Handle Dragging*/
 import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
+import { BusContext } from "../../contexts/busContext";
 
 const ScanBusInitials: React.FC = () => {
+  const context= useContext(BusContext);
+  if (!context) { // if not this typescript throws an error because if used and not it context the context will be undefined and would be an error
+    throw new Error('This Component must be used within a BusProvider to access the values of it.');
+  }
+  const { busNumber,setBusNumber }= context;
+
+  const navigate= useNavigate();
+
   const dragThreshold = 80; // Drag distance to hide the component
 
   // useSpring to control smooth vertical translation
@@ -45,10 +56,15 @@ const ScanBusInitials: React.FC = () => {
   const [input1, input2, input3, input4] = useRefArray;
 
   const emptyCurrentValueIfAny = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const val = e.currentTarget.value;
-    if (val.length > 1) {
-      e.currentTarget.value = val[0];
-    }
+    // const val = e.currentTarget.value;
+    // if (val.length > 1) {
+    //   e.currentTarget.value = val[0];
+    //   return
+    // }
+
+    // alert(1)
+
+
   };
 
   const focusElegability = (
@@ -77,25 +93,20 @@ const ScanBusInitials: React.FC = () => {
     const inputValue = e.currentTarget.value;
     const regex = /^[0-9]$/;
 
+  
     if (regex.test(keyPressed) && inputValue) {
       const ref = useRefArray[index + 1];
       if (ref && ref.current) {
         ref.current.focus();
         ref.current.value = keyPressed;
-
-        const inputValues = useRefArray
-          .map((elem) => elem?.current?.value ?? null)
-          .filter(Boolean);
-
-        if (inputValues.length === 4) {
-          alert("All Done");
-        }
+        checkForAllElementsFilled()
         return;
       }
     }
 
     if (regex.test(keyPressed) && !inputValue) {
       e.currentTarget.value = keyPressed;
+      checkForAllElementsFilled()
       return;
     }
 
@@ -111,10 +122,41 @@ const ScanBusInitials: React.FC = () => {
       }
       return;
     }
+
+    function checkForAllElementsFilled(){
+      const inputValues = useRefArray
+      .map((elem) => elem?.current?.value ?? null)
+      .filter(Boolean);
+
+    if (inputValues.length === 4) {
+      setBusNumber(inputValues.join(""))
+      navigate("/bus-selection")
+    }
+    }
   };
 
+  
+  useEffect(()=>{
+    if(busNumber && busNumber.length===4){
+      for(let i=0; i<busNumber.length; i ++){
+        const elem= useRefArray[i]
+        if(elem && elem.current){
+          elem.current.value=busNumber[i]
+        }
+      }
+    }
+  },[busNumber])
+
   return (
-    <div className="h-screen">
+    <div className="h-screen relative">
+      <div className="pt-2 ps-1 flex items-inline font-bold text-lg absolute top-0 bg-transparent">
+        <IoArrowBack 
+        className="text-2xl me-8 z-50"
+        onClick={()=>navigate("/dashboard", { replace: true })}
+        /> 
+        <span className="text-xl">Scan QR present In the bus.</span>
+      </div>
+
       <Camera />
 
       <animated.div
@@ -142,9 +184,7 @@ const ScanBusInitials: React.FC = () => {
               ref={input1}
               onFocus={(e) => focusElegability(e, 0)}
               onKeyDown={(e) => goBackIfNeedBe(e, 0)}
-              onChange={(e) => {
-                emptyCurrentValueIfAny(e);
-              }}
+              onChange={emptyCurrentValueIfAny}
             />
             <input
               type="number"
@@ -152,9 +192,7 @@ const ScanBusInitials: React.FC = () => {
               ref={input2}
               onFocus={(e) => focusElegability(e, 1)}
               onKeyDown={(e) => goBackIfNeedBe(e, 1)}
-              onChange={(e) => {
-                emptyCurrentValueIfAny(e);
-              }}
+              onChange={emptyCurrentValueIfAny}
             />
             <input
               type="number"
@@ -162,9 +200,7 @@ const ScanBusInitials: React.FC = () => {
               ref={input3}
               onFocus={(e) => focusElegability(e, 2)}
               onKeyDown={(e) => goBackIfNeedBe(e, 2)}
-              onChange={(e) => {
-                emptyCurrentValueIfAny(e);
-              }}
+              onChange={emptyCurrentValueIfAny}
             />
             <input
               type="number"
@@ -172,9 +208,7 @@ const ScanBusInitials: React.FC = () => {
               ref={input4}
               onFocus={(e) => focusElegability(e, 3)}
               onKeyDown={(e) => goBackIfNeedBe(e, 3)}
-              onChange={(e) => {
-                emptyCurrentValueIfAny(e);
-              }}
+              onChange={emptyCurrentValueIfAny}
             />
           </div>
         </div>

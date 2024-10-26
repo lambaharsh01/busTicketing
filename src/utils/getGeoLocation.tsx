@@ -21,6 +21,10 @@ const fetchCoordinates = (): Promise<Coordinates> => {
           resolve({ latitude, longitude, error: null });
         },
         (error: GeolocationPositionError) => {
+          // error.code is always 1
+          if(error?.message?.includes("User denied")){
+            alert("Please enable location access to make the most of the app's features.")
+          }
           resolve({
             latitude: defaultCordinates.latitude,
             longitude: defaultCordinates.longitude,
@@ -31,15 +35,5 @@ const fetchCoordinates = (): Promise<Coordinates> => {
     }
   });
 };
-
-// // Usage example
-// fetchCoordinates()
-//   .then((coords) => {
-//     console.log("Latitude:", coords.latitude);
-//     console.log("Longitude:", coords.longitude);
-//   })
-//   .catch((error) => {
-//     console.error("Error fetching location:", error.message);
-//   });
 
 export default fetchCoordinates;
