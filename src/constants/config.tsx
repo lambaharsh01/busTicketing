@@ -1,4 +1,4 @@
-// const API_RESOURCE_NAME: string = "https://localhost:8080";
+const API_RESOURCE_NAME: string = "https://localhost:8080";
 
 const API_ENDPOINTS = {};
 
