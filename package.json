@@ -40,6 +40,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
+    "preinstall": "npx npm-force-resolutions",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
@@ -63,6 +64,7 @@
     ]
   },
   "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.4",
     "@types/leaflet": "^1.9.14",
     "ajv": "^7.2.4",
     "autoprefixer": "^10.4.20",
