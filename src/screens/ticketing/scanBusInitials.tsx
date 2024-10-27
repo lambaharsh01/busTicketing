@@ -8,13 +8,16 @@ import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
 import { BusContext } from "../../contexts/busContext";
 
 const ScanBusInitials: React.FC = () => {
-  const context= useContext(BusContext);
-  if (!context) { // if not this typescript throws an error because if used and not it context the context will be undefined and would be an error
-    throw new Error('This Component must be used within a BusProvider to access the values of it.');
+  const context = useContext(BusContext);
+  if (!context) {
+    // if not this typescript throws an error because if used and not it context the context will be undefined and would be an error
+    throw new Error(
+      "This Component must be used within a BusProvider to access the values of it."
+    );
   }
-  const { busNumber,setBusNumber }= context;
+  const { busNumber, setBusNumber } = context;
 
-  const navigate= useNavigate();
+  const navigate = useNavigate();
 
   const dragThreshold = 80; // Drag distance to hide the component
 
@@ -61,10 +64,7 @@ const ScanBusInitials: React.FC = () => {
     //   e.currentTarget.value = val[0];
     //   return
     // }
-
     // alert(1)
-
-
   };
 
   const focusElegability = (
@@ -93,20 +93,19 @@ const ScanBusInitials: React.FC = () => {
     const inputValue = e.currentTarget.value;
     const regex = /^[0-9]$/;
 
-  
     if (regex.test(keyPressed) && inputValue) {
       const ref = useRefArray[index + 1];
       if (ref && ref.current) {
         ref.current.focus();
         ref.current.value = keyPressed;
-        checkForAllElementsFilled()
+        checkForAllElementsFilled();
         return;
       }
     }
 
     if (regex.test(keyPressed) && !inputValue) {
       e.currentTarget.value = keyPressed;
-      checkForAllElementsFilled()
+      checkForAllElementsFilled();
       return;
     }
 
@@ -123,37 +122,36 @@ const ScanBusInitials: React.FC = () => {
       return;
     }
 
-    function checkForAllElementsFilled(){
+    function checkForAllElementsFilled() {
       const inputValues = useRefArray
-      .map((elem) => elem?.current?.value ?? null)
-      .filter(Boolean);
+        .map((elem) => elem?.current?.value ?? null)
+        .filter(Boolean);
 
-    if (inputValues.length === 4) {
-      setBusNumber(inputValues.join(""))
-      navigate("/bus-selection")
-    }
+      if (inputValues.length === 4) {
+        setBusNumber(inputValues.join(""));
+        navigate("/bus-selection");
+      }
     }
   };
 
-  
-  useEffect(()=>{
-    if(busNumber && busNumber.length===4){
-      for(let i=0; i<busNumber.length; i ++){
-        const elem= useRefArray[i]
-        if(elem && elem.current){
-          elem.current.value=busNumber[i]
+  useEffect(() => {
+    if (busNumber && busNumber.length === 4) {
+      for (let i = 0; i < busNumber.length; i++) {
+        const elem = useRefArray[i];
+        if (elem && elem.current) {
+          elem.current.value = busNumber[i];
         }
       }
     }
-  },[busNumber])
+  }, [busNumber]);
 
   return (
-    <div className="h-screen relative">
+    <div className="max-h-screen relative">
       <div className="pt-2 ps-1 flex items-inline font-bold text-lg absolute top-0 bg-transparent">
-        <IoArrowBack 
-        className="text-2xl me-8 z-50"
-        onClick={()=>navigate("/dashboard", { replace: true })}
-        /> 
+        <IoArrowBack
+          className="text-2xl me-8 z-50"
+          onClick={() => navigate("/dashboard", { replace: true })}
+        />
         <span className="text-xl">Scan QR present In the bus.</span>
       </div>
 

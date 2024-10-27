@@ -4,7 +4,7 @@ import { ToastContainer } from "react-toastify";
 import Index from "./screens/index";
 import Dashboard from "./screens/dashboard";
 import ScanBusInitials from "./screens/ticketing/scanBusInitials";
-import BusSelection from "./screens/ticketing/busSelection";
+import BusInfo from "./screens/ticketing/busInfo";
 
 import { BusProvider } from "./contexts/busContext";
 
@@ -25,16 +25,22 @@ function Routing() {
         <Routes>
           <Route path="/" element={<Index />} />
           <Route path="/dashboard" element={<Dashboard />} />
-          <Route path="/scan-bus-initials" element={
-            <BusProvider>
-              <ScanBusInitials />
-            </BusProvider>
-            } />
-          <Route path="/bus-selection" element={
-            <BusProvider>
-              <BusSelection />
-            </BusProvider>
-            } />
+          <Route
+            path="/scan-bus-initials"
+            element={
+              <BusProvider>
+                <ScanBusInitials />
+              </BusProvider>
+            }
+          />
+          <Route
+            path="/bus-selection"
+            element={
+              <BusProvider>
+                <BusInfo />
+              </BusProvider>
+            }
+          />
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
           {/* <Route path="/signIn" element={<SignIn />} /> */}

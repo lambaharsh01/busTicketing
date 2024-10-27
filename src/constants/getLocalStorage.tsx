@@ -2,6 +2,10 @@ export const getUserEmail = () => {
   return localStorage.getItem("userEmail");
 };
 
-export const getBusColors=()=>{
-  return ["#2E81EB", "#E48B40", "#3FA1AD", "#219652", "#F4A8D6"]
-}
+export const getBusColors = () => {
+  return ["#2E81EB", "#E48B40", "#3FA1AD", "#219652", "#F4A8D6"];
+};
+
+export const getBusInitials = () => {
+  return ["DL1PC", "DL1PD", "DL1PB", "DL51GD", "DL51EV"];
+};

@@ -5,6 +5,9 @@
 .charterBlueBackground {
   color: #355ba6;
 }
+.headerCayanText {
+  color: #5b9fab;
+}
 
 .creamBackground {
   background-color: #fefafa;
@@ -51,6 +54,15 @@
 }
 .leaflet-top {
   z-index: 499 !important;
+}
+
+.pointers {
+  cursor: pointer;
+}
+
+.scrolMaxHeight300 {
+  overflow-y: auto;
+  max-height: 280px;
 }
 
 /* OVERLY */
