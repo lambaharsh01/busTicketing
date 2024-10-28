@@ -6,8 +6,9 @@ import { IoArrowBack } from "react-icons/io5";
 import { useSpring, animated } from "@react-spring/web"; /*Handle Dragging*/
 import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
 import { BusContext } from "../../contexts/busContext";
+import { client } from "../../constants/urlPath";
 
-const ScanBusInitials: React.FC = () => {
+const ScanBusNumber: React.FC = () => {
   const context = useContext(BusContext);
   if (!context) {
     // if not this typescript throws an error because if used and not it context the context will be undefined and would be an error
@@ -130,7 +131,7 @@ const ScanBusInitials: React.FC = () => {
 
       if (inputValues.length === 4) {
         setBusNumber(inputValues.join(""));
-        navigate("/bus-selection");
+        navigate(client.busSelection);
       }
     }
   };
@@ -155,7 +156,7 @@ const ScanBusInitials: React.FC = () => {
       <div className="pt-2 ps-1 flex items-inline font-bold text-lg absolute top-0 bg-transparent">
         <IoArrowBack
           className="text-2xl me-8 z-50"
-          onClick={() => navigate("/dashboard", { replace: true })}
+          onClick={() => navigate(client.dashboard, { replace: true })}
         />
         <span className="text-xl">Scan QR present In the bus.</span>
       </div>
@@ -220,4 +221,4 @@ const ScanBusInitials: React.FC = () => {
   );
 };
 
-export default ScanBusInitials;
+export default ScanBusNumber;

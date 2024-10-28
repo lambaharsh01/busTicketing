@@ -78,7 +78,7 @@ const DropdownSearch: React.FC<searchProp> = ({
                 {filteredOptions.map((option) => (
                   <li
                     key={option.value}
-                    className={`py-1.5 hover:bg-gray-100 rounded-md pointers ${
+                    className={`py-1.5 hover:bg-gray-100 rounded-md pointers font-medium ${
                       selectedOption?.value === option.value
                         ? "headerCayanText font-semibold"
                         : "text-gray-700"
