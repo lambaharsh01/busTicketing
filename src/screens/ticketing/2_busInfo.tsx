@@ -3,6 +3,7 @@ import { BusContext } from "../../contexts/busContext";
 import { IoArrowBack } from "react-icons/io5";
 import { getBusColors, getBusInitials } from "../../constants/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
+import DropdownColorSelect from "../../components/dropdownColorSelect";
 import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 
@@ -14,16 +15,17 @@ const BusInfo: React.FC = () => {
     );
   }
   const { busNumber } = context;
+
   useEffect(() => {
     if (!busNumber) {
       toast.error("Bus number is inaccessable, Please re-initial the process");
-      // ChangeAfterDev
+      // IMPORTANT: CHANGE AFTER DEVELOPMENT(ADD RELOCATION TO DASBOARD)
     }
   }, [busNumber]);
 
   const busColors = getBusColors();
-  const [selectedIndex, setSelectedIndex] = useState<number>(-1);
   const [busInitials, setBusInitials] = useState<string>("");
+  const [busColor, setBusColor]= useState<string>("");
 
   return (
     <div className="h-screen">
@@ -38,28 +40,29 @@ const BusInfo: React.FC = () => {
           <DropdownSearch
             options={converArrayIntoSearchStream(getBusInitials())}
             placeholder="Select Bus Initials"
-            onSelect={(selected: { label: string; value: string }) =>
+            onSelect={(selected: { label: string; value: string }) =>{
               setBusInitials(selected.value)
-            }
+            }}
           />
         </div>
       </div>
+
       <div className="mt-4 w-full px-3">
         <span className="text-lg font-medium">Select Bus Color</span>
-        {busColors.map((elem, index) => (
-          <div
-            style={{ backgroundColor: elem }}
-            className={`min-h-10 mb-2 px-2 rounded-md flex items-center`}
-            onClick={() => setSelectedIndex(index)}
-          >
-            {selectedIndex === index && (
-              <div className="min-h-6 w-100 bg-transparent text-white text-sm flex items-center px-1 rounded-sm font-bold">
-                {busInitials || "(Initials not selected)"}
-                {busNumber || " (Bus number not accessable)"}
-              </div>
-            )}
-          </div>
-        ))}
+
+        <DropdownColorSelect
+        key={busInitials}
+        options={converArrayIntoSearchStream(busColors)}
+        busColor={busColor || undefined}
+        placeholder={()=>{
+          // passing a functional prop instead of ternary operated string due to procedural complixity in the earlier stages
+          if(!busColor) return "Select Bus Color";
+          return `${busInitials || "(Initials not selected)"} ${busNumber || "(Bus number not accessable)"}`
+        } 
+      }
+        onSelect={(string)=>{
+          setBusColor(string)
+        }}/>
       </div>
 
       {/* <div className="w-100">hELLO WORLD</div>
