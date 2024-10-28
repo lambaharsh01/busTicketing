@@ -3,8 +3,8 @@ import { ToastContainer } from "react-toastify";
 
 import Index from "./screens/index";
 import Dashboard from "./screens/dashboard";
-import ScanBusInitials from "./screens/ticketing/scanBusInitials";
-import BusInfo from "./screens/ticketing/busInfo";
+import ScanBusInitials from "./screens/ticketing/1_scanBusInitials";
+import BusInfo from "./screens/ticketing/2_busInfo";
 
 import { BusProvider } from "./contexts/busContext";
 
