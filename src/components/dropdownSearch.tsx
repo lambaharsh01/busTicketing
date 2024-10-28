@@ -21,7 +21,7 @@ const DropdownSearch: React.FC<searchProp> = ({
     value: "",
     label: placeholder,
   });
-  const [selectOptions] = useState<Option[]>(options);
+  const selectOptions:Option[]= options;
   const [searchTerm, setSearchTerm] = useState("");
 
   const toggleDropdown = () => setIsOpen(!isOpen);
