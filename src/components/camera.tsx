@@ -18,7 +18,8 @@ const Camera: React.FC<caemraComponent> = ({
     const getCameraStream = async () => {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: true,
+          // video: true,
+          video: {facingMode: { exact: "environment" }},
         });
         streamRef.current = stream; // Store the stream in a ref
         if (videoRef.current) {
