@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { SCREEN } from "../constants/paths";
 import { PLACEHOLDERS } from "../constants/strings";
 import { IoMdSearch } from "react-icons/io";
-import { MdLocationOn } from "react-icons/md";
+import { MdLocationOn, MdDiscount } from "react-icons/md";
 import { IoTicket, IoTimerOutline } from "react-icons/io5";
 import { BsStack, BsPalette2, BsFillSignStopFill } from "react-icons/bs";
 
@@ -22,8 +22,8 @@ export default function Dashboard() {
 
   // const [lastSource, setLastSource] = useState<string>("khera Vilage");
   // const [lastDestination, setLastDestination] = useState<string>("khera Vilage");
-  const lastSource:string = "khera Vilage";
-  const lastDestination:string= "khera Vilage";
+  const lastSource: string = "khera Vilage";
+  const lastDestination: string = "khera Vilage";
 
   // Dragging
   const dragThreshold = 100; // Drag distance to hide the component
@@ -313,6 +313,24 @@ export default function Dashboard() {
                 <div className="text-center">
                   <h6 className="font-medium text-lg">
                     Past <br /> Trips
+                  </h6>
+                </div>
+              </div>
+
+              <div className="relative">
+                <div className="absolute -top-1.5 w-full text-center">
+                  <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
+                    New
+                  </span>
+                </div>
+                <div className="w-20 h-20 p-2">
+                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                    <MdDiscount className="text-4xl" />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <h6 className="font-medium text-lg">
+                    Change <br /> Discount
                   </h6>
                 </div>
               </div>

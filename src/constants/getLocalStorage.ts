@@ -1,4 +1,4 @@
-export const getUserEmail = (): (string | null) => {
+export const getUserEmail = (): string | null => {
   return localStorage.getItem("userEmail");
 };
 
@@ -12,8 +12,12 @@ export const getBusInitials = (): string[] => {
 
 export const getBusRoutes = (): string[] => {
   return ["887A", "578", "DW3STL"];
-}
+};
 
-export const getBusStops = (): string[] =>{
-  return ["khera Village", "Ghumaherha"]
-}
+export const getBusStops = (): string[] => {
+  return ["khera Village", "Ghumaherha"];
+};
+
+export const getDiscount = (): number => {
+  return 10;
+};

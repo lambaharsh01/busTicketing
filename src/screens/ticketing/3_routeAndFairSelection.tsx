@@ -2,15 +2,16 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BusContext } from "../../contexts/busContext";
 import { IoArrowBack } from "react-icons/io5";
-import { getBusStops } from "../../constants/getLocalStorage";
+import { FaPlus, FaMinus } from "react-icons/fa6";
+import { getBusStops, getDiscount } from "../../constants/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
 import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
+import { findDiscountedAmount } from "../../utils/structures";
 
 const RouteSelection: React.FC = () => {
-
-  const navigate= useNavigate()
+  const navigate = useNavigate();
 
   const context = useContext(BusContext);
   if (!context) {
@@ -20,80 +21,125 @@ const RouteSelection: React.FC = () => {
   }
 
   // INITIALIZATION START
-  const { 
-    busNumber, 
+  const {
+    busNumber,
     busInitials,
-    busColor, 
+    busColor,
     busRoute,
 
-    startingStop:startingStopContext, 
-    setStartingStop:setStartingStopContext,
-    endingStop:endingStopContext, 
-    setEndingStop:setEndingStopContext,
-    ticketCost:ticketCostContext, 
-    setTicketCost:setTicketCostContext,
-    ticketCount:ticketCountContext, 
-    setTicketCount:setTicketCountContext,
-    discount:discountContext, 
-    setDiscount:setDiscountContext,
- } = context;
+    startingStop: startingStopContext,
+    setStartingStop: setStartingStopContext,
+    endingStop: endingStopContext,
+    setEndingStop: setEndingStopContext,
+    ticketCost: ticketCostContext,
+    setTicketCost: setTicketCostContext,
+    ticketCount: ticketCountContext,
+    setTicketCount: setTicketCountContext,
+    discount: discountContext,
+    setDiscount: setDiscountContext,
+    // totalCost: totalCostContext,
+    setTotalCost: setTotalCostContext,
+  } = context;
 
   useEffect(() => {
     if (!busNumber || !busInitials || !busColor || !busRoute) {
-      toast.error("Essential information for ticket generation is inaccessable, Please re-initial the process");
-      navigate(client.dashboard, {replace: true})
+      toast.error(
+        "Essential information for ticket generation is inaccessable, Please re-initial the process"
+      );
+      navigate(client.dashboard, { replace: true });
     }
   }, [busNumber, busInitials, busColor, busRoute, navigate]);
+
+  useEffect(() => {
+    if (startingStopContext) setStartingStop(startingStopContext);
+    setStartingStopKey((prevCount) => prevCount + 1);
+  }, [startingStopContext]);
+
+  useEffect(() => {
+    if (endingStopContext) setEndStop(endingStopContext);
+    setEndStopKey((prevCount) => prevCount + 1);
+  }, [endingStopContext]);
+
+  useEffect(() => {
+    if (ticketCostContext) setTicketAmount(ticketCostContext);
+  }, [ticketCostContext]);
+
+  useEffect(() => {
+    if (ticketCountContext) setTicketCount(ticketCountContext);
+  }, [ticketCountContext]);
+
+  useEffect(() => {
+    if (discountContext) setDiscount(discountContext);
+  }, [discountContext]);
+
   // INITIALIZATION END
 
   const busStops = getBusStops();
-  const [startingStop, setStartingStop]= useState<string>("")
-  const [endStop, setEndStop]= useState<string>("")
-  const [startingStopKey, setStartingStopKey]= useState<number>(0);
-  const [endStopKey, setEndStopKey]= useState<number>(0);
+  const savedDiscount = getDiscount();
 
-  const startingStops:string[] = busStops.filter(elem=>elem!==endStop);
-  const endStops:string[] = busStops.filter(elem=>elem!==startingStop);
+  const [startingStop, setStartingStop] = useState<string>("");
+  const [endStop, setEndStop] = useState<string>("");
+  const [startingStopKey, setStartingStopKey] = useState<number>(0);
+  const [endStopKey, setEndStopKey] = useState<number>(0);
 
-  const [continueLoading, setCountinueLoading] = useState<boolean>(false)
+  const [ticketAmount, setTicketAmount] = useState<number>(10);
+  const [ticketCount, setTicketCount] = useState<number>(1);
+  const [discount, setDiscount] = useState<number>(savedDiscount);
+  const [continueLoading, setCountinueLoading] = useState<boolean>(false);
 
-  const handleStartingStopSelect = (selected: { label: string; value: string }) =>{
-    setStartingStop(selected.value)
-  }
-  
-  const handleEndStopSelect = (selected: { label: string; value: string }) =>{
-    setEndStop(selected.value)
-  }
-  
-  const handleContine = () => {
-    setCountinueLoading(true)
+  const startingStops: string[] = busStops.filter((elem) => elem !== endStop);
+  const endStops: string[] = busStops.filter((elem) => elem !== startingStop);
 
-    // if(!busInitial) {
-    //   toast.error("Please Select Bus Initials")  
-    //   setCountinueLoading(false)
-    //   return
-    // }
-       
-    // if(!busColor) {
-    //   toast.error("Please Select Bus Color")
-    //   setCountinueLoading(false)  
-    //   return
-    // }
-       
-    // if(!busRoute) {
-    //   toast.error("Please Select Bus Route")  
-    //   setCountinueLoading(false)
-    //   return
-    // }
+  const handleStartingStopSelect = (selected: {
+    label: string;
+    value: string;
+  }) => {
+    setStartingStop(selected.value);
+  };
 
-    // setBusInitialsContext(busInitial)
-    // setBusColorContext(busColor)
-    // setBusRouteContext(busRoute)
+  const handleEndStopSelect = (selected: { label: string; value: string }) => {
+    setEndStop(selected.value);
+  };
 
-    // toast.info("Bus Information Validated")
+  const handleEnteringTicketAmount = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const convertedTicketAmount: number = Number(e.currentTarget?.value);
+    setTicketAmount(convertedTicketAmount);
+  };
 
-    setCountinueLoading(false)
-  }
+  const handleContinue = () => {
+    setCountinueLoading(true);
+
+    if (!startingStop) {
+      toast.error("Please Select Stating Stop");
+      setCountinueLoading(false);
+      return;
+    }
+
+    if (!endStop) {
+      toast.error("Please Select End Stop");
+      setCountinueLoading(false);
+      return;
+    }
+
+    if (ticketAmount < 1) {
+      toast.error("Enter ticket amount greater than 0");
+      return;
+    }
+
+    setStartingStopContext(startingStop);
+    setEndingStopContext(endStop);
+    setTicketCostContext(ticketAmount);
+    setTicketCountContext(ticketCount);
+    setDiscountContext(discount);
+    setTotalCostContext(
+      findDiscountedAmount(ticketAmount * ticketCount, discount)
+    );
+
+    toast.success("Validation Complete");
+    setCountinueLoading(false);
+  };
 
   return (
     <div className="h-screen relative">
@@ -102,11 +148,19 @@ const RouteSelection: React.FC = () => {
         <span className="text-xl">Route Selection.</span>
       </div>
 
-      <div className="mt-4 w-full px-3">
+      <div className="mt-2 w-full px-3">
+        <h4 className="font-bold text-end">
+          Total | ₹{ticketAmount * ticketCount}
+        </h4>
+        <h6 className="font-bold text-end">Discount | {discount}</h6>
+        <div></div>
+      </div>
+
+      <div className="mt-3 w-full px-3">
         <span className="text-lg font-medium">Select Starting Stop</span>
         <div>
           <DropdownSearch
-            key={"SelectStartingStop"+startingStopKey}
+            key={"SelectStartingStop" + startingStopKey}
             options={converArrayIntoSearchStream(startingStops)}
             placeholder={startingStop || "Select Your Starting Stop"}
             onSelect={handleStartingStopSelect}
@@ -118,58 +172,73 @@ const RouteSelection: React.FC = () => {
         <span className="text-lg font-medium">Select End Stop</span>
         <div>
           <DropdownSearch
-            key={"SelectEndStop"+endStopKey}
+            key={"SelectEndStop" + endStopKey}
             options={converArrayIntoSearchStream(endStops)}
-            placeholder={ endStop || "Select Your End Stop"}
+            placeholder={endStop || "Select Your End Stop"}
             onSelect={handleEndStopSelect}
           />
         </div>
       </div>
 
       <div className="mt-4 w-full px-3">
-        <span className="text-lg font-medium">Select End Stop</span>
-{/* 
-        <DropdownColorSelect
-        key={busInitial}
-        options={converArrayIntoSearchStream(busColors)}
-        busColor={busColor || undefined}
-        placeholder={()=>{
-          // passing a functional prop instead of ternary operated string due to procedural complixity in the earlier stages
-          if(!busColor) return "Select Bus Color";
-          return `${busInitial || "(Initials not selected)"} ${busNumber || "(Bus number not accessable)"}`
-        } 
-      }
-        onSelect={handleBusColorSelection}/> */}
-      </div>
+        <div className="flex">
+          <div className="w-1/2 pe-2 relative">
+            <span className="text-lg font-medium">Ticket Amount</span>
 
-      <div className="mt-4 w-full px-3">
-        <span className="text-lg font-medium">Select Bus Route</span>
-        <div>
-          {/* <DropdownSearch
-            key={"SelectRoute"}
-            options={converArrayIntoSearchStream(busRoutes)}
-            placeholder="Select Bus Route"
-            onSelect={handleBusRouteSelection}
-          /> */}
+            <span className="absolute left-4 top-9 text-lg text-slate-400">
+              ₹
+            </span>
+            <input
+              type="number"
+              placeholder="Enter Amount"
+              className="border rounded-md w-full ps-7 py-2.5 bg-white text-slate-400 font-medium shadow-md"
+              value={ticketAmount}
+              onChange={handleEnteringTicketAmount}
+            />
+          </div>
+
+          <div className="w-1/2 ps-2">
+            <span className="text-lg font-medium">Ticket Count</span>
+            <div className="w-full flex justify-between">
+              <button
+                className="bg-slate-400 text-3xl p-2 rounded-md text-white"
+                onClick={() =>
+                  setTicketCount((prevCount) =>
+                    1 < prevCount ? prevCount - 1 : 1
+                  )
+                }
+              >
+                <FaMinus />
+              </button>
+
+              <div className="flex items-center h-full pt-1">
+                <span className="text-4xl font-semibold">{ticketCount}</span>
+              </div>
+
+              <button
+                className="bg-slate-400 text-3xl p-2 rounded-md text-white"
+                onClick={() => setTicketCount((prevCount) => prevCount + 1)}
+              >
+                <FaPlus />
+              </button>
+            </div>
+          </div>
         </div>
       </div>
-      
-  
-<div className="absolute bottom-8 w-full px-2 ">
-  <button 
-  className="py-2.5 cayanBackground w-full font-medium rounded-md text-white text-lg"
-  onClick={handleContine}
-  disabled={continueLoading}
-  >
-    {
-    continueLoading ? 
-    (<div className="spinner-border text-white"></div>):
-    (<span>Continue</span>)
-    }
-    </button>
-</div>
 
-
+      <div className="absolute bottom-8 w-full px-2 ">
+        <button
+          className="py-2.5 cayanBackground w-full font-medium rounded-md text-white text-lg"
+          onClick={handleContinue}
+          disabled={continueLoading}
+        >
+          {continueLoading ? (
+            <div className="spinner-border text-white"></div>
+          ) : (
+            <span>Continue</span>
+          )}
+        </button>
+      </div>
     </div>
   );
 };
