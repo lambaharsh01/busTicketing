@@ -31,6 +31,9 @@ interface BusContextType { //BusContextType interface defines the structure of t
 
   ticketCost: number | null;
   setTicketCost: (parameter:number)=> void;
+
+  ticketCount: number | null;
+  setTicketCount : (parameter:number)=> void;
 }
 
 export const BusContext = createContext<BusContextType | undefined>(undefined); //This line creates a new context called BusContext. //type parameter <BusContextType | undefined> indicates that the context will either contain an object of type BusContextType or be undefined.// INITIAL VALUE is set to undefined, which helps to check if the context is being used without a provider.
@@ -44,8 +47,9 @@ export const BusProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
   const [busRoute, setBusRoute]= useState<string | null>(null)
   const [startingStop, setStartingStop]= useState<string | null>(null)
   const [endingStop, setEndingStop]= useState<string | null>(null)
-  const [discount, setDiscount]= useState<number | null>(null)
   const [ticketCost, setTicketCost]= useState<number | null>(null)
+  const [ticketCount, setTicketCount]= useState<number | null>(null)
+  const [discount, setDiscount]= useState<number | null>(null)
 
   
   return (
@@ -56,8 +60,9 @@ export const BusProvider: React.FC<{ children: ReactNode }> = ({ children }) => 
       busRoute, setBusRoute,
       startingStop, setStartingStop,
       endingStop, setEndingStop,
-      discount, setDiscount,
       ticketCost, setTicketCost,
+      ticketCount, setTicketCount,
+      discount, setDiscount,
     }}> {/* value={{ busNumber, setBusNumber }}: The value prop of the provider is set to an object that contains both busNumber and setBusNumber */}
       {children} {/* {children}: This renders any child components that are wrapped within BusProvider, allowing them to access the context. */}
     </BusContext.Provider>

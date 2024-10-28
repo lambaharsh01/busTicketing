@@ -1,10 +1,13 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ToastContainer } from "react-toastify";
 
+import { client } from "./constants/urlPath";
+
 import Index from "./screens/index";
 import Dashboard from "./screens/dashboard";
-import ScanBusInitials from "./screens/ticketing/1_scanBusInitials";
-import BusInfo from "./screens/ticketing/2_busInfo";
+import ScanBusNumber from "./screens/ticketing/1_scanBusNumber";
+import BusSelection from "./screens/ticketing/2_busSelection";
+import RouteSelection from "./screens/ticketing/3_routeAndFairSelection";
 
 import { BusProvider } from "./contexts/busContext";
 
@@ -24,20 +27,30 @@ function Routing() {
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Index />} />
-          <Route path="/dashboard" element={<Dashboard />} />
+          <Route path={client.dashboard} element={<Dashboard />} />
           <Route
-            path="/scan-bus-initials"
+            path="/scan-bus-number"
             element={
               <BusProvider>
-                <ScanBusInitials />
+                <ScanBusNumber />
               </BusProvider>
             }
           />
+
           <Route
-            path="/bus-selection"
+            path={client.busSelection}
             element={
               <BusProvider>
-                <BusInfo />
+                <BusSelection />
+              </BusProvider>
+            }
+          />
+
+          <Route
+            path={client.routeSelection}
+            element={
+              <BusProvider>
+                <RouteSelection />
               </BusProvider>
             }
           />

@@ -15,6 +15,7 @@ import Map from "../components/map";
 
 import { useSpring, animated } from "@react-spring/web"; /*Handle Dragging*/
 import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
+import { client } from "../constants/urlPath";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -115,7 +116,7 @@ export default function Dashboard() {
                 <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
                   <IoTicket
                     className="text-4xl"
-                    onClick={() => navigate("/scan-bus-initials")}
+                    onClick={() => navigate(client.scanBusNumber)}
                   />
                 </div>
               </div>
@@ -216,7 +217,7 @@ export default function Dashboard() {
                   <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
                     <IoTicket
                       className="text-4xl"
-                      onClick={() => navigate("/scan-bus-initials")}
+                      onClick={() => navigate(client.scanBusNumber)}
                     />
                   </div>
                 </div>

@@ -2,6 +2,7 @@ import { useCallback, useEffect } from "react";
 import { getUserEmail } from "../constants/getLocalStorage";
 import { SCREEN } from "../constants/paths";
 import { useNavigate } from "react-router-dom";
+import { client } from "../constants/urlPath";
 
 export default function Screens() {
   const navigate = useNavigate();
@@ -10,9 +11,9 @@ export default function Screens() {
     const userEmail = getUserEmail();
 
     if (!userEmail) {
-      navigate("/dashboard", { replace: true });
+      navigate(client.dashboard, { replace: true });
     } else {
-      navigate("/dashboard", { replace: true });
+      navigate(client.dashboard, { replace: true });
     }
   }, [navigate]);
 
