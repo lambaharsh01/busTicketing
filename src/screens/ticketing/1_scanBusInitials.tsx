@@ -49,15 +49,11 @@ const ScanBusInitials: React.FC = () => {
     userSelect: "none",
   };
 
-  const useRefArray: React.RefObject<HTMLInputElement>[] = [
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-    useRef<HTMLInputElement>(null),
-  ];
-
-  const [input1, input2, input3, input4] = useRefArray;
-
+  const input1 =useRef<HTMLInputElement>(null);
+  const input2 =useRef<HTMLInputElement>(null);
+  const input3 =useRef<HTMLInputElement>(null);
+  const input4 =useRef<HTMLInputElement>(null);
+  
   const emptyCurrentValueIfAny = (e: React.ChangeEvent<HTMLInputElement>) => {
     // const val = e.currentTarget.value;
     // if (val.length > 1) {
@@ -71,6 +67,9 @@ const ScanBusInitials: React.FC = () => {
     e: React.FocusEvent<HTMLInputElement>,
     index: number
   ) => {
+
+    const useRefArray=[input1, input2, input3, input4];
+
     e.preventDefault();
     for (let i = 0; i <= index; i++) {
       const ref = useRefArray[i];
@@ -88,6 +87,7 @@ const ScanBusInitials: React.FC = () => {
     e: React.KeyboardEvent<HTMLInputElement>,
     index: number
   ) => {
+    const useRefArray=[input1, input2, input3, input4];
     e.preventDefault();
     const keyPressed = e.key;
     const inputValue = e.currentTarget.value;
@@ -123,6 +123,7 @@ const ScanBusInitials: React.FC = () => {
     }
 
     function checkForAllElementsFilled() {
+      const useRefArray=[input1, input2, input3, input4];
       const inputValues = useRefArray
         .map((elem) => elem?.current?.value ?? null)
         .filter(Boolean);
@@ -135,6 +136,7 @@ const ScanBusInitials: React.FC = () => {
   };
 
   useEffect(() => {
+    const useRefArray=[input1, input2, input3, input4];
     if (busNumber && busNumber.length === 4) {
       for (let i = 0; i < busNumber.length; i++) {
         const elem = useRefArray[i];
@@ -144,6 +146,9 @@ const ScanBusInitials: React.FC = () => {
       }
     }
   }, [busNumber]);
+
+
+
 
   return (
     <div className="max-h-screen relative">

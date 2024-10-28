@@ -36,9 +36,6 @@ const Camera: React.FC<caemraComponent> = ({
         const tracks = streamRef.current.getTracks();
         tracks.forEach((track) => track.stop());
       }
-      if (videoRef.current) {
-        videoRef.current.srcObject = null;
-      }
     };
   }, []);
 
