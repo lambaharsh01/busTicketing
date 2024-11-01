@@ -113,10 +113,12 @@ export default function Dashboard() {
           <div className="mt-2 pt-2.5 rounded-md border bg-white flex justify-around overflow-visibl">
             <div>
               <div className="w-20 h-20 p-2">
-                <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                <div 
+                className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                onClick={() => navigate(client.scanBusNumber)}
+                >
                   <IoTicket
                     className="text-4xl"
-                    onClick={() => navigate(client.scanBusNumber)}
                   />
                 </div>
               </div>
@@ -129,7 +131,10 @@ export default function Dashboard() {
 
             <div>
               <div className="w-20 h-20 p-2">
-                <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                <div 
+                className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                onClick={()=>navigate(client.route)}
+                >
                   <LiaRouteSolid className="text-4xl" />
                 </div>
               </div>
@@ -214,10 +219,12 @@ export default function Dashboard() {
             <div className="rounded-md bg-white flex justify-around overflow-visibl">
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                  <div 
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={() => navigate(client.scanBusNumber)}
+                  >
                     <IoTicket
                       className="text-4xl"
-                      onClick={() => navigate(client.scanBusNumber)}
                     />
                   </div>
                 </div>
@@ -229,7 +236,10 @@ export default function Dashboard() {
               </div>
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                  <div 
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={()=>navigate(client.route)}
+                  >
                     <LiaRouteSolid className="text-4xl" />
                   </div>
                 </div>
@@ -268,7 +278,10 @@ export default function Dashboard() {
             <div className="pt-2 rounded-md bg-white flex justify-around overflow-visibl w-1/2">
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                  <div 
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={()=>navigate(client.color)}
+                  >
                     <BsPalette2 className="text-4xl" />
                   </div>
                 </div>
@@ -298,7 +311,7 @@ export default function Dashboard() {
             </div>
 
             <h4 className="ps-3 font-extrabold mt-4">Tickets</h4>
-            <div className="pt-2 rounded-md bg-white flex justify-around overflow-visibl w-1/4">
+            <div className="pt-2 rounded-md bg-white flex justify-around overflow-visibl w-1/2">
               <div className="relative">
                 <div className="absolute -top-1.5 w-full text-center">
                   <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
@@ -324,7 +337,10 @@ export default function Dashboard() {
                   </span>
                 </div>
                 <div className="w-20 h-20 p-2">
-                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                  <div 
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={() => navigate(client.discount)}
+                  >
                     <MdDiscount className="text-4xl" />
                   </div>
                 </div>

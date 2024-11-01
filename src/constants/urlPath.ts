@@ -4,6 +4,9 @@ export const client={
   scanBusNumber:"/scan-bus-number",
   busSelection:"/bus-selection",
   routeSelection:"/route-fair-selection",
+  discount:"/discount",
+  color:"/color",
+  route:"/route",
 }
 
 
