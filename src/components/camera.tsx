@@ -1,12 +1,7 @@
 import React, { useEffect, useRef } from "react";
+import { cameraComponentInterface } from "../constants/interfaces";
 
-interface caemraComponent {
-  height?: string;
-  width?: string;
-  classString?: string;
-}
-
-const Camera: React.FC<caemraComponent> = ({
+const Camera: React.FC<cameraComponentInterface> = ({
   height = "100%",
   width = "100%",
   classString = "",

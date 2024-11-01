@@ -1,12 +1,7 @@
 import { defaultCordinates } from "../constants/config";
+import { coordinatesInterface } from "../constants/interfaces";
 
-interface Coordinates {
-  latitude: number;
-  longitude: number;
-  error: string | null;
-}
-
-const fetchCoordinates = (): Promise<Coordinates> => {
+const fetchCoordinates = (): Promise<coordinatesInterface> => {
   return new Promise((resolve, reject) => {
     if (!navigator.geolocation) {
       reject({

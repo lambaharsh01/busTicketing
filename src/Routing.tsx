@@ -8,6 +8,9 @@ import Dashboard from "./screens/dashboard";
 import ScanBusNumber from "./screens/ticketing/1_scanBusNumber";
 import BusSelection from "./screens/ticketing/2_busSelection";
 import RouteSelection from "./screens/ticketing/3_routeAndFairSelection";
+import Discount from "./screens/localStoreScreens/discount";
+import Color from "./screens/localStoreScreens/color";
+import BusRoute from "./screens/localStoreScreens/route";
 
 import { BusProvider } from "./contexts/busContext";
 
@@ -54,9 +57,23 @@ function Routing() {
               </BusProvider>
             }
           />
+
+          <Route
+            path={client.discount}
+            element={<Discount/>}
+          />
+          
+          <Route
+            path={client.color}
+            element={<Color/>}
+          />
+          
+          <Route
+            path={client.route}
+            element={<BusRoute/>}
+          />
+
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
-          {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
-          {/* <Route path="/signIn" element={<SignIn />} /> */}
         </Routes>
       </BrowserRouter>
     </div>

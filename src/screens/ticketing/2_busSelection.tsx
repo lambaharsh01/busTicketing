@@ -2,16 +2,19 @@ import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { BusContext } from "../../contexts/busContext";
 import { IoArrowBack } from "react-icons/io5";
+import { BsArrowLeftRight } from "react-icons/bs";
 import {
   getBusColors,
   getBusInitials,
   getBusRoutes,
+  getAllBusRoutes,
 } from "../../constants/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
 import DropdownColorSelect from "../../components/dropdownColorSelect";
 import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
+import { busRouteInterface } from "../../constants/interfaces";
 
 const BusSelection: React.FC = () => {
   const navigate = useNavigate();
@@ -26,10 +29,13 @@ const BusSelection: React.FC = () => {
   const busColors = getBusColors();
   const busInitials = getBusInitials();
   const busRoutes = getBusRoutes();
+  const allBusRoutes = getAllBusRoutes();
 
   const [busInitial, setBusInitial] = useState<string>("");
   const [busColor, setBusColor] = useState<string>("");
   const [busRoute, setBusRoute] = useState<string>("");
+
+  const [busTerminals, setBusTerminals] = useState<busRouteInterface>({ route:"", terminalA:"", terminalB:""})
 
   const [continueLoading, setCountinueLoading] = useState<boolean>(false);
   const [busCountComponent, setBusCountComponent] = useState<number>(0);
@@ -83,6 +89,7 @@ const BusSelection: React.FC = () => {
     value: string;
   }) => {
     setBusRoute(selected.value);
+    setBusTerminals(allBusRoutes.filter(elem=> elem.route===selected.value)[0])
   };
 
   const handleContinue = () => {
@@ -156,6 +163,11 @@ const BusSelection: React.FC = () => {
 
       <div className="mt-4 w-full px-3">
         <span className="text-lg font-medium">Select Bus Route</span>
+        {busTerminals.route && (<div className="flex items-center pb-1.5">
+        <span className="text-md font-medium text-slate-400">{busTerminals.terminalA}</span>
+        <BsArrowLeftRight className="mx-3"/>
+        <span className="text-md font-medium text-slate-400">{busTerminals.terminalB}</span>
+        </div>)}
         <div>
           <DropdownSearch
             key={"SelectRoute" + busCountComponent}

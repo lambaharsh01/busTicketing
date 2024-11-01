@@ -4,43 +4,11 @@
 // Any section of the library can just ask the librarian for a book without having to pass it along from one section to another.
 
 import { createContext, useState, ReactNode } from "react";
+import { busContextInterface } from "../constants/interfaces";
 // createContext: A function that creates a new context.
 // A type representing any valid React element (like a component, string, or number). //When using React with TypeScript, it's important to define types for your components and props to ensure type safety and help with code readability.
 
-interface BusContextType {
-  //BusContextType interface defines the structure of the context.
-  busNumber: string | string | null;
-  setBusNumber: (parameter: string) => void;
-
-  busColor: string | null;
-  setBusColor: (parameter: string) => void;
-
-  busInitials: string | null;
-  setBusInitials: (parameter: string) => void;
-
-  busRoute: string | null;
-  setBusRoute: (parameter: string) => void;
-
-  startingStop: string | null;
-  setStartingStop: (parameter: string) => void;
-
-  endingStop: string | null;
-  setEndingStop: (parameter: string) => void;
-
-  discount: number | null;
-  setDiscount: (parameter: number) => void;
-
-  ticketCost: number | null;
-  setTicketCost: (parameter: number) => void;
-
-  ticketCount: number | null;
-  setTicketCount: (parameter: number) => void;
-
-  totalCost: number | null;
-  setTotalCost: (parameter: number) => void;
-}
-
-export const BusContext = createContext<BusContextType | undefined>(undefined); //This line creates a new context called BusContext. //type parameter <BusContextType | undefined> indicates that the context will either contain an object of type BusContextType or be undefined.// INITIAL VALUE is set to undefined, which helps to check if the context is being used without a provider.
+export const BusContext = createContext<busContextInterface | undefined>(undefined); //This line creates a new context called BusContext. //type parameter <BusContextType | undefined> indicates that the context will either contain an object of type BusContextType or be undefined.// INITIAL VALUE is set to undefined, which helps to check if the context is being used without a provider.
 
 export const BusProvider: React.FC<{ children: ReactNode }> = ({
   children,

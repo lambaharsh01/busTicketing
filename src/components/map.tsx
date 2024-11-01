@@ -7,6 +7,8 @@ import { defaultCordinates } from "../constants/config";
 import fetchCoordinates from "../utils/getGeoLocation";
 
 import { getScreenWidth } from "../utils/screenWidth";
+import { mapPropInterface } from "../constants/interfaces";
+
 const screenWidth: number = getScreenWidth();
 const defaultMapDimension: string = `${screenWidth}px`;
 
@@ -17,11 +19,8 @@ L.Icon.Default.mergeOptions({
   shadowUrl: require("leaflet/dist/images/marker-shadow.png"),
 });
 
-interface MapProps {
-  height?: string; // Optional height prop
-  width?: string; // Optional width prop
-}
-const Map: React.FC<MapProps> = ({
+
+const Map: React.FC<mapPropInterface> = ({
   height = defaultMapDimension,
   width = defaultMapDimension,
 }) => {
