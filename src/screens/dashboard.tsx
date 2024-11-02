@@ -152,7 +152,10 @@ export default function Dashboard() {
                 </span>
               </div>
               <div className="w-20 h-20 p-2">
-                <div className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg">
+                <div 
+                className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
+                onClick={()=>navigate(client.ticket)}
+                >
                   <BiSolidCustomize className="text-4xl" />
                 </div>
               </div>
