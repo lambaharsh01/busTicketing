@@ -5,9 +5,12 @@ import { client } from "./constants/urlPath";
 
 // import Index from "./screens/index";
 import Dashboard from "./screens/dashboard";
+
 import ScanBusNumber from "./screens/ticketing/1_scanBusNumber";
 import BusSelection from "./screens/ticketing/2_busSelection";
 import RouteSelection from "./screens/ticketing/3_routeAndFairSelection";
+import Ticket from "./screens/ticketing/4_ticket";
+
 import Discount from "./screens/localStoreScreens/discount";
 import Colors from "./screens/localStoreScreens/colors";
 import Initials from "./screens/localStoreScreens/initials";
@@ -58,6 +61,15 @@ function Routing() {
               <BusProvider>
                 <RouteSelection />
               </BusProvider>
+            }
+          />
+
+          <Route
+            path={client.ticket}
+            element={
+              // <BusProvider>
+                <Ticket />
+              // </BusProvider>
             }
           />
 
