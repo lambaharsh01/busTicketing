@@ -3,7 +3,7 @@ import { ToastContainer } from "react-toastify";
 
 import { client } from "./constants/urlPath";
 
-import Index from "./screens/index";
+// import Index from "./screens/index";
 import Dashboard from "./screens/dashboard";
 import ScanBusNumber from "./screens/ticketing/1_scanBusNumber";
 import BusSelection from "./screens/ticketing/2_busSelection";
