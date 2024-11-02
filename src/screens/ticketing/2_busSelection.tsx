@@ -7,8 +7,8 @@ import {
   getBusColors,
   getBusInitials,
   getBusRoutes,
-  getAllBusRoutes,
-} from "../../constants/getLocalStorage";
+  getBusRoutesInfo,
+} from "../../utils/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
 import DropdownColorSelect from "../../components/dropdownColorSelect";
 import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
@@ -28,8 +28,8 @@ const BusSelection: React.FC = () => {
 
   const busColors = getBusColors();
   const busInitials = getBusInitials();
-  const busRoutes = getBusRoutes();
-  const allBusRoutes = getAllBusRoutes();
+  const busRoutes = getBusRoutes(); // messed up configuration because of later configuration/ logic change
+  const allBusRoutes = getBusRoutesInfo(); // messed up configuration because of later configuration/ logic change
 
   const [busInitial, setBusInitial] = useState<string>("");
   const [busColor, setBusColor] = useState<string>("");

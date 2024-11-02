@@ -9,8 +9,10 @@ import ScanBusNumber from "./screens/ticketing/1_scanBusNumber";
 import BusSelection from "./screens/ticketing/2_busSelection";
 import RouteSelection from "./screens/ticketing/3_routeAndFairSelection";
 import Discount from "./screens/localStoreScreens/discount";
-import Color from "./screens/localStoreScreens/color";
+import Colors from "./screens/localStoreScreens/colors";
+import Initials from "./screens/localStoreScreens/initials";
 import BusRoute from "./screens/localStoreScreens/route";
+import Stops from "./screens/localStoreScreens/stops";
 
 import { BusProvider } from "./contexts/busContext";
 
@@ -64,13 +66,23 @@ function Routing() {
           />
           
           <Route
-            path={client.color}
-            element={<Color/>}
+            path={client.colors}
+            element={<Colors/>}
+          />
+          
+          <Route
+            path={client.initials}
+            element={<Initials/>}
           />
           
           <Route
             path={client.route}
             element={<BusRoute/>}
+          />
+
+          <Route
+            path={client.stops}
+            element={<Stops/>}
           />
 
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}

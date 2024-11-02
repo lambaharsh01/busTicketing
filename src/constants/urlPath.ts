@@ -5,8 +5,10 @@ export const client={
   busSelection:"/bus-selection",
   routeSelection:"/route-fair-selection",
   discount:"/discount",
-  color:"/color",
+  colors:"/colors",
+  initials:"/initials",
   route:"/route",
+  stops:"/stops",
 }
 
 

@@ -84,10 +84,10 @@ export default function Dashboard() {
         <div className="px-2 pt-0.5">
           <div className="mt-2 p-2 rounded-md border bg-white">
             <div className="relative">
-              <IoMdSearch className="absolute left-1 text-3xl mt-2" />
+              <IoMdSearch className="absolute left-1.5 text-3xl mt-2" />
               <input
                 type="text"
-                className="w-100 text-2xl ps-9 bg-slate-100 rounded-full h-12"
+                className="w-100 text-xl ps-9 bg-slate-100 rounded-full h-12"
                 placeholder={PLACEHOLDERS.DASHBOARD_SEARCH}
               />
             </div>
@@ -251,7 +251,10 @@ export default function Dashboard() {
               </div>
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                  <div 
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={()=>navigate(client.stops)}
+                  >
                     <BsFillSignStopFill className="text-4xl" />
                   </div>
                 </div>
@@ -264,7 +267,10 @@ export default function Dashboard() {
 
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                  <div 
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={()=>navigate(client.initials)}
+                  >
                     <FaRegWindowMaximize className="text-4xl" />
                   </div>
                 </div>
@@ -280,7 +286,7 @@ export default function Dashboard() {
                 <div className="w-20 h-20 p-2">
                   <div 
                   className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={()=>navigate(client.color)}
+                  onClick={()=>navigate(client.colors)}
                   >
                     <BsPalette2 className="text-4xl" />
                   </div>

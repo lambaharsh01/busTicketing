@@ -7,102 +7,102 @@ import { BiSolidCommentEdit } from "react-icons/bi";
 
 import { client } from "../../constants/urlPath";
 
-import { getBusColors } from "../../constants/getLocalStorage";
+import { getBusStops } from "../../utils/getLocalStorage";
 import useClickOutside from "../../utils/useClickOutside";
 
-import { setBusColor} from "../../constants/setLocalStorage";
+import { setBusStops} from "../../utils/setLocalStorage";
 import { toast } from "react-toastify";
 
-const Color: React.FC = () => {
+const Stops: React.FC = () => {
   const navigate = useNavigate()
   
   useEffect(()=>{
-    const savedBusColors=getBusColors();
-    setBusColorsArray(savedBusColors)
+    const savedBusStops=getBusStops();
+    setBusStopsArray(savedBusStops)
   }, [])
 
   
-  const [busColorsArray, setBusColorsArray]= useState<string[]>([]);
+  const [busStopsArray, setBusStopsArray]= useState<string[]>([]);
   const [continueLoading, setCountinueLoading]= useState<boolean>(false)
 
   const upsertValidation = (colorString: string) :string =>{
-    const trimmedNewColor=colorString.trim();
-    if(trimmedNewColor.length<3 || trimmedNewColor.includes(" ")){
-        toast.error("Bus Invalid Bus Color.")
+    const trimmedNewStop=colorString.trim();
+    if(trimmedNewStop.length<3 || trimmedNewStop.includes(" ")){
+        toast.error("Bus Invalid Bus Stop.")
         return ""
     }
 
-    if(busColorsArray.includes(trimmedNewColor.trim())){
-        toast.error("Bus Color Exists.")
+    if(busStopsArray.includes(trimmedNewStop.trim())){
+        toast.error("Bus Stop Exists.")
         return ""
     }
 
-    return trimmedNewColor
+    return trimmedNewStop
   }
   
   
-  const addColorClass:string = "addModalElement";
-  useClickOutside(addColorClass, () => setAddModalOpen(false));
+  const addStopClass:string = "addModalElement";
+  useClickOutside(addStopClass, () => setAddModalOpen(false));
 
   const [addModalOpen, setAddModalOpen] = useState(false);
-  const [newColor, setNewColor]= useState<string>("")
+  const [newStop, setNewStop]= useState<string>("")
 
   useEffect(()=>{
-    setNewColor("")
+    setNewStop("")
   }, [addModalOpen])
 
-  const addColorFunc= ()=>{
-    const trimmedNewColor= upsertValidation(newColor)
-    if(trimmedNewColor){
+  const addStopFunc= ()=>{
+    const trimmedNewStop= upsertValidation(newStop)
+    if(trimmedNewStop){
         setAddModalOpen(false)
-        setBusColorsArray(prevArray=>[trimmedNewColor, ...prevArray])
-        toast.success("Bus Color Added.")
+        setBusStopsArray(prevArray=>[trimmedNewStop, ...prevArray])
+        toast.success("Bus Stop Added.")
     }
   }
 
 
-  const editColorClass:string = "editModalElement"
-  useClickOutside(editColorClass, () => setEditModalOpen(false));
+  const editStopClass:string = "editModalElement"
+  useClickOutside(editStopClass, () => setEditModalOpen(false));
 
   const [editModalOpen, setEditModalOpen] = useState(false);
-  const [colorToBeEditedIndex, setColorToBeEditedIndex]= useState<number>(-1)
-  const [editedColor, setEditedColor]= useState<string>("")
+  const [colorToBeEditedIndex, setStopToBeEditedIndex]= useState<number>(-1)
+  const [editedStop, setEditedStop]= useState<string>("")
 
   const stageEdit = (elemIndex:number)=>{
-    setEditedColor(busColorsArray[elemIndex])
-    setColorToBeEditedIndex(elemIndex)
+    setEditedStop(busStopsArray[elemIndex])
+    setStopToBeEditedIndex(elemIndex)
     setEditModalOpen(true)
   }
 
-  const editColorFunc= () =>{
-    setBusColorsArray(prevArray=>{
-        prevArray[colorToBeEditedIndex]= editedColor
+  const editStopFunc= () =>{
+    setBusStopsArray(prevArray=>{
+        prevArray[colorToBeEditedIndex]= editedStop
         return prevArray
     })
-    toast.success("Bus Color Edited.")
-    setEditedColor("")
-    setColorToBeEditedIndex(-1)
+    toast.success("Bus Stop Edited.")
+    setEditedStop("")
+    setStopToBeEditedIndex(-1)
     setEditModalOpen(false)
     
   }
 
   
-  const deleteColorFunc = (colorString:string) => {
-    const deleteColorConfirmation = window.confirm("Please confirm the removal of the selected bus color from the list");
-    if(deleteColorConfirmation){
-        setBusColorsArray(prevArray=>prevArray.filter(elem=>elem!==colorString))
-        toast.success("Bus Color Removed.")
+  const deleteStopFunc = (colorString:string) => {
+    const deleteStopConfirmation = window.confirm("Please confirm the removal of the selected bus color from the list");
+    if(deleteStopConfirmation){
+        setBusStopsArray(prevArray=>prevArray.filter(elem=>elem!==colorString))
+        toast.success("Bus Stop Removed.")
     }
   }
   
 
-  const handleBusColorSave = () => {
+  const handleBusStopSave = () => {
     setCountinueLoading(true)
-    const setBusColorValue= setBusColor(busColorsArray)
-    if(setBusColorValue.success){
-        toast.success("Bus Colors Saved Successfully.")
+    const setBusStopValue= setBusStops(busStopsArray)
+    if(setBusStopValue.success){
+        toast.success("Bus Stops Saved Successfully.")
     }else{
-        toast.error(setBusColorValue.error)
+        toast.error(setBusStopValue.error)
     }
     setCountinueLoading(false)
   }
@@ -115,7 +115,7 @@ const Color: React.FC = () => {
       <div className=" mb-2 pt-2 px-1 flex justify-between items-center font-bold text-lg bg-transparent">
         <span className="flex items-inline">
         <IoArrowBack className="text-2xl me-8 z-10" onClick={() => navigate(client.dashboard, {replace:true})} />
-        <span className="text-xl">Bus Color.</span>
+        <span className="text-xl">Bus Stops.</span>
         </span>
         <span className="text-2xl pe-2">
             <button className="cayanBackground p-0.5 rounded-md">
@@ -128,23 +128,20 @@ const Color: React.FC = () => {
       </div>
 
     <div className="mt-4 w-full px-3">      
-        {busColorsArray.map((elem, index)=>(
+        {busStopsArray.map((elem, index)=>(
             <div className="w-full flex text-lg font-medium border shadow-sm mb-3 py-2 px-1 rounded">
                 <div className="w-3/5">
                     <span>{elem}</span>
                 </div>
 
                 <div className="w-2/5 flex justify-around">
-                    <div 
-                    className="min-h-3 max-h-7 min-w-7 rounded-md" 
-                    style={{background:elem}}></div>
                     <BiSolidCommentEdit 
-                    className={`text-3xl text-blue-500 ${editColorClass}`}
+                    className={`text-3xl text-blue-500 ${editStopClass}`}
                     onClick={()=>stageEdit(index)}
                     />
                     <RiChatDeleteFill 
                     className="text-3xl text-red-500"
-                    onClick={()=>deleteColorFunc(elem)}
+                    onClick={()=>deleteStopFunc(elem)}
                     />
                 </div>
             </div>
@@ -152,11 +149,12 @@ const Color: React.FC = () => {
     <div>
         </div>
       </div>
-      <div className="absolute bottom-8 w-full px-2 ">
+      <div className="fixed bottom-0 bg-white min-h-16 w-full py-2 border-0 rounded-t-md">
+      <div className="w-full px-2">
         <button
         disabled={continueLoading}
           className="py-2.5 cayanBackground w-full font-medium rounded-md text-white text-lg"
-          onClick={handleBusColorSave}
+          onClick={handleBusStopSave}
         >
           {continueLoading ? (
             <div className="spinner-border text-white"></div>
@@ -165,52 +163,47 @@ const Color: React.FC = () => {
           )}
         </button>
       </div>
+      </div>
 
 
 {/* MODALS */}
 {addModalOpen && (<div 
-      className={`absolute top-0 w-full flex justify-center p-2 ${addColorClass}`}
+      className={`absolute top-0 w-full flex justify-center p-2 ${addStopClass}`}
       >
         <div className="w-full creamBackground rounded-md border-2 shadow-md z-20 p-2">
-            <div className="flex justify-between">
-                <h5>Add Color</h5>
-                <span className="min-w-7 min-h-7 rounded-md" style={{backgroundColor:newColor}}></span>
-            </div>
+                <h5>Add Stop<span className="text-xs"> (Click outside of modal to close)</span></h5>
         <input 
             type="text" 
             className="w-full border font-semibold text-slate-400 ps-3 py-2 rounded-md mb-3 mt-2"
-            placeholder="Enter Color Code."
-            value={newColor}
-            onChange={(e)=>setNewColor(e.currentTarget.value.toLowerCase())}
+            placeholder="Enter Stop Code."
+            value={newStop}
+            onChange={(e)=>setNewStop(e.currentTarget.value)}
             />
 <div className="flex justify-end">
     <button 
     className="py-1 px-3 cayanBackground font-medium rounded-md text-white text-lg"
-    onClick={addColorFunc}
+    onClick={addStopFunc}
     >Merge Add</button>
 </div>
         </div>
       </div>
 )}
 {editModalOpen && (<div 
-      className={`absolute top-0 w-full flex justify-center p-2 ${editColorClass}`}
+      className={`absolute top-0 w-full flex justify-center p-2 ${editStopClass}`}
       >
         <div className="w-full creamBackground rounded-md border-2 shadow-md z-20 p-2">
-            <div className="flex justify-between">
-                <h5>Edit Color</h5>
-                <span className="min-w-7 min-h-7 rounded-md" style={{backgroundColor:editedColor}}></span>
-            </div>
+            <h5>Edit Stop<span className="text-xs"> (Click outside of modal to close)</span></h5>
         <input 
             type="text" 
             className="w-full border font-semibold text-slate-400 ps-3 py-2 rounded-md mb-3 mt-2"
-            placeholder="Enter Color Code."
-            value={editedColor}
-            onChange={(e)=>setEditedColor(e.currentTarget.value.toLowerCase())}
+            placeholder="Enter Stop Code."
+            value={editedStop}
+            onChange={(e)=>setEditedStop(e.currentTarget.value)}
             />
 <div className="flex justify-end">
     <button 
     className="py-1 px-3 cayanBackground font-medium rounded-md text-white text-lg"
-    onClick={editColorFunc}
+    onClick={editStopFunc}
     > Merge Edit </button>
 </div>
         </div>
@@ -221,4 +214,4 @@ const Color: React.FC = () => {
   );
 };
 
-export default Color;
+export default Stops;

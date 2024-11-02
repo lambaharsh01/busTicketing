@@ -1,5 +1,5 @@
 import { useCallback, useEffect } from "react";
-import { getUserEmail } from "../constants/getLocalStorage";
+import { getUserEmail } from "../utils/getLocalStorage";
 import { SCREEN } from "../constants/paths";
 import { useNavigate } from "react-router-dom";
 import { client } from "../constants/urlPath";

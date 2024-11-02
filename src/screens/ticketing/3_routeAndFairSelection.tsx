@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BusContext } from "../../contexts/busContext";
 import { IoArrowBack } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa6";
-import { getBusStops, getDiscount } from "../../constants/getLocalStorage";
+import { getBusStops, getDiscount } from "../../utils/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
 import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";

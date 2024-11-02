@@ -3,8 +3,8 @@ import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { client } from "../../constants/urlPath";
 
-import { getDiscount } from "../../constants/getLocalStorage";
-import { setDiscount} from "../../constants/setLocalStorage";
+import { getDiscount } from "../../utils/getLocalStorage";
+import { setDiscount} from "../../utils/setLocalStorage";
 import { toast } from "react-toastify";
 
 // import { toast } from "react-toastify";
@@ -52,7 +52,8 @@ const Discount: React.FC = () => {
             />
         </div>
       </div>
-      <div className="absolute bottom-8 w-full px-2 ">
+      <div className="fixed bottom-0 bg-white min-h-16 w-full py-2 border-0 rounded-t-md">
+      <div className="w-full px-2">
         <button
         disabled={continueLoading}
           className="py-2.5 cayanBackground w-full font-medium rounded-md text-white text-lg"
@@ -64,6 +65,7 @@ const Discount: React.FC = () => {
             <span>Save</span>
           )}
         </button>
+      </div>
       </div>
     </div>
   );

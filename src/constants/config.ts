@@ -5,4 +5,5 @@ export const defaultCordinates:coordinatesInterface = {
     longitude: 76.986,
   };
 
-export const busColorLimit:number= 0.3;
+export const threeHundredKb:number= 0.3; // *2
+export const fiveHundredKb:number= 0.5; // *1
