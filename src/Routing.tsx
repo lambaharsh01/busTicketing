@@ -31,10 +31,11 @@ function Routing() {
       />
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<Index />} />
+          {/* <Route path={client.dashboard} element={<Index />} /> */}
           <Route path={client.dashboard} element={<Dashboard />} />
+
           <Route
-            path="/scan-bus-number"
+            path={client.scanBusNumber}
             element={
               <BusProvider>
                 <ScanBusNumber />
