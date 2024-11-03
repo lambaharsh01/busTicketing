@@ -9,6 +9,7 @@ import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
 import { findDiscountedAmount } from "../../utils/structures";
+import { currentTimeStamp } from "../../utils/time";
 
 const RouteSelection: React.FC = () => {
   const navigate = useNavigate();
@@ -37,8 +38,8 @@ const RouteSelection: React.FC = () => {
     setTicketCount: setTicketCountContext,
     discount: discountContext,
     setDiscount: setDiscountContext,
-    // totalCost: totalCostContext,
-    setTotalCost: setTotalCostContext,
+    setDiscountedCost,
+    setTime,
   } = context;
 
   useEffect(() => {
@@ -133,9 +134,15 @@ const RouteSelection: React.FC = () => {
     setTicketCostContext(ticketAmount);
     setTicketCountContext(ticketCount);
     setDiscountContext(discount);
-    setTotalCostContext(
-      findDiscountedAmount(ticketAmount * ticketCount, discount)
+
+    const discountedCost: number = findDiscountedAmount(
+      ticketAmount * ticketCount,
+      discount
     );
+    setDiscountedCost(discountedCost);
+
+    const currentTime: string = currentTimeStamp();
+    setTime(currentTime);
 
     toast.success("Validation Complete");
     setCountinueLoading(false);

@@ -19,4 +19,12 @@ export const SCREEN = {
     PATH: PUBLIC_PATH_FROM_SCREENS + "/profile.png",
     ALT: "header-icon",
   },
+  ONDC_LOGO: {
+    PATH: PUBLIC_PATH_FROM_SCREENS + "/ondcLogo.png",
+    ALT: "ticket-logo",
+  },
+  QR_CODE: {
+    PATH: PUBLIC_PATH_FROM_SCREENS + "/qrCode.png",
+    ALT: "qr-Code",
+  },
 };

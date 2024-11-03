@@ -8,7 +8,9 @@ import { busContextInterface } from "../constants/interfaces";
 // createContext: A function that creates a new context.
 // A type representing any valid React element (like a component, string, or number). //When using React with TypeScript, it's important to define types for your components and props to ensure type safety and help with code readability.
 
-export const BusContext = createContext<busContextInterface | undefined>(undefined); //This line creates a new context called BusContext. //type parameter <BusContextType | undefined> indicates that the context will either contain an object of type BusContextType or be undefined.// INITIAL VALUE is set to undefined, which helps to check if the context is being used without a provider.
+export const BusContext = createContext<busContextInterface | undefined>(
+  undefined
+); //This line creates a new context called BusContext. //type parameter <BusContextType | undefined> indicates that the context will either contain an object of type BusContextType or be undefined.// INITIAL VALUE is set to undefined, which helps to check if the context is being used without a provider.
 
 export const BusProvider: React.FC<{ children: ReactNode }> = ({
   children,
@@ -24,7 +26,8 @@ export const BusProvider: React.FC<{ children: ReactNode }> = ({
   const [ticketCost, setTicketCost] = useState<number | null>(null);
   const [ticketCount, setTicketCount] = useState<number | null>(null);
   const [discount, setDiscount] = useState<number | null>(null);
-  const [totalCost, setTotalCost] = useState<number | null>(null);
+  const [discountedCost, setDiscountedCost] = useState<number | null>(null);
+  const [time, setTime] = useState<string | null>(null);
 
   return (
     <BusContext.Provider
@@ -47,13 +50,14 @@ export const BusProvider: React.FC<{ children: ReactNode }> = ({
         setTicketCount,
         discount,
         setDiscount,
-        totalCost,
-        setTotalCost,
+        discountedCost,
+        setDiscountedCost,
+        time,
+        setTime,
       }}
     >
-      {" "}
       {/* value={{ busNumber, setBusNumber }}: The value prop of the provider is set to an object that contains both busNumber and setBusNumber */}
-      {children}{" "}
+      {children}
       {/* {children}: This renders any child components that are wrapped within BusProvider, allowing them to access the context. */}
     </BusContext.Provider>
   );
