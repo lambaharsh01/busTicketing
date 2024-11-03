@@ -67,36 +67,21 @@ function Routing() {
           <Route
             path={client.ticket}
             element={
-              // <BusProvider>
+              <BusProvider>
                 <Ticket />
-              // </BusProvider>
+              </BusProvider>
             }
           />
 
-          <Route
-            path={client.discount}
-            element={<Discount/>}
-          />
-          
-          <Route
-            path={client.colors}
-            element={<Colors/>}
-          />
-          
-          <Route
-            path={client.initials}
-            element={<Initials/>}
-          />
-          
-          <Route
-            path={client.route}
-            element={<BusRoute/>}
-          />
+          <Route path={client.discount} element={<Discount />} />
 
-          <Route
-            path={client.stops}
-            element={<Stops/>}
-          />
+          <Route path={client.colors} element={<Colors />} />
+
+          <Route path={client.initials} element={<Initials />} />
+
+          <Route path={client.route} element={<BusRoute />} />
+
+          <Route path={client.stops} element={<Stops />} />
 
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
         </Routes>
