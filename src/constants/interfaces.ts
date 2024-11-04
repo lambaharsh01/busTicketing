@@ -81,7 +81,7 @@ export interface localStorageResponse {
 }
 
 export interface ticketStyleInterface {
-  ticketInfoHeight: string;
+  ticketInfoHeight: number;
   ticketHeaderMargin: number;
   headerLeftFontSize: number;
   headerRightFontSize: number;
@@ -92,6 +92,6 @@ export interface ticketStyleInterface {
   saperatingLineMarginBottom: number;
   infoFontSize: number;
   subHeadingFontSize: number;
-  sunHeadingMarginBottom: number;
-  varticalMarginTop: number;
+  subHeadingMarginBottom: number;
+  verticalMarginTop: number;
 }

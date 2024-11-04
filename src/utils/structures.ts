@@ -1,4 +1,8 @@
-import { structureGetObjectOutOfAnArrayInterface, structureGetStringSizeReturnInterface } from "../constants/interfaces";
+import {
+  structureGetObjectOutOfAnArrayInterface,
+  structureGetStringSizeReturnInterface,
+  ticketStyleInterface,
+} from "../constants/interfaces";
 
 export const getObjectOutOfAnArray = (
   array: string[]
@@ -17,10 +21,10 @@ export const findDiscountedAmount = (
   return Number(finalAmount.toFixed(2));
 };
 
-
-export const getStringSize = (parameter: any[]): structureGetStringSizeReturnInterface=>{
-
-  const stringedParameter: string= JSON.stringify(parameter);
+export const getStringSize = (
+  parameter: any[] | ticketStyleInterface
+): structureGetStringSizeReturnInterface => {
+  const stringedParameter: string = JSON.stringify(parameter);
   const bytes = stringedParameter.length * 2; // Each character is 2 bytes
   const kilobytes = bytes / 1024;
   const megabytes = kilobytes / 1024;
@@ -32,5 +36,4 @@ export const getStringSize = (parameter: any[]): structureGetStringSizeReturnInt
     parsed: parameter,
     stringified: stringedParameter,
   };
-
-}
+};

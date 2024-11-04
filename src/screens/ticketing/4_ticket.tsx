@@ -30,7 +30,7 @@ const Ticket: React.FC = () => {
   const [showQrCode, setShowQrCode] = useState<boolean>(false);
 
   const [ticketStyle, setTicketStyle] = useState<ticketStyleInterface>({
-    ticketInfoHeight: "58%",
+    ticketInfoHeight: 58,
     ticketHeaderMargin: 25,
     headerLeftFontSize: 18.5,
     headerRightFontSize: 15.5,
@@ -41,8 +41,8 @@ const Ticket: React.FC = () => {
     saperatingLineMarginBottom: 9.5,
     infoFontSize: 20.4,
     subHeadingFontSize: 16.4,
-    sunHeadingMarginBottom: -1,
-    varticalMarginTop: 6.3,
+    subHeadingMarginBottom: -1,
+    verticalMarginTop: 6.3,
   });
 
   const ticketInfo = {
@@ -96,7 +96,7 @@ const Ticket: React.FC = () => {
       ) : (
         <div
           className="w-full shadow-lg"
-          style={{ height: ticketStyle.ticketInfoHeight }}
+          style={{ height: ticketStyle.ticketInfoHeight.toString() + "%" }}
         >
           <div className="bg-white w-full h-full mt-1 rounded-md p-3 relative">
             <div className="flex justify-center">
@@ -133,7 +133,7 @@ const Ticket: React.FC = () => {
             <div className="flex justify-between">
               <div>
                 <div
-                  style={{ marginBottom: ticketStyle.sunHeadingMarginBottom }}
+                  style={{ marginBottom: ticketStyle.subHeadingMarginBottom }}
                 >
                   <span style={{ fontSize: ticketStyle.subHeadingFontSize }}>
                     Bus Route
@@ -145,7 +145,7 @@ const Ticket: React.FC = () => {
               </div>
               <div className="text-end">
                 <div
-                  style={{ marginBottom: ticketStyle.sunHeadingMarginBottom }}
+                  style={{ marginBottom: ticketStyle.subHeadingMarginBottom }}
                 >
                   <span style={{ fontSize: ticketStyle.subHeadingFontSize }}>
                     Fare
@@ -162,11 +162,11 @@ const Ticket: React.FC = () => {
 
             <div
               className="flex justify-between"
-              style={{ marginTop: ticketStyle.varticalMarginTop }}
+              style={{ marginTop: ticketStyle.verticalMarginTop }}
             >
               <div>
                 <div
-                  style={{ marginBottom: ticketStyle.sunHeadingMarginBottom }}
+                  style={{ marginBottom: ticketStyle.subHeadingMarginBottom }}
                 >
                   <span style={{ fontSize: ticketStyle.subHeadingFontSize }}>
                     Booking Time
@@ -178,7 +178,7 @@ const Ticket: React.FC = () => {
               </div>
               <div className="text-end">
                 <div
-                  style={{ marginBottom: ticketStyle.sunHeadingMarginBottom }}
+                  style={{ marginBottom: ticketStyle.subHeadingMarginBottom }}
                 >
                   <span style={{ fontSize: ticketStyle.subHeadingFontSize }}>
                     Tickets
@@ -192,11 +192,11 @@ const Ticket: React.FC = () => {
 
             <div
               className="flex justify-between "
-              style={{ marginTop: ticketStyle.varticalMarginTop }}
+              style={{ marginTop: ticketStyle.verticalMarginTop }}
             >
               <div>
                 <div
-                  style={{ marginBottom: ticketStyle.sunHeadingMarginBottom }}
+                  style={{ marginBottom: ticketStyle.subHeadingMarginBottom }}
                 >
                   <span style={{ fontSize: ticketStyle.subHeadingFontSize }}>
                     Starting stop
@@ -210,11 +210,11 @@ const Ticket: React.FC = () => {
 
             <div
               className="flex justify-between"
-              style={{ marginTop: ticketStyle.varticalMarginTop }}
+              style={{ marginTop: ticketStyle.verticalMarginTop }}
             >
               <div>
                 <div
-                  style={{ marginBottom: ticketStyle.sunHeadingMarginBottom }}
+                  style={{ marginBottom: ticketStyle.subHeadingMarginBottom }}
                 >
                   <span style={{ fontSize: ticketStyle.subHeadingFontSize }}>
                     Ending stop

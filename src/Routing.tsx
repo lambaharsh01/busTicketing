@@ -16,6 +16,7 @@ import Colors from "./screens/localStoreScreens/colors";
 import Initials from "./screens/localStoreScreens/initials";
 import BusRoute from "./screens/localStoreScreens/route";
 import Stops from "./screens/localStoreScreens/stops";
+import Customize from "./screens/localStoreScreens/customize";
 
 import { BusProvider } from "./contexts/busContext";
 
@@ -82,6 +83,7 @@ function Routing() {
           <Route path={client.route} element={<BusRoute />} />
 
           <Route path={client.stops} element={<Stops />} />
+          <Route path={client.customize} element={<Customize />} />
 
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
         </Routes>

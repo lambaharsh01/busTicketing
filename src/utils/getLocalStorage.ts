@@ -88,7 +88,7 @@ export const getTicketStyling = (): ticketStyleInterface => {
 
   if (!stringedTicketStyle)
     stringedTicketStyle = `{
-  "ticketInfoHeight":"58%",
+  "ticketInfoHeight":58,
   "ticketHeaderMargin":25,
   "headerLeftFontSize":18.5,
   "headerRightFontSize":15.5,
@@ -99,8 +99,8 @@ export const getTicketStyling = (): ticketStyleInterface => {
   "saperatingLineMarginBottom":9.5,
   "infoFontSize":20.4,
   "subHeadingFontSize":16.4,
-  "sunHeadingMarginBottom":-1,
-  "varticalMarginTop":6.3
+  "subHeadingMarginBottom":-1,
+  "verticalMarginTop":6.3
   }`;
   const parsedTicketStyle: ticketStyleInterface =
     JSON.parse(stringedTicketStyle);

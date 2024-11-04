@@ -12,6 +12,7 @@ export const client={
   initials:"/initials",
   route:"/route",
   stops:"/stops",
+  customize:"/customize",
 }
 
 

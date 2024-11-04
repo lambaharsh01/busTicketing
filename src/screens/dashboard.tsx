@@ -113,13 +113,11 @@ export default function Dashboard() {
           <div className="mt-2 pt-2.5 rounded-md border bg-white flex justify-around overflow-visibl">
             <div>
               <div className="w-20 h-20 p-2">
-                <div 
-                className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                onClick={() => navigate(client.scanBusNumber)}
+                <div
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={() => navigate(client.scanBusNumber)}
                 >
-                  <IoTicket
-                    className="text-4xl"
-                  />
+                  <IoTicket className="text-4xl" />
                 </div>
               </div>
               <div className="text-center">
@@ -131,9 +129,9 @@ export default function Dashboard() {
 
             <div>
               <div className="w-20 h-20 p-2">
-                <div 
-                className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                onClick={()=>navigate(client.route)}
+                <div
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={() => navigate(client.route)}
                 >
                   <LiaRouteSolid className="text-4xl" />
                 </div>
@@ -152,9 +150,9 @@ export default function Dashboard() {
                 </span>
               </div>
               <div className="w-20 h-20 p-2">
-                <div 
-                className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
-                onClick={()=>navigate(client.ticket)}
+                <div
+                  className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={() => navigate(client.customize)}
                 >
                   <BiSolidCustomize className="text-4xl" />
                 </div>
@@ -222,13 +220,11 @@ export default function Dashboard() {
             <div className="rounded-md bg-white flex justify-around overflow-visibl">
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div 
-                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={() => navigate(client.scanBusNumber)}
+                  <div
+                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.scanBusNumber)}
                   >
-                    <IoTicket
-                      className="text-4xl"
-                    />
+                    <IoTicket className="text-4xl" />
                   </div>
                 </div>
                 <div className="text-center">
@@ -239,9 +235,9 @@ export default function Dashboard() {
               </div>
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div 
-                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={()=>navigate(client.route)}
+                  <div
+                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.route)}
                   >
                     <LiaRouteSolid className="text-4xl" />
                   </div>
@@ -254,9 +250,9 @@ export default function Dashboard() {
               </div>
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div 
-                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={()=>navigate(client.stops)}
+                  <div
+                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.stops)}
                   >
                     <BsFillSignStopFill className="text-4xl" />
                   </div>
@@ -270,9 +266,9 @@ export default function Dashboard() {
 
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div 
-                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={()=>navigate(client.initials)}
+                  <div
+                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.initials)}
                   >
                     <FaRegWindowMaximize className="text-4xl" />
                   </div>
@@ -287,9 +283,9 @@ export default function Dashboard() {
             <div className="pt-2 rounded-md bg-white flex justify-around overflow-visibl w-1/2">
               <div>
                 <div className="w-20 h-20 p-2">
-                  <div 
-                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={()=>navigate(client.colors)}
+                  <div
+                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.colors)}
                   >
                     <BsPalette2 className="text-4xl" />
                   </div>
@@ -308,7 +304,10 @@ export default function Dashboard() {
                 </div>
                 <div className="w-20 h-20 p-2">
                   <div className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg">
-                    <BiSolidCustomize className="text-4xl" />
+                    <BiSolidCustomize
+                      className="text-4xl"
+                      onClick={() => navigate(client.customize)}
+                    />
                   </div>
                 </div>
                 <div className="text-center">
@@ -346,9 +345,9 @@ export default function Dashboard() {
                   </span>
                 </div>
                 <div className="w-20 h-20 p-2">
-                  <div 
-                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={() => navigate(client.discount)}
+                  <div
+                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.discount)}
                   >
                     <MdDiscount className="text-4xl" />
                   </div>

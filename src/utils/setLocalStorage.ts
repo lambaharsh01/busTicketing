@@ -2,6 +2,7 @@ import {
   localStorageResponse,
   structureGetStringSizeReturnInterface,
   busRouteInterface,
+  ticketStyleInterface,
 } from "../constants/interfaces";
 import { localStorageItems } from "../constants/localStorageDataDictionary";
 import errorMessage from "./errorMessage";
@@ -95,6 +96,23 @@ export const setBusStops = (parameter: string[]): localStorageResponse => {
     localStorage.setItem(
       localStorageItems.busStops,
       stringedBusStops.stringified
+    );
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: errorMessage(error) };
+  }
+};
+
+export const setTicketStyling = (
+  parameter: ticketStyleInterface
+): localStorageResponse => {
+  try {
+    const stringedTicketStyle: structureGetStringSizeReturnInterface =
+      getStringSize(parameter);
+
+    localStorage.setItem(
+      localStorageItems.ticketStyle,
+      stringedTicketStyle.stringified
     );
     return { success: true };
   } catch (error) {
