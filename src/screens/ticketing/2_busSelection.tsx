@@ -15,6 +15,7 @@ import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
 import { busRouteInterface } from "../../constants/interfaces";
+import { getTicketProcessingStatus } from "../../utils/getLocalStorage";
 
 const BusSelection: React.FC = () => {
   const navigate = useNavigate();
@@ -25,6 +26,13 @@ const BusSelection: React.FC = () => {
       "This Component must be used within a BusProvider to access the values of it."
     );
   }
+
+  useEffect(()=>{
+    const startedProcessing= getTicketProcessingStatus()
+    if(!startedProcessing){
+      navigate(client.dashboard, {replace:true})
+    }
+  }, [navigate])
 
   const busColors = getBusColors();
   const busInitials = getBusInitials();
@@ -70,7 +78,7 @@ const BusSelection: React.FC = () => {
     if (busRouteContext) setBusRoute(busRouteContext);
     setBusCountComponent((prevCount) => prevCount + 1);
   }, [busRouteContext]);
-
+  
   // INITIALIZATION PAST DATA END
 
   const handleBusInitialsSelection = (selected: {

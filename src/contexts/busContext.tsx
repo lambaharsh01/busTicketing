@@ -25,7 +25,6 @@ export const BusProvider: React.FC<{ children: ReactNode }> = ({
   const [endingStop, setEndingStop] = useState<string | null>(null);
   const [ticketCost, setTicketCost] = useState<number | null>(null);
   const [ticketCount, setTicketCount] = useState<number | null>(null);
-  const [discount, setDiscount] = useState<number | null>(null);
   const [discountedCost, setDiscountedCost] = useState<number | null>(null);
   const [time, setTime] = useState<string | null>(null);
 
@@ -48,8 +47,6 @@ export const BusProvider: React.FC<{ children: ReactNode }> = ({
         setTicketCost,
         ticketCount,
         setTicketCount,
-        discount,
-        setDiscount,
         discountedCost,
         setDiscountedCost,
         time,

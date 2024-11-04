@@ -1,27 +1,81 @@
 import { RxCross2 } from "react-icons/rx";
 import { LiaQrcodeSolid } from "react-icons/lia";
 import { SCREEN } from "../../constants/paths";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { client } from "../../constants/urlPath";
 import { ticketStyleInterface } from "../../constants/interfaces";
 import { getTicketStyling } from "../../utils/getLocalStorage";
 
+import { BusContext } from "../../contexts/busContext";
+import {toast} from "react-toastify"
+import { formatDate } from "../../utils/time";
+import { setTicketProcessingStatus } from "../../utils/setLocalStorage";
+
 const Ticket: React.FC = () => {
+
+  useEffect(()=>{
+    setTicketProcessingStatus(false)
+  }, [])
+
+  
   const navigate = useNavigate();
+  const context = useContext(BusContext);
+  if (!context) {
+    throw new Error(
+      "This Component must be used within a BusProvider to access the values of it."
+    );
+  }
 
-  useEffect(() => {
-    // Function to handle popstate event with proper type
-    const handlePopState = (event: PopStateEvent): void => {
-      event.preventDefault();
-      navigate(client.dashboard, { replace: true });
-    };
+  const [idDate, setIdDate]= useState<string>("04112024")
+  const [ticketInfo, setTicketInfo] = useState({
+    busColor: "",
+    busInitialsPlusNumber: "",
+    busRoute: "",
+    startingStop: "",
+    endingStop: "",
+    totalCost: "",
+    ticketCount: "",
+    discountedCost: "",
+    bookingTime: "",
+  });
 
-    window.addEventListener("popstate", handlePopState);
-    return () => {
-      window.removeEventListener("popstate", handlePopState);
-    };
-  }, [navigate]);
+  useEffect(()=>{
+    const {
+      busNumber,
+      busColor,
+      busInitials,
+      busRoute,
+      startingStop,
+      endingStop,
+      discountedCost,
+      ticketCost,
+      ticketCount,
+      time,
+  } = context;
+
+  if(!busColor || !busInitials || !busNumber || !busRoute || !startingStop || !endingStop || !discountedCost || !ticketCost || !ticketCount || !time){
+    toast.error("Missing base dependencies.")
+    navigate(client.dashboard)
+    return
+  }
+
+  setTicketInfo({
+    busColor,
+    busInitialsPlusNumber: busInitials + busNumber.toString(),
+    busRoute,
+    startingStop,
+    endingStop,
+    totalCost: `₹${(Math.floor(ticketCost * 10) / 10).toFixed(1)}`,
+    ticketCount: ticketCount.toString(),
+    discountedCost: `₹${(Math.floor(discountedCost * 10) / 10).toFixed(1)}`,
+    bookingTime: formatDate(time),
+  });
+
+  const [IdTime,]=time.split(" ")
+  setIdDate(IdTime.split("-").reverse().join(""))
+
+  },[context, navigate])
 
   useEffect(() => {
     setTicketStyle(getTicketStyling());
@@ -44,18 +98,6 @@ const Ticket: React.FC = () => {
     subHeadingMarginBottom: -1,
     verticalMarginTop: 6.3,
   });
-
-  const ticketInfo = {
-    busColor: "#2E81EB",
-    busInitialsPlusNumber: "DL1PD5981",
-    busRoute: "940STL",
-    startingStop: "Dhansa Stand",
-    endingStop: "Khera Village",
-    totalCost: "₹10.0",
-    ticketCount: "1",
-    discountedCost: "₹9.0",
-    bookingTime: "02 Nov, 24 | 11:09 PM",
-  };
 
   return (
     <div
@@ -95,7 +137,7 @@ const Ticket: React.FC = () => {
         </div>
       ) : (
         <div
-          className="w-full shadow-lg"
+          className="w-full shadow-md"
           style={{ height: ticketStyle.ticketInfoHeight.toString() + "%" }}
         >
           <div className="bg-white w-full h-full mt-1 rounded-md p-3 relative">
@@ -230,7 +272,7 @@ const Ticket: React.FC = () => {
 
             <div className="absolute bottom-0 w-full pe-8 pb-3">
               <div className="text-center pb-1 text-slate-600">
-                T02112024ghfghjghughk
+                T{idDate}7b18ec0efa
               </div>
               <div
                 className="bg-green-100 border-2 border-green-600 min-w-full min-h-12 rounded-md flex justify-center items-center"

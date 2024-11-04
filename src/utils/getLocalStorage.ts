@@ -1,12 +1,19 @@
 import {
   busRouteInterface,
   ticketStyleInterface,
+  busTicketStorageInterface,
 } from "../constants/interfaces";
 import { localStorageItems } from "../constants/localStorageDataDictionary";
 
 export const getUserEmail = (): string | null => {
-  return localStorage.getItem("userEmail");
+  return localStorage.getItem(localStorageItems.userEmail);
 };
+
+export const getTicketProcessingStatus= ():boolean =>{
+  const stringedTicketProcessingStatus: string | null = localStorage.getItem(localStorageItems.ticketProcessingStatus);
+  if(!stringedTicketProcessingStatus) return false;
+  return JSON.parse(stringedTicketProcessingStatus)
+}
 
 export const getBusColors = (): string[] => {
   let stringedBusColors: string | null = localStorage.getItem(
@@ -39,7 +46,7 @@ export const getBusRoutes = (): string[] => {
   {"route":"578","terminalA":"Najafgarh Terminal","terminalB":"Safdurjung Terminal"},
 
   {"route":"887A","terminalA":"Ghumanehra","terminalB":"Uttam Nagar"},
-  {"route":"DW3STL","terminalA":"Nangloi","terminalB":"Ghumanehra"},
+  {"route":"DW3STL","terminalA":"Nangloi","terminalB":"Ghumanehra"}
   ]`;
 
   const parsedBusRoutes: busRouteInterface[] = JSON.parse(stringedBusRoute);
@@ -106,3 +113,12 @@ export const getTicketStyling = (): ticketStyleInterface => {
     JSON.parse(stringedTicketStyle);
   return parsedTicketStyle;
 };
+
+
+export const getTicketStore = (): busTicketStorageInterface[]=>{
+  let stringedTicketStore:string | null= localStorage.getItem(localStorageItems.ticketStore)
+  if(!stringedTicketStore) stringedTicketStore= '[]'
+
+  const parsedTicketStore:busTicketStorageInterface[] = JSON.parse(stringedTicketStore)
+  return parsedTicketStore
+}

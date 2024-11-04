@@ -17,6 +17,7 @@ import Initials from "./screens/localStoreScreens/initials";
 import BusRoute from "./screens/localStoreScreens/route";
 import Stops from "./screens/localStoreScreens/stops";
 import Customize from "./screens/localStoreScreens/customize";
+import AllTickets from "./screens/allTickets";
 
 import { BusProvider } from "./contexts/busContext";
 
@@ -24,7 +25,7 @@ function Routing() {
   return (
     <div>
       <ToastContainer
-        autoClose={2000}
+        autoClose={800}
         hideProgressBar={true}
         newestOnTop={true}
         closeOnClick
@@ -70,6 +71,15 @@ function Routing() {
             element={
               <BusProvider>
                 <Ticket />
+              </BusProvider>
+            }
+          />
+
+          <Route
+            path={client.allTickets}
+            element={
+              <BusProvider>
+                <AllTickets />
               </BusProvider>
             }
           />

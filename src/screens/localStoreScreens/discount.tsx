@@ -7,9 +7,6 @@ import { getDiscount } from "../../utils/getLocalStorage";
 import { setDiscount} from "../../utils/setLocalStorage";
 import { toast } from "react-toastify";
 
-// import { toast } from "react-toastify";
-
-
 const Discount: React.FC = () => {
   const navigate = useNavigate()
   const savedDiscount=getDiscount();
@@ -23,13 +20,13 @@ const Discount: React.FC = () => {
 
   const handleDiscountSave = () => {
     setCountinueLoading(true)
-    const setDiscountValue= setDiscount(discountValue);
-    if(setDiscountValue.success){
-        toast.success("Discount Saved Successfully.")
-    }else{
-        toast.error(setDiscountValue.error)
-    }
-    setCountinueLoading(false)
+    setDiscount(discountValue).then(res=>{
+      toast.success("Discount Saved Successfully.")
+      setCountinueLoading(false)
+    }).catch(err=>{
+      toast.error(err.message)
+      setCountinueLoading(false)
+    });
   }
 
 

@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SCREEN } from "../constants/paths";
 import { PLACEHOLDERS } from "../constants/strings";
@@ -13,12 +13,18 @@ import { FaRegWindowMaximize } from "react-icons/fa6";
 
 import Map from "../components/map";
 
-import { useSpring, animated } from "@react-spring/web"; /*Handle Dragging*/
-import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
+import { useSpring, animated } from "@react-spring/web";
+import { useDrag } from "react-use-gesture"; 
 import { client } from "../constants/urlPath";
+
+import { setTicketProcessingStatus } from "../utils/setLocalStorage";
 
 export default function Dashboard() {
   const navigate = useNavigate();
+
+  useEffect(()=>{
+    setTicketProcessingStatus(false);
+  }, [])
 
   // const [lastSource, setLastSource] = useState<string>("khera Vilage");
   // const [lastDestination, setLastDestination] = useState<string>("khera Vilage");
@@ -196,7 +202,10 @@ export default function Dashboard() {
         <div className="px-2 pt-0.5">
           <div className="mt-4 flex justify-between">
             <h5 className="font-extrabold">Tickets</h5>
-            <h6 className="text-slate-500">View all tickets</h6>
+            <h6 
+            className="text-slate-500"
+            onClick={()=>navigate(client.allTickets)}
+            >View all tickets</h6>
           </div>
           <div className="p-2 rounded-md border bg-white"></div>
         </div>

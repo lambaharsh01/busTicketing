@@ -6,6 +6,7 @@ export const client={
   busSelection:"/bus-selection",
   routeSelection:"/route-fair-selection",
   ticket:"/ticket",
+  allTickets:"all-tickets",
   
   discount:"/discount",
   colors:"/colors",
