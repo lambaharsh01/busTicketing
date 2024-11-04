@@ -98,13 +98,14 @@ const Stops: React.FC = () => {
 
   const handleBusStopSave = () => {
     setCountinueLoading(true)
-    const setBusStopValue= setBusStops(busStopsArray)
-    if(setBusStopValue.success){
-        toast.success("Bus Stops Saved Successfully.")
-    }else{
-        toast.error(setBusStopValue.error)
-    }
-    setCountinueLoading(false)
+    
+    setBusStops(busStopsArray).then(res=>{
+      toast.success("Bus Stops Saved Successfully.")
+      setCountinueLoading(false)
+    }).catch(err=>{
+      toast.error(err.message)
+      setCountinueLoading(false)
+    })
   }
 
 

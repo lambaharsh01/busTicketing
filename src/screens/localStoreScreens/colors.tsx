@@ -98,13 +98,13 @@ const Colors: React.FC = () => {
 
   const handleBusColorSave = () => {
     setCountinueLoading(true)
-    const setBusColorValue= setBusColors(busColorsArray)
-    if(setBusColorValue.success){
-        toast.success("Bus Colors Saved Successfully.")
-    }else{
-        toast.error(setBusColorValue.error)
-    }
-    setCountinueLoading(false)
+    setBusColors(busColorsArray).then(res=>{
+      toast.success("Bus Colors Saved Successfully.")
+      setCountinueLoading(false)
+    }).catch(err=>{
+      toast.error(err.message)
+      setCountinueLoading(false)
+    })
   }
 
 

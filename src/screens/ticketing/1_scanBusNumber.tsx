@@ -7,8 +7,10 @@ import { useSpring, animated } from "@react-spring/web"; /*Handle Dragging*/
 import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
 import { BusContext } from "../../contexts/busContext";
 import { client } from "../../constants/urlPath";
+import { setTicketProcessingStatus } from "../../utils/setLocalStorage";
 
 const ScanBusNumber: React.FC = () => {
+  const navigate = useNavigate();
   const context = useContext(BusContext);
   if (!context) {
     // if not this typescript throws an error because if used and not it context the context will be undefined and would be an error
@@ -18,7 +20,9 @@ const ScanBusNumber: React.FC = () => {
   }
   const { busNumber, setBusNumber } = context;
 
-  const navigate = useNavigate();
+  useEffect(()=>{
+    setTicketProcessingStatus(true)
+  },[])
 
   const dragThreshold = 80; // Drag distance to hide the component
 

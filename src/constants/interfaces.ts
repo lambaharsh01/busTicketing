@@ -34,7 +34,7 @@ export interface structureGetStringSizeReturnInterface {
 
 export interface busContextInterface {
   //BusContextType interface defines the structure of the context.
-  busNumber: string | string | null;
+  busNumber: string | null;
   setBusNumber: (parameter: string) => void;
 
   busColor: string | null;
@@ -51,9 +51,6 @@ export interface busContextInterface {
 
   endingStop: string | null;
   setEndingStop: (parameter: string) => void;
-
-  discount: number | null;
-  setDiscount: (parameter: number) => void;
 
   discountedCost: number | null;
   setDiscountedCost: (parameter: number) => void;
@@ -94,4 +91,48 @@ export interface ticketStyleInterface {
   subHeadingFontSize: number;
   subHeadingMarginBottom: number;
   verticalMarginTop: number;
+}
+
+
+export interface ticketStagingInterface {
+    busNumber:string;
+    busInitials:string;
+    busColor:string;
+    busRoute:string;
+    startingStop: string;
+    endStop:string;
+    ticketAmount:number;
+    ticketCount:number;
+    discount:number;
+}
+
+
+export interface ticketStagedInterface {
+    busNumber:string;
+    busInitials:string;
+    busColor:string;
+    busRoute:string;
+    startingStop: string;
+    endStop:string;
+    ticketAmount:number;
+    ticketCount:number;
+    discount:number;
+    purchaseTime:string;
+    userId:string;
+    longitude:string;
+    latitude:string;
+}
+
+
+export interface busTicketStorageInterface{
+    busColor: string;
+    busInitials:string;
+    busNumber:string;
+    busRoute:string;
+    startingStop:string;
+    endingStop:string;
+    totalCost: number;
+    ticketCount: number;
+    discountedCost:number;
+    bookingTime:string;
 }

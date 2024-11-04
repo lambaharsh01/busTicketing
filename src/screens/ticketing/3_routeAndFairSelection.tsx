@@ -8,8 +8,9 @@ import DropdownSearch from "../../components/dropdownSearch";
 import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
-import { findDiscountedAmount } from "../../utils/structures";
-import { currentTimeStamp } from "../../utils/time";
+import { getTicketProcessingStatus } from "../../utils/getLocalStorage";
+import { ticketStagingInterface, busTicketStorageInterface } from "../../constants/interfaces";
+import { setTicketData } from "../../utils/setLocalStorage";
 
 const RouteSelection: React.FC = () => {
   const navigate = useNavigate();
@@ -20,6 +21,13 @@ const RouteSelection: React.FC = () => {
       "This Component must be used within a BusProvider to access the values of it."
     );
   }
+
+  useEffect(()=>{
+    const startedProcessing= getTicketProcessingStatus()
+    if(!startedProcessing){
+      navigate(client.dashboard, {replace:true})
+    }
+  }, [navigate])
 
   // INITIALIZATION START
   const {
@@ -36,8 +44,6 @@ const RouteSelection: React.FC = () => {
     setTicketCost: setTicketCostContext,
     ticketCount: ticketCountContext,
     setTicketCount: setTicketCountContext,
-    discount: discountContext,
-    setDiscount: setDiscountContext,
     setDiscountedCost,
     setTime,
   } = context;
@@ -69,10 +75,6 @@ const RouteSelection: React.FC = () => {
     if (ticketCountContext) setTicketCount(ticketCountContext);
   }, [ticketCountContext]);
 
-  useEffect(() => {
-    if (discountContext) setDiscount(discountContext);
-  }, [discountContext]);
-
   // INITIALIZATION END
 
   const busStops = getBusStops();
@@ -85,7 +87,7 @@ const RouteSelection: React.FC = () => {
 
   const [ticketAmount, setTicketAmount] = useState<number>(10);
   const [ticketCount, setTicketCount] = useState<number>(1);
-  const [discount, setDiscount] = useState<number>(savedDiscount);
+  const [discount,] = useState<number>(savedDiscount);
   const [continueLoading, setCountinueLoading] = useState<boolean>(false);
 
   const startingStops: string[] = busStops.filter((elem) => elem !== endStop);
@@ -128,24 +130,55 @@ const RouteSelection: React.FC = () => {
       toast.error("Enter ticket amount greater than 0");
       return;
     }
+    
+    if(!busNumber){
+      toast.error("Bus number not found");
+      return
+    }
+    if(!busInitials){
+      toast.error("Bus initials not found");
+      return
+    }
+    if(!busColor){
+      toast.error("Bus color not found");
+      return
+    }
+    if(!busRoute){
+      toast.error("Bus route not found");
+      return
+    }
 
-    setStartingStopContext(startingStop);
-    setEndingStopContext(endStop);
-    setTicketCostContext(ticketAmount);
-    setTicketCountContext(ticketCount);
-    setDiscountContext(discount);
 
-    const discountedCost: number = findDiscountedAmount(
-      ticketAmount * ticketCount,
-      discount
-    );
-    setDiscountedCost(discountedCost);
 
-    const currentTime: string = currentTimeStamp();
-    setTime(currentTime);
+    const ticketDetails:ticketStagingInterface = {
+      busNumber,
+      busInitials,
+      busColor,
+      busRoute,
+      startingStop,
+      endStop,
+      ticketAmount,
+      ticketCount,
+      discount,
+    }
 
-    toast.success("Validation Complete");
-    setCountinueLoading(false);
+    setTicketData(ticketDetails).then((res: busTicketStorageInterface)=>{
+
+      setStartingStopContext(res.startingStop);
+      setEndingStopContext(res.endingStop);
+      setTicketCostContext(res.totalCost);
+      setTicketCountContext(res.ticketCount);
+      setDiscountedCost(res.discountedCost);
+      setTime(res.bookingTime);
+      toast.success("Validation Complete");
+      navigate(client.ticket, {replace: true})
+      setCountinueLoading(false);
+
+    }).catch(err=>{
+      toast.error(err.message)
+      setCountinueLoading(false);
+    })
+
   };
 
   return (

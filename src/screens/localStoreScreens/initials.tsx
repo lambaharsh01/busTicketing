@@ -98,13 +98,13 @@ const Initials: React.FC = () => {
 
   const handleBusInitialSave = () => {
     setCountinueLoading(true)
-    const setBusInitialValue= setBusInitials(busInitialsArray)
-    if(setBusInitialValue.success){
-        toast.success("Bus Initials Saved Successfully.")
-    }else{
-        toast.error(setBusInitialValue.error)
-    }
-    setCountinueLoading(false)
+    setBusInitials(busInitialsArray).then(res=>{
+      toast.success("Bus Initials Saved Successfully.")
+      setCountinueLoading(false)
+    }).catch(err=>{
+      toast.error(err.message)
+      setCountinueLoading(false)
+    })
   }
 
 

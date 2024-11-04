@@ -3,14 +3,28 @@ import {
   structureGetStringSizeReturnInterface,
   busRouteInterface,
   ticketStyleInterface,
+  ticketStagingInterface,
+  // ticketStagedInterface,
+  // coordinatesInterface,
+  busTicketStorageInterface,
 } from "../constants/interfaces";
 import { localStorageItems } from "../constants/localStorageDataDictionary";
 import errorMessage from "./errorMessage";
-import { getStringSize } from "./structures";
+import { getStringSize, findDiscountedAmount } from "./structures";
+// import fetchCoordinates from "./getGeoLocation";
+// import { getUserEmail, getTicketStore } from "./getLocalStorage";
+import { getTicketStore } from "./getLocalStorage";
+import { currentTimeStamp } from "./time";
+
+
 
 import { threeHundredKb, fiveHundredKb } from "../constants/config";
 
-export const setDiscount = (parameter: number): localStorageResponse => {
+export const setTicketProcessingStatus= (parameter: boolean) =>{
+  localStorage.setItem(localStorageItems.ticketProcessingStatus, JSON.stringify(parameter));
+}
+
+export const setDiscount = async(parameter: number): Promise<localStorageResponse> => {
   try {
     if (parameter < 0)
       throw new Error("Discount can not be of a negative value.");
@@ -21,11 +35,11 @@ export const setDiscount = (parameter: number): localStorageResponse => {
 
     return { success: true };
   } catch (error) {
-    return { success: false, error: errorMessage(error) };
+    throw new Error(errorMessage(error))
   }
 };
 
-export const setBusColors = (parameter: string[]): localStorageResponse => {
+export const setBusColors = async(parameter: string[]): Promise<localStorageResponse> => {
   try {
     const stringedBusColor: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
@@ -40,11 +54,11 @@ export const setBusColors = (parameter: string[]): localStorageResponse => {
     );
     return { success: true };
   } catch (error) {
-    return { success: false, error: errorMessage(error) };
+    throw new Error(errorMessage(error))
   }
 };
 
-export const setBusInitials = (parameter: string[]): localStorageResponse => {
+export const setBusInitials = async(parameter: string[]): Promise<localStorageResponse> => {
   try {
     const stringedBusInitial: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
@@ -59,13 +73,13 @@ export const setBusInitials = (parameter: string[]): localStorageResponse => {
     );
     return { success: true };
   } catch (error) {
-    return { success: false, error: errorMessage(error) };
+    throw new Error(errorMessage(error))
   }
 };
 
-export const setBusRoutesInfo = (
+export const setBusRoutesInfo = async(
   parameter: busRouteInterface[]
-): localStorageResponse => {
+): Promise<localStorageResponse> => {
   try {
     const stringedBusRouteInfo: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
@@ -80,11 +94,11 @@ export const setBusRoutesInfo = (
     );
     return { success: true };
   } catch (error) {
-    return { success: false, error: errorMessage(error) };
+    throw new Error(errorMessage(error))
   }
 };
 
-export const setBusStops = (parameter: string[]): localStorageResponse => {
+export const setBusStops = async(parameter: string[]): Promise<localStorageResponse> => {
   try {
     const stringedBusStops: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
@@ -99,13 +113,13 @@ export const setBusStops = (parameter: string[]): localStorageResponse => {
     );
     return { success: true };
   } catch (error) {
-    return { success: false, error: errorMessage(error) };
+    throw new Error(errorMessage(error))
   }
 };
 
-export const setTicketStyling = (
+export const setTicketStyling = async(
   parameter: ticketStyleInterface
-): localStorageResponse => {
+): Promise<localStorageResponse> => {
   try {
     const stringedTicketStyle: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
@@ -114,8 +128,66 @@ export const setTicketStyling = (
       localStorageItems.ticketStyle,
       stringedTicketStyle.stringified
     );
+
     return { success: true };
   } catch (error) {
-    return { success: false, error: errorMessage(error) };
+    throw new Error(errorMessage(error))
   }
 };
+
+
+export const setTicketData = async(
+  parameter:ticketStagingInterface
+):Promise<busTicketStorageInterface> => {
+  try{
+    const currentTime: string = currentTimeStamp();
+    
+    // const { latitude, longitude }:coordinatesInterface= await fetchCoordinates();
+    // const stringedLatitude: string = latitude.toString()
+    // const stringedLongitude: string = longitude.toString()
+
+    // const userId= getUserEmail()
+    // if(!userId) throw new Error("User email is required")
+
+    // const ticketStaged:ticketStagedInterface={
+    // ...parameter,
+    // userId,
+    // purchaseTime:currentTime,
+    // longitude:stringedLatitude,
+    // latitude:stringedLongitude,
+    // }
+
+    const discountedCost: number = findDiscountedAmount(
+      parameter.ticketAmount * parameter.ticketCount,
+      parameter.discount
+    );
+    
+  const ticketToBeStored: busTicketStorageInterface ={
+    busColor: parameter.busColor,
+    busInitials:parameter.busInitials,
+    busNumber:parameter.busNumber,
+    busRoute:parameter.busRoute,
+    startingStop:parameter.startingStop,
+    endingStop:parameter.endStop,
+    totalCost: parameter.ticketAmount,
+    ticketCount: parameter.ticketCount,
+    discountedCost:discountedCost,
+    bookingTime:currentTime,
+  }
+
+  const currentTicketStore: busTicketStorageInterface[] = getTicketStore();
+  if(currentTicketStore.length > 9){ // i want it to be 6 at max
+    currentTicketStore.pop()
+    currentTicketStore.unshift(ticketToBeStored)
+  }else{
+    currentTicketStore.unshift(ticketToBeStored)
+  }
+
+  const stringedCurrentTicketStore: string = JSON.stringify(currentTicketStore);
+  localStorage.setItem(localStorageItems.ticketStore, stringedCurrentTicketStore)
+
+    return ticketToBeStored;
+  }catch(error){
+    throw new Error(errorMessage(error))
+  }
+}

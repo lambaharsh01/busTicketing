@@ -165,15 +165,13 @@ const BusRoute: React.FC = () => {
   const handleBusRouteSave=()=>{
     setCountinueLoading(true)
 
-    const setBusRoutesInfoStatus = setBusRoutesInfo(busRoutesArray)
-    if(setBusRoutesInfoStatus.success){
+    setBusRoutesInfo(busRoutesArray).then(res=>{
       toast.success("Bus Routes info has been saved")
-    }else{
-      toast.error(setBusRoutesInfoStatus.error)
-    }
-    
-    
-    setCountinueLoading(false)
+      setCountinueLoading(false)
+    }).catch(err=>{
+      toast.error(err.message)
+      setCountinueLoading(false)
+    })
   }
 
 

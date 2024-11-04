@@ -133,15 +133,14 @@ const Customize: React.FC = () => {
       verticalMarginTop,
     };
 
-    const ticketStylingSave = setTicketStyling(ticketStyle);
-
-    if (ticketStylingSave.success) {
+    setTicketStyling(ticketStyle).then(res=>{
       toast.success("Ticket Styling Saved Successfully.");
-    } else {
-      toast.error(ticketStylingSave.error);
-    }
+      setCountinueLoading(false);
+    }).catch(err=>{
+      toast.error(err.message);
+      setCountinueLoading(false);
+    });
 
-    setCountinueLoading(false);
   };
 
   return (
