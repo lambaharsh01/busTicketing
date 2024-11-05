@@ -19,7 +19,7 @@ import Stops from "./screens/localStoreScreens/stops";
 import Customize from "./screens/localStoreScreens/customize";
 import AllTickets from "./screens/allTickets";
 
-import { BusProvider } from "./contexts/busContext";
+
 
 function Routing() {
   return (
@@ -42,45 +42,35 @@ function Routing() {
           <Route
             path={client.scanBusNumber}
             element={
-              <BusProvider>
-                <ScanBusNumber />
-              </BusProvider>
+              <ScanBusNumber />
             }
           />
 
           <Route
             path={client.busSelection}
             element={
-              <BusProvider>
-                <BusSelection />
-              </BusProvider>
+              <BusSelection />
             }
           />
 
           <Route
             path={client.routeSelection}
             element={
-              <BusProvider>
-                <RouteSelection />
-              </BusProvider>
+              <RouteSelection />
             }
           />
 
           <Route
             path={client.ticket}
             element={
-              <BusProvider>
-                <Ticket />
-              </BusProvider>
+              <Ticket />
             }
           />
 
           <Route
             path={client.allTickets}
             element={
-              <BusProvider>
-                <AllTickets />
-              </BusProvider>
+              <AllTickets />
             }
           />
 

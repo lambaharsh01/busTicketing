@@ -35,34 +35,34 @@ export interface structureGetStringSizeReturnInterface {
 export interface busContextInterface {
   //BusContextType interface defines the structure of the context.
   busNumber: string | null;
-  setBusNumber: (parameter: string) => void;
+  setBusNumber: (parameter: string | null) => void;
 
   busColor: string | null;
-  setBusColor: (parameter: string) => void;
+  setBusColor: (parameter: string | null) => void;
 
   busInitials: string | null;
-  setBusInitials: (parameter: string) => void;
+  setBusInitials: (parameter: string | null) => void;
 
   busRoute: string | null;
-  setBusRoute: (parameter: string) => void;
+  setBusRoute: (parameter: string | null) => void;
 
   startingStop: string | null;
-  setStartingStop: (parameter: string) => void;
+  setStartingStop: (parameter: string | null) => void;
 
   endingStop: string | null;
-  setEndingStop: (parameter: string) => void;
+  setEndingStop: (parameter: string | null) => void;
 
   discountedCost: number | null;
-  setDiscountedCost: (parameter: number) => void;
+  setDiscountedCost: (parameter: number | null) => void;
 
   ticketCost: number | null;
-  setTicketCost: (parameter: number) => void;
+  setTicketCost: (parameter: number | null) => void;
 
   ticketCount: number | null;
-  setTicketCount: (parameter: number) => void;
+  setTicketCount: (parameter: number | null) => void;
 
   time: string | null;
-  setTime: (parameter: string) => void;
+  setTime: (parameter: string | null) => void;
 }
 
 // LOCAL STORAGE

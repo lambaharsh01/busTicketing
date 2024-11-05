@@ -75,7 +75,7 @@ const DropdownSearch: React.FC<searchProp> = ({
                 />
               </div>
               <ul className="ps-2.5">
-                {filteredOptions.map((option) => (
+                {filteredOptions.map((option, index) => (
                   <li
                     key={option.value}
                     className={`py-1.5 hover:bg-gray-100 rounded-md pointers font-medium ${

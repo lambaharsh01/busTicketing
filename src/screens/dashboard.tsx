@@ -12,12 +12,15 @@ import { BiSolidCustomize } from "react-icons/bi";
 import { FaRegWindowMaximize } from "react-icons/fa6";
 
 import Map from "../components/map";
+import AllTicketsComponent from "../components/allTicketsComponent";
 
 import { useSpring, animated } from "@react-spring/web";
 import { useDrag } from "react-use-gesture"; 
 import { client } from "../constants/urlPath";
 
 import { setTicketProcessingStatus } from "../utils/setLocalStorage";
+import { getTicketStore } from "../utils/getLocalStorage";
+import { busTicketStorageInterface } from "../constants/interfaces";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -26,10 +29,20 @@ export default function Dashboard() {
     setTicketProcessingStatus(false);
   }, [])
 
-  // const [lastSource, setLastSource] = useState<string>("khera Vilage");
-  // const [lastDestination, setLastDestination] = useState<string>("khera Vilage");
-  const lastSource: string = "khera Vilage";
-  const lastDestination: string = "khera Vilage";
+  const [lastSource, setLastSource] = useState<string>("");
+  const [lastDestination, setLastDestination] = useState<string>("");
+
+  useEffect(()=>{
+    const ticketHistory: busTicketStorageInterface[] =getTicketStore()
+    const lastTicket: busTicketStorageInterface | undefined =ticketHistory[0]
+    
+    if(lastTicket){
+      setLastSource(lastTicket.startingStop)
+      setLastDestination(lastTicket.endingStop)
+    }
+
+  }, [])
+
 
   // Dragging
   const dragThreshold = 100; // Drag distance to hide the component
@@ -190,9 +203,9 @@ export default function Dashboard() {
         {/* Map STARTS */}
         <div className="px-2 pt-0.5">
           <div className="mt-2 p-2 rounded-md border bg-white">
-            <h5 className="font-extrabold">Nearby</h5>
+            <h5 className="font-extrabold">You are here</h5>
             <div className=" mt-3 w-full h-full overflow-hidden">
-              <Map height="260px" />
+              <Map height="260px" key="mapProp"/>
             </div>
           </div>
         </div>
@@ -203,11 +216,16 @@ export default function Dashboard() {
           <div className="mt-4 flex justify-between">
             <h5 className="font-extrabold">Tickets</h5>
             <h6 
-            className="text-slate-500"
+            className="text-slate-500 pointers"
             onClick={()=>navigate(client.allTickets)}
             >View all tickets</h6>
           </div>
-          <div className="p-2 rounded-md border bg-white"></div>
+          <div className="rounded-md border bg-white pt-2 px-2 dashboardTicketScreen">
+
+          <AllTicketsComponent key="allTickets"/>
+
+
+          </div>
         </div>
         {/* Tickets END */}
 

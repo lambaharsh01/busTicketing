@@ -113,14 +113,15 @@ const Ticket: React.FC = () => {
           style={{ fontSize: ticketStyle.headerLeftFontSize }}
         >
           <RxCross2
-            className="mt-1 me-3 text-xl"
+            className="mt-1 me-3 text-xl pointers"
             onClick={() => navigate(client.dashboard)}
           />
           <span>Ticket</span>
         </div>
         <span
-          className="font-medium underline"
+          className="font-medium underline pointers"
           style={{ fontSize: ticketStyle.headerRightFontSize }}
+          onClick={()=>navigate(client.allTickets, {replace:true})}
         >
           All Tickets
         </span>
@@ -137,7 +138,7 @@ const Ticket: React.FC = () => {
         </div>
       ) : (
         <div
-          className="w-full shadow-md"
+          className="w-full shadow-md pointers"
           style={{ height: ticketStyle.ticketInfoHeight.toString() + "%" }}
         >
           <div className="bg-white w-full h-full mt-1 rounded-md p-3 relative">
@@ -275,7 +276,7 @@ const Ticket: React.FC = () => {
                 T{idDate}7b18ec0efa
               </div>
               <div
-                className="bg-green-100 border-2 border-green-600 min-w-full min-h-12 rounded-md flex justify-center items-center"
+                className="bg-green-100 border-2 border-green-600 min-w-full min-h-12 rounded-md flex justify-center items-center "
                 onClick={() => setShowQrCode(true)}
               >
                 <div className="flex justify-center">
