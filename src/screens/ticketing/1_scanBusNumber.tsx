@@ -8,6 +8,7 @@ import { useDrag } from "react-use-gesture"; /*Handle Dragging*/
 import { BusContext } from "../../contexts/busContext";
 import { client } from "../../constants/urlPath";
 import { setTicketProcessingStatus } from "../../utils/setLocalStorage";
+import { getTicketProcessingStatus } from "../../utils/getLocalStorage";
 
 const ScanBusNumber: React.FC = () => {
   const navigate = useNavigate();
@@ -21,8 +22,40 @@ const ScanBusNumber: React.FC = () => {
   const { busNumber, setBusNumber } = context;
 
   useEffect(()=>{
+    const ticketProcessingStarted:boolean = getTicketProcessingStatus()
+
+    if(!ticketProcessingStarted){
+      const {setBusNumber:setBusNumberScreen, setBusColor, setBusInitials, setBusRoute, setStartingStop, setEndingStop, setTicketCost, setTicketCount, setDiscountedCost, setTime} = context;
+      
+      setBusNumberScreen(null)
+      setBusColor(null) 
+      setBusInitials(null)
+      setBusRoute(null) 
+      setStartingStop(null)
+      setEndingStop(null)
+      setTicketCost(null)
+      setTicketCount(null)
+      setDiscountedCost(null)
+      setTime(null)
+
+      setTimeout(()=>{
+        if(input1?.current){
+          input1.current.value= "";
+        }
+        if(input2?.current){
+          input2.current.value= "";
+        }
+        if(input3?.current){
+          input3.current.value= "";
+        }
+        if(input4?.current){
+          input4.current.value= "";
+        }
+      }, 0)
+    }
+
     setTicketProcessingStatus(true)
-  },[])
+  },[context])
 
   const dragThreshold = 80; // Drag distance to hide the component
 
@@ -165,7 +198,7 @@ const ScanBusNumber: React.FC = () => {
         <span className="text-xl">Scan QR present In the bus.</span>
       </div>
 
-      <Camera />
+      <Camera key="cameraAccess"/>
 
       <animated.div
         {...bind()}

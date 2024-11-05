@@ -37,3 +37,14 @@ export const getStringSize = (
     stringified: stringedParameter,
   };
 };
+
+export const leftPad = (str:string, lPad?:number):string =>{
+  const stringlength= lPad || 14; 
+
+  if(str.length < stringlength) return str;
+  return str.slice(0, stringlength) + "..."
+}
+
+export const numberPadding = (num: number): string => {
+  return `${(Math.floor(num * 10) / 10).toFixed(1)}`
+}

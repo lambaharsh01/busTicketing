@@ -31,7 +31,7 @@ export const getBusInitials = (): string[] => {
     localStorageItems.busInitials
   );
   if (!stringedBusInitials)
-    stringedBusInitials = '["DL1PC", "DL1PD", "DL1PB", "DL51GD", "DL51EV"]';
+    stringedBusInitials = '["DL1PC", "DL1PD", "DL51GD", "DL51EV"]';
 
   const parsedBusInitials: string[] = JSON.parse(stringedBusInitials);
   return parsedBusInitials;
@@ -42,12 +42,7 @@ export const getBusRoutes = (): string[] => {
     localStorageItems.busRoutes
   );
   if (!stringedBusRoute)
-    stringedBusRoute = `[
-  {"route":"578","terminalA":"Najafgarh Terminal","terminalB":"Safdurjung Terminal"},
-
-  {"route":"887A","terminalA":"Ghumanehra","terminalB":"Uttam Nagar"},
-  {"route":"DW3STL","terminalA":"Nangloi","terminalB":"Ghumanehra"}
-  ]`;
+    stringedBusRoute = `[]`;
 
   const parsedBusRoutes: busRouteInterface[] = JSON.parse(stringedBusRoute);
   return parsedBusRoutes.map((elem) => elem.route);
@@ -58,12 +53,7 @@ export const getBusRoutesInfo = (): busRouteInterface[] => {
     localStorageItems.busRoutes
   );
   if (!stringedBusRoute)
-    stringedBusRoute = `[
-  {"route":"578","terminalA":"Najafgarh Terminal","terminalB":"Safdurjung Terminal"},
-  
-  {"route":"887A","terminalA":"Ghumanehra","terminalB":"Uttam Nagar"},
-  {"route":"DW3STL","terminalA":"Nangloi","terminalB":"Ghumanehra"}
-  ]`;
+    stringedBusRoute = `[]`;
 
   const parsedBusRoutes: busRouteInterface[] = JSON.parse(stringedBusRoute);
   return parsedBusRoutes;

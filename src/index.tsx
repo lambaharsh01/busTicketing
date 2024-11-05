@@ -9,13 +9,16 @@ import reportWebVitals from "./reportWebVitals";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "react-toastify/dist/ReactToastify.css";
 import "react-loading-skeleton/dist/skeleton.css";
+import { BusProvider } from "./contexts/busContext";
 
 const root = ReactDOM.createRoot(
   document.getElementById("root") as HTMLElement
 );
 root.render(
   // <React.StrictMode>
-  <Routing />
+  <BusProvider>
+    <Routing />
+  </BusProvider>
   // </React.StrictMode>
 );
 
