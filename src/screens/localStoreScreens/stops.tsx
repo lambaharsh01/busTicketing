@@ -27,7 +27,7 @@ const Stops: React.FC = () => {
 
   const upsertValidation = (colorString: string) :string =>{
     const trimmedNewStop=colorString.trim();
-    if(trimmedNewStop.length<3 || trimmedNewStop.includes(" ")){
+    if(trimmedNewStop.length<3){
         toast.error("Bus Invalid Bus Stop.")
         return ""
     }
