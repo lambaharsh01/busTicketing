@@ -19,20 +19,26 @@ import { useDrag } from "react-use-gesture";
 import { client } from "../constants/urlPath";
 
 import { setTicketProcessingStatus } from "../utils/setLocalStorage";
-import { getTicketStore } from "../utils/getLocalStorage";
+import { getTicketStore, getToken } from "../utils/getLocalStorage";
 import { busTicketStorageInterface } from "../constants/interfaces";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  useEffect(()=>{
-    setTicketProcessingStatus(false);
-  }, [])
 
   const [lastSource, setLastSource] = useState<string>("");
   const [lastDestination, setLastDestination] = useState<string>("");
+  
+useEffect(()=>{
+  const token = getToken()
+  console.log(token)
+  // if(!userEmail) navigate(client.signIn, {replace:true}) 
+},[navigate])
 
   useEffect(()=>{
+
+    setTicketProcessingStatus(false);
+
     const ticketHistory: busTicketStorageInterface[] =getTicketStore()
     const lastTicket: busTicketStorageInterface | undefined =ticketHistory[0]
     
@@ -146,22 +152,6 @@ export default function Dashboard() {
               </div>
             </div>
 
-            <div>
-              <div className="w-20 h-20 p-2">
-                <div
-                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={() => navigate(client.route)}
-                >
-                  <LiaRouteSolid className="text-4xl" />
-                </div>
-              </div>
-              <div className="text-center">
-                <h6 className="font-medium text-lg">
-                  Routes <br /> Info
-                </h6>
-              </div>
-            </div>
-
             <div className="relative">
               <div className="absolute -top-1.5 w-full text-center">
                 <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
@@ -171,18 +161,33 @@ export default function Dashboard() {
               <div className="w-20 h-20 p-2">
                 <div
                   className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={() => navigate(client.customize)}
+                  onClick={() => navigate(client.route)}
                 >
-                  <BiSolidCustomize className="text-4xl" />
+                  <LiaRouteSolid className="text-4xl" />
                 </div>
               </div>
               <div className="text-center">
                 <h6 className="font-medium text-lg">
-                  Customize <br /> Ticket
+                Routes <br /> Info
                 </h6>
               </div>
             </div>
 
+          <div>
+                <div className="w-20 h-20 p-2">
+                  <div
+                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.stops)}
+                  >
+                    <BsFillSignStopFill className="text-4xl" />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <h6 className="font-medium text-lg">
+                    Bus <br /> Stops
+                  </h6>
+                </div>
+              </div>
             <div>
               <div className="w-20 h-20 p-2">
                 <div
@@ -205,7 +210,7 @@ export default function Dashboard() {
           <div className="mt-2 p-2 rounded-md border bg-white">
             <h5 className="font-extrabold">You are here</h5>
             <div className=" mt-3 w-full h-full overflow-hidden">
-              <Map height="260px" key="mapProp"/>
+              <Map height="140px" key="mapProp"/>
             </div>
           </div>
         </div>
@@ -220,7 +225,7 @@ export default function Dashboard() {
             onClick={()=>navigate(client.allTickets)}
             >View all tickets</h6>
           </div>
-          <div className="rounded-md border bg-white pt-2 px-2 dashboardTicketScreen">
+          <div className="rounded-md border bg-white pt-2 px-2 dashboardTicketScreen mb-5">
 
           <AllTicketsComponent key="allTickets"/>
 
@@ -260,21 +265,27 @@ export default function Dashboard() {
                   </h6>
                 </div>
               </div>
-              <div>
-                <div className="w-20 h-20 p-2">
-                  <div
-                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                    onClick={() => navigate(client.route)}
-                  >
-                    <LiaRouteSolid className="text-4xl" />
-                  </div>
-                </div>
-                <div className="text-center">
-                  <h6 className="font-medium text-lg">
-                    Routes <br /> Info
-                  </h6>
+
+              <div className="relative">
+              <div className="absolute -top-1.5 w-full text-center">
+                <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
+                  New
+                </span>
+              </div>
+              <div className="w-20 h-20 p-2">
+                <div
+                  className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={() => navigate(client.route)}
+                >
+                  <LiaRouteSolid className="text-4xl" />
                 </div>
               </div>
+              <div className="text-center">
+                <h6 className="font-medium text-lg">
+                Routes <br /> Info
+                </h6>
+              </div>
+            </div>
               <div>
                 <div className="w-20 h-20 p-2">
                   <div

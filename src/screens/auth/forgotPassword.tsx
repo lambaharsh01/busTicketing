@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from "react";
 // import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { emailRegex, phoneRegex, weakPasswordRegex, strongPasswordRegex } from "../../utils/regex";
-import { initialSignUpDataInterface, otpStrengthInterface } from "../../constants/interfaces";
+import { emailRegex, weakPasswordRegex, strongPasswordRegex } from "../../utils/regex";
+import { otpStrengthInterface } from "../../constants/interfaces";
 // import { initialUserSchema } from "../../utils/authSchemas.js";
 // import axiosInterceptor from "../../utils/axiosInterceptor";
 
-const SignUp: React.FC = () => {
+const ForgotPassword: React.FC = () => {
   
   // const navigate = useNavigate();
 
@@ -23,77 +23,24 @@ const SignUp: React.FC = () => {
   const [screen, setScreen] = useState<number>(0);
   const [dissabled, setDissabled] = useState<boolean>(false);
 
-  const [userName, setUserName] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
-  const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [day, setDay] = useState<string>("");
-  const [month, setMonth] = useState<string>("");
-  const [year, setYear] = useState<string>("");
-  const [gender, setGender] = useState<string>("");
 
-  const validateUserInfo = (): null | initialSignUpDataInterface => {
-
-    if(userName.length < 3){
-      toast.error("User name must be at least 3 characters")
-      return null
-    }
+  const validateUserInfo = (): null | string => {
 
     if(!emailRegex.test(userEmail)){
       toast.error("Enter a valid email address")
       return null
     }
 
-    if(!phoneRegex.test(phoneNumber)){
-      toast.error("Enter a valid phone number")
-      return null
-    }
-
-    const numberedDay= Number(day)
-    if(isNaN(numberedDay) || numberedDay<1 || numberedDay > 31){
-      toast.error("Invalid birth day")
-      return null
-    }
-
-    const numberedMonth= Number(month)
-    if(isNaN(numberedMonth) || numberedMonth<1 || numberedMonth > 12){
-      toast.error("Invalid birth month")
-      return null
-    }
-
-    const numberedYear= Number(year)
-    if(isNaN(numberedYear)){
-      toast.error("Invalid birth year")
-      return null
-    }
-    if(numberedYear > 2015 || numberedYear < 1970){
-      toast.error("Birth year can not be more than 2015 or less than 1970")
-      return null
-    }
-
-    const genders= ["Male", "Female", "Other"]
-
-    if(!genders.includes(gender)){
-      toast.error("Please Select a gender")
-      return null
-    }
-
-    let dateOfBirth=`${year}-${month.trim().length < 2 ? "0" + month : month}-${day.trim().length < 2 ? "0" + day : day}`
-
-    return {
-      userName,
-      userEmail,
-      phoneNumber,
-      dateOfBirth,
-      gender,
-    }
+    return userEmail;
   };
 
   const sendVerificationCode = () => {
 
-    const userInfo= validateUserInfo()
-    if(!userInfo) return
+    const userEmail= validateUserInfo()
+    if(!userEmail) return
 
-    console.log(userInfo)
+    console.log(userEmail)
 
     setDissabled(true);
     setScreen((prevCount) => prevCount + 1);
@@ -244,8 +191,8 @@ const SignUp: React.FC = () => {
       <div className="w-100">
         <div className="col-lg-8 col-12 offset-0 offset-lg-2 h-1/6 flex items-end justify-center">
           <h1 className="mainFont ps-2">
-            <span className="charterBlueText me-1 text-4xl">Sign</span>
-            <span className="outlined-text-medium-thin text-7xl">Up</span>
+            <span className="charterBlueText me-1 text-3xl">Forgot</span>
+            <span className="outlined-text-medium-thin text-5xl">Password</span>
           </h1>
         </div>
         <div
@@ -253,15 +200,8 @@ const SignUp: React.FC = () => {
           ref={scrollableDivRef}
         >
           {screen === 0 && (
-            <div className="relative w-75 m-auto py-md-4 pt-4 pb-3">
+            <div className="w-75 m-auto py-md-4 pt-4 pb-3">
               <h2 className="mb-4">User Details</h2>
-              <input
-                type="text"
-                className="px-8 py-3 mb-4 rounded-md w-100 bg-slate-100"
-                placeholder="Enter Full Name"
-                value={userName}
-                onChange={(e) => setUserName(e.currentTarget.value)}
-              />
               <input
                 type="text"
                 className="px-8 py-3 mb-4 rounded-md w-100 bg-slate-100"
@@ -269,81 +209,13 @@ const SignUp: React.FC = () => {
                 value={userEmail}
                 onChange={(e) => setUserEmail(e.currentTarget.value)}
               />
-              <input
-                type="number"
-                className="px-8 py-3 mb-4 rounded-md w-100 bg-slate-100"
-                placeholder="Enter Phone No."
-                value={phoneNumber}
-                onChange={(e) => setPhoneNumber(e.currentTarget.value)}
-              />
-              <div className="w-100 d-flex mb-4">
-                <div className="w-25 pe-1">
-                  <input
-                    type="number"
-                    className="ps-2 ps-md-4 py-3 rounded-md w-100 bg-slate-100"
-                    placeholder="Day"
-                    value={day}
-                    onChange={(e) => setDay(e.currentTarget.value)}
-                  />
-                </div>
-                <div className="w-25 px-1">
-                  <input
-                    type="number"
-                    className="ps-2 ps-md-4 py-3 rounded-md w-100 bg-slate-100"
-                    placeholder="Month"
-                    value={month}
-                    onChange={(e) => setMonth(e.currentTarget.value)}
-                  />
-                </div>
-                <div className="w-50 ps-1">
-                  <input
-                    type="number"
-                    className="ps-2 ps-md-4 py-3 rounded-md w-100 bg-slate-100"
-                    placeholder="Birth Year"
-                    value={year}
-                    onChange={(e) => setYear(e.currentTarget.value)}
-                  />
-                </div>
-              </div>
-              <div
-                className="w-100 flex justify-between mb-4 text-slate-500"
-                style={{ fontSize: 17 }}
-              >
-                <span>Select Gender</span>
-                <span>
-                  <input
-                    type="radio"
-                    name="gender"
-                    onClick={() => setGender("Male")}
-                  />
-                  &nbsp; Male
-                </span>
-                <span>
-                  <input
-                    type="radio"
-                    name="gender"
-                    onClick={() => setGender("Female")}
-                  />
-                  &nbsp; Female
-                </span>
-                <span>
-                  <input
-                    type="radio"
-                    name="gender"
-                    onClick={() => setGender("Other")}
-                  />
-                  &nbsp; Other
-                </span>
-              </div>
 
-              <div className="min-h-12"></div>
-              
-              <div className="absolute bottom-0 w-100 m-auto py-md-4 pt-4 pb-3">
+            <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
               <button
                 disabled={dissabled}
                 className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
                 onClick={sendVerificationCode}
-              >
+                >
                 Send Verification Code
               </button>
             </div>
@@ -361,23 +233,22 @@ const SignUp: React.FC = () => {
                 value={otp}
                 onChange={(e) => setOtp(e.currentTarget.value)}
               />
-            <div className="absolute bottom-14 left-0 w-100">
-              <div className="m-auto py-md-4 pt-4 pb-3 w-75">
+
+            <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
               <button
                 disabled={dissabled}
                 className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
                 onClick={verifyOtp}
-                >
+              >
                 Verify OTP
               </button>
-                </div>
             </div>
             </div>
           )}
 
           {screen === 2 && (
             <div className="w-75 m-auto py-md-4 pt-4 pb-3">
-              <h2 className="mb-4">Create New Password</h2>
+              <h2 className="mb-4">Create Password</h2>
 
               <input
                 type="password"
@@ -415,8 +286,8 @@ const SignUp: React.FC = () => {
                 />
               </div>
 
-              <div className="absolute bottom-14 left-0 w-100">
-              <div className="m-auto py-md-4 pt-4 pb-3 w-75">
+
+            <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
               <button
                 disabled={dissabled}
                 className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
@@ -424,8 +295,6 @@ const SignUp: React.FC = () => {
               >
                 Verify OTP
               </button>
-
-            </div>
             </div>
             </div>
           )}
@@ -435,4 +304,4 @@ const SignUp: React.FC = () => {
   );
 }
 
-export default SignUp;
+export default ForgotPassword;

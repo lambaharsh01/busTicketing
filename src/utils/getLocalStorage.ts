@@ -5,8 +5,8 @@ import {
 } from "../constants/interfaces";
 import { localStorageItems } from "../constants/localStorageDataDictionary";
 
-export const getUserEmail = (): string | null => {
-  return localStorage.getItem(localStorageItems.userEmail);
+export const getToken = (): string | null => {
+  return localStorage.getItem(localStorageItems.token);
 };
 
 export const getTicketProcessingStatus= ():boolean =>{
@@ -63,7 +63,7 @@ export const getBusStops = (): string[] => {
   let stringedBusStops: string | null = localStorage.getItem(
     localStorageItems.busStops
   );
-  if (!stringedBusStops) stringedBusStops = '["khera Village", "Ghumaherha"]';
+  if (!stringedBusStops) stringedBusStops = '["Uttam Nagar Terminal", "Ghuman Hera Depot 2", "Dichau Kalan Depot"]';
 
   const parsedBusStops: string[] = JSON.parse(stringedBusStops);
   return parsedBusStops;
