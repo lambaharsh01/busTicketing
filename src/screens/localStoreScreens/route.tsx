@@ -4,7 +4,8 @@ import { IoArrowBack } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
 import { RiChatDeleteFill } from "react-icons/ri";
 import { BiSolidCommentEdit } from "react-icons/bi";
-import { BsArrowLeftRight } from "react-icons/bs";
+import { BsArrowLeftRight, BsFillSignStopFill} from "react-icons/bs";
+import { RxCross2 } from "react-icons/rx";
 
 import { client } from "../../constants/urlPath";
 
@@ -16,11 +17,12 @@ import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream
 import { toast } from "react-toastify";
 
 import { setBusRoutesInfo} from "../../utils/setLocalStorage";
+import { selectLaterOption } from "../../constants/strings";
 
 const BusRoute: React.FC = () => {
 
   const navigate = useNavigate()
-  const busStopsString: string[] =getBusStops();
+  const busStopsString: string[] = [...getBusStops(), selectLaterOption];
 
   const [busRoutesArray, setBusRoutesArray]= useState<busRouteInterface[]>([]);
   const [continueLoading, setCountinueLoading]= useState<boolean>(false);
@@ -32,7 +34,7 @@ const BusRoute: React.FC = () => {
     setBusRoutesArray(busRouteInfo)
     setTimeout(()=>{
       setShowInfo(false)
-    }, 5000)
+    }, 8000)
   }, [])
   
   
@@ -58,14 +60,17 @@ const BusRoute: React.FC = () => {
       toast.error("Enter Bus Route")
       return null
     }
-    if(!terminalAAttr){
-      toast.error("Select Bus Terminal A")
-      return null
+    if(!terminalAAttr || !terminalBAttr){
+
+      let continueWithoutTerminals= window.confirm("It is recommended to add bus terminals for the future ticketing convenience and accuracy.\nDo you still want to contine without terminals?")
+      if(!continueWithoutTerminals) return null
+      // toast.error("Select Bus Terminal A")
+      // return null
     }
-    if(!terminalBAttr){
-      toast.error("Select Bus Terminal B")
-      return null
-    }
+    // if(!terminalBAttr){
+    //   toast.error("Select Bus Terminal B")
+    //   return null
+    // }
     if(busRoutesArray.some((elem, index)=>{
       if(src==="edit" && index===editStagedIndex){
         return false;
@@ -175,6 +180,10 @@ const BusRoute: React.FC = () => {
   }
 
 
+  const handleAddStop = () =>{
+    navigate(client.stops)
+  }
+
 
   return (
     <div className="h-screen relative">
@@ -195,9 +204,12 @@ const BusRoute: React.FC = () => {
 
       {showInfo && (
         <div className="alert alert-info py-1">
-          Make sure you add the bus stops for the terminal stations first.
+          Make sure you add the bus stops for the terminal stations for more accuracy and convenience.
         </div>
       )}
+
+
+{/* Add Stop */}
 
     <div className="mt-4 w-full px-3">      
         {busRoutesArray.map((elem, index)=>(
@@ -244,14 +256,16 @@ const BusRoute: React.FC = () => {
       </div>
       </div>
 
-
 {/* MODALS */}
 {addModalOpen && (<div 
       className={`absolute top-0 w-full flex justify-center p-2 ${addRouteClass}`}
       >
         <div className="w-full creamBackground rounded-md border-2 shadow-md z-20 p-2">
+          <div className="flex justify-between">
           <h5>Add Route<span className="text-xs"> (Click outside of modal to close)</span></h5>
-
+          <RxCross2 className="text-xl mt-1" onClick={()=>setAddModalOpen(false)}/>
+          </div>
+          
           <div className="mt-10 w-full px-3">
           <span className="text-lg font-medium">Select Bus Initials</span>
           <div>
@@ -265,12 +279,20 @@ const BusRoute: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-3 w-full px-3">
+        <div className="mt-4 me-3">            
+            <div className="w-full flex justify-end"
+            onClick={handleAddStop}>
+            <span className="text-sm font-medium text-blue-400 me-1">Add </span>
+            <BsFillSignStopFill className="text-xl text-blue-400 "/>
+            </div>
+          </div>
+
+        <div className="mt-0 w-full px-3">
           <span className="text-lg font-medium">Terminal Stop A</span>
           <div>
               <DropdownSearch
                 key={"SelectTerminalStopA"}
-                options={converArrayIntoSearchStream(busStopsString.filter(elem=>(elem!==terminalAAttr && elem!==terminalBAttr)))}
+                options={converArrayIntoSearchStream(busStopsString.filter(elem=>((elem!==terminalAAttr && elem!==terminalBAttr) || elem===selectLaterOption )))}
                 placeholder={terminalAAttr || "Select Terminal Stop A"}
                 onSelect={handleBusTerminalASelection}
               />
@@ -281,7 +303,7 @@ const BusRoute: React.FC = () => {
           <div>
               <DropdownSearch
                 key={"SelectTerminalStopB"}
-                options={converArrayIntoSearchStream(busStopsString.filter(elem=>(elem!==terminalAAttr && elem!==terminalBAttr)))}
+                options={converArrayIntoSearchStream(busStopsString.filter(elem=>((elem!==terminalAAttr && elem!==terminalBAttr) || elem===selectLaterOption)))}
                 placeholder={terminalBAttr || "Select Terminal Stop B"}
                 onSelect={handleBusTerminalBSelection}
               />
@@ -302,7 +324,13 @@ const BusRoute: React.FC = () => {
       className={`absolute top-0 w-full flex justify-center p-2 ${editRouteClass}`}
       >
         <div className="w-full creamBackground rounded-md border-2 shadow-md z-20 p-2">
+
+        <div className="flex justify-between">
           <h5>Edit Route<span className="text-xs"> (Click outside of modal to close)</span></h5>
+          <RxCross2 className="text-xl mt-1" onClick={()=>setEditModalOpen(false)}/>
+        </div>
+
+
           <div className="mt-10 w-full px-3">
           <span className="text-lg font-medium">Select Bus Initials</span>
           <div>
@@ -316,7 +344,15 @@ const BusRoute: React.FC = () => {
           </div>
         </div>
 
-        <div className="mt-3 w-full px-3">
+        <div className="mt-4 me-3">            
+            <div className="w-full flex justify-end"
+            onClick={handleAddStop}>
+            <span className="text-sm font-medium text-blue-400 me-1">Add </span>
+            <BsFillSignStopFill className="text-xl text-blue-400 "/>
+            </div>
+          </div>
+
+        <div className="mt-0 w-full px-3">
           <span className="text-lg font-medium">Terminal Stop A</span>
           <div>
               <DropdownSearch
@@ -327,7 +363,7 @@ const BusRoute: React.FC = () => {
               />
           </div>
         </div>
-        <div className="mt-3 w-full px-3">
+        <div className="mt-1 w-full px-3">
           <span className="text-lg font-medium">Terminal Stop B</span>
           <div>
               <DropdownSearch

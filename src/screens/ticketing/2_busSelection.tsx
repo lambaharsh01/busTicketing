@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BusContext } from "../../contexts/busContext";
 import { IoArrowBack } from "react-icons/io5";
 import { BsArrowLeftRight } from "react-icons/bs";
+import { LiaRouteSolid } from "react-icons/lia";
 import {
   getBusColors,
   getBusInitials,
@@ -16,6 +17,7 @@ import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
 import { busRouteInterface } from "../../constants/interfaces";
 import { getTicketProcessingStatus } from "../../utils/getLocalStorage";
+import { selectLaterOption } from "../../constants/strings";
 
 const BusSelection: React.FC = () => {
   const navigate = useNavigate();
@@ -132,6 +134,15 @@ const BusSelection: React.FC = () => {
     setCountinueLoading(false);
   };
 
+  const handleAddRouteRedirection = () =>{
+
+    setBusInitialsContext(busInitial);
+    setBusColorContext(busColor);
+    // setBusRouteContext(busRoute);
+
+    navigate(client.route)
+  }
+
   return (
     <div className="h-screen relative">
       <div className=" mb-2 pt-2 ps-1 flex items-inline font-bold text-lg bg-transparent">
@@ -171,10 +182,21 @@ const BusSelection: React.FC = () => {
 
       <div className="mt-4 w-full px-3">
         <span className="text-lg font-medium">Select Bus Route</span>
-        {busTerminals.route && (<div className="flex items-center pb-1.5">
-        <span className="text-md font-medium text-slate-400">{busTerminals.terminalA}</span>
-        <BsArrowLeftRight className="mx-3"/>
-        <span className="text-md font-medium text-slate-400">{busTerminals.terminalB}</span>
+        {busTerminals.route && (<div className="flex justify-between pb-1.5 w-full">
+        <div className="flex">
+          <span className="text-md font-medium text-slate-400">{busTerminals.terminalA}</span>
+          <BsArrowLeftRight className="mx-3"/>
+          <span className="text-md font-medium text-slate-400">{busTerminals.terminalB}</span>
+        </div>
+        { (busTerminals.terminalA === selectLaterOption || busTerminals.terminalB === selectLaterOption) && (
+          <div 
+          className="flex pointers"
+          onClick={handleAddRouteRedirection}
+          >
+          <span className="text-sm font-medium text-blue-400">Add Route</span>
+          <LiaRouteSolid className="text-xl me-1 text-blue-400"/> 
+          </div>
+        )}
         </div>)}
         <div>
           <DropdownSearch

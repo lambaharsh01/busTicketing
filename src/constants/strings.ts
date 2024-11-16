@@ -25,4 +25,6 @@ export const PLACEHOLDERS = {
   EMAIL: "Enter your email",
 };
 
+export const selectLaterOption : string = "Select later"
+
 export default STRINGS;

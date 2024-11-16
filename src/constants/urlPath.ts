@@ -6,7 +6,11 @@ export const client={
   busSelection:"/bus-selection",
   routeSelection:"/route-fair-selection",
   ticket:"/ticket",
-  allTickets:"all-tickets",
+  allTickets:"/all-tickets",
+
+  signIn:"/sign-in",
+  signUp:"/sign-up",
+  forgotPassword:"/forgot-password",
   
   discount:"/discount",
   colors:"/colors",

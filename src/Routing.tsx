@@ -19,6 +19,9 @@ import Stops from "./screens/localStoreScreens/stops";
 import Customize from "./screens/localStoreScreens/customize";
 import AllTickets from "./screens/allTickets";
 
+import SignIn from "./screens/auth/signIn";
+import SignUp from "./screens/auth/signUp";
+import ForgotPassword from "./screens/auth/forgotPassword";
 
 
 function Routing() {
@@ -38,6 +41,9 @@ function Routing() {
         <Routes>
           {/* <Route path={client.dashboard} element={<Index />} /> */}
           <Route path={client.dashboard} element={<Dashboard />} />
+          <Route path={client.signIn} element={<SignIn />} />
+          <Route path={client.signUp} element={<SignUp />} />
+          <Route path={client.forgotPassword} element={<ForgotPassword />} />
 
           <Route
             path={client.scanBusNumber}

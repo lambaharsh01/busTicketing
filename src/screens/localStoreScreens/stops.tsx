@@ -4,6 +4,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { IoMdAdd } from "react-icons/io";
 import { RiChatDeleteFill } from "react-icons/ri";
 import { BiSolidCommentEdit } from "react-icons/bi";
+import { RxCross2 } from "react-icons/rx";
 
 import { client } from "../../constants/urlPath";
 
@@ -27,7 +28,7 @@ const Stops: React.FC = () => {
 
   const upsertValidation = (colorString: string) :string =>{
     const trimmedNewStop=colorString.trim();
-    if(trimmedNewStop.length<3 || trimmedNewStop.includes(" ")){
+    if(trimmedNewStop.length<3){
         toast.error("Bus Invalid Bus Stop.")
         return ""
     }
@@ -172,7 +173,11 @@ const Stops: React.FC = () => {
       className={`absolute top-0 w-full flex justify-center p-2 ${addStopClass}`}
       >
         <div className="w-full creamBackground rounded-md border-2 shadow-md z-20 p-2">
-                <h5>Add Stop<span className="text-xs"> (Click outside of modal to close)</span></h5>
+        <div className="flex justify-between">
+          <h5>Add Stop<span className="text-xs"> (Click outside of modal to close)</span></h5>
+          <RxCross2 className="text-xl mt-1" onClick={()=>  setAddModalOpen(false)}/>
+        </div>
+      
         <input 
             type="text" 
             className="w-full border font-semibold text-slate-400 ps-3 py-2 rounded-md mb-3 mt-2"
@@ -193,7 +198,10 @@ const Stops: React.FC = () => {
       className={`absolute top-0 w-full flex justify-center p-2 ${editStopClass}`}
       >
         <div className="w-full creamBackground rounded-md border-2 shadow-md z-20 p-2">
-            <h5>Edit Stop<span className="text-xs"> (Click outside of modal to close)</span></h5>
+        <div className="flex justify-between">
+          <h5>Edit Stop<span className="text-xs"> (Click outside of modal to close)</span></h5>
+          <RxCross2 className="text-xl mt-1" onClick={()=>setEditModalOpen(false)}/>
+        </div>
         <input 
             type="text" 
             className="w-full border font-semibold text-slate-400 ps-3 py-2 rounded-md mb-3 mt-2"

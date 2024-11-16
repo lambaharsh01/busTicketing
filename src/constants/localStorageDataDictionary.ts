@@ -1,5 +1,5 @@
 export const localStorageItems = {
-  userEmail:"userEmail",
+  token:"token",
   ticketProcessingStatus:"ticketProcessingStatus",
   discount: "discount",
   busColors: "busColors",
