@@ -93,56 +93,52 @@ export interface ticketStyleInterface {
   verticalMarginTop: number;
 }
 
-
 export interface ticketStagingInterface {
-    busNumber:string;
-    busInitials:string;
-    busColor:string;
-    busRoute:string;
-    startingStop: string;
-    endStop:string;
-    ticketAmount:number;
-    ticketCount:number;
-    discount:number;
+  busNumber: string;
+  busInitials: string;
+  busColor: string;
+  busRoute: string;
+  startingStop: string;
+  endStop: string;
+  ticketAmount: number;
+  ticketCount: number;
+  discount: number;
 }
-
 
 export interface ticketStagedInterface {
-    busNumber:string;
-    busInitials:string;
-    busColor:string;
-    busRoute:string;
-    startingStop: string;
-    endStop:string;
-    ticketAmount:number;
-    ticketCount:number;
-    discount:number;
-    purchaseTime:string;
-    userId:string;
-    longitude:string;
-    latitude:string;
+  busNumber: string;
+  busInitials: string;
+  busColor: string;
+  busRoute: string;
+  startingStop: string;
+  endStop: string;
+  ticketAmount: number;
+  ticketCount: number;
+  discount: number;
+  purchaseTime: string;
+  longitude: string;
+  latitude: string;
 }
 
-
-export interface busTicketStorageInterface{
-    busColor: string;
-    busInitials:string;
-    busNumber:string;
-    busRoute:string;
-    startingStop:string;
-    endingStop:string;
-    totalCost: number;
-    ticketCount: number;
-    discountedCost:number;
-    bookingTime:string;
+export interface busTicketStorageInterface {
+  busColor: string;
+  busInitials: string;
+  busNumber: string;
+  busRoute: string;
+  startingStop: string;
+  endingStop: string;
+  totalCost: number;
+  ticketCount: number;
+  discountedCost: number;
+  bookingTime: string;
 }
 
-export interface initialSignUpDataInterface{
-    userName: string;
-    userEmail: string;
-    phoneNumber: string;
-    dateOfBirth: string;
-    gender: string;
+export interface initialSignUpDataInterface {
+  userName: string;
+  userEmail: string;
+  phoneNumber: string;
+  dateOfBirth: string;
+  gender: string;
 }
 
 export interface otpStrengthInterface {

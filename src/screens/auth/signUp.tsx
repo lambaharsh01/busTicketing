@@ -1,14 +1,22 @@
 import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { emailRegex, phoneRegex, weakPasswordRegex, strongPasswordRegex } from "../../utils/regex";
-import { initialSignUpDataInterface, otpStrengthInterface } from "../../constants/interfaces";
+import {
+  emailRegex,
+  phoneRegex,
+  weakPasswordRegex,
+  strongPasswordRegex,
+} from "../../utils/regex";
+import {
+  initialSignUpDataInterface,
+  otpStrengthInterface,
+} from "../../constants/interfaces";
 // import { initialUserSchema } from "../../utils/authSchemas.js";
-// import axiosInterceptor from "../../utils/axiosInterceptor";
+import axiosInterceptor from "../../utils/axiosInterceptor";
+import { setToken } from "../../utils/setLocalStorage";
 
 const SignUp: React.FC = () => {
-  
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const scrollableDivRef = useRef<HTMLDivElement | null>(null);
   function scrollDivToTop() {
@@ -32,52 +40,53 @@ const SignUp: React.FC = () => {
   const [gender, setGender] = useState<string>("");
 
   const validateUserInfo = (): null | initialSignUpDataInterface => {
-
-    if(userName.length < 3){
-      toast.error("User name must be at least 3 characters")
-      return null
+    if (userName.length < 3) {
+      toast.error("User name must be at least 3 characters");
+      return null;
     }
 
-    if(!emailRegex.test(userEmail)){
-      toast.error("Enter a valid email address")
-      return null
+    if (!emailRegex.test(userEmail)) {
+      toast.error("Enter a valid email address");
+      return null;
     }
 
-    if(!phoneRegex.test(phoneNumber)){
-      toast.error("Enter a valid phone number")
-      return null
+    if (!phoneRegex.test(phoneNumber)) {
+      toast.error("Enter a valid phone number");
+      return null;
     }
 
-    const numberedDay= Number(day)
-    if(isNaN(numberedDay) || numberedDay<1 || numberedDay > 31){
-      toast.error("Invalid birth day")
-      return null
+    const numberedDay = Number(day);
+    if (isNaN(numberedDay) || numberedDay < 1 || numberedDay > 31) {
+      toast.error("Invalid birth day");
+      return null;
     }
 
-    const numberedMonth= Number(month)
-    if(isNaN(numberedMonth) || numberedMonth<1 || numberedMonth > 12){
-      toast.error("Invalid birth month")
-      return null
+    const numberedMonth = Number(month);
+    if (isNaN(numberedMonth) || numberedMonth < 1 || numberedMonth > 12) {
+      toast.error("Invalid birth month");
+      return null;
     }
 
-    const numberedYear= Number(year)
-    if(isNaN(numberedYear)){
-      toast.error("Invalid birth year")
-      return null
+    const numberedYear = Number(year);
+    if (isNaN(numberedYear)) {
+      toast.error("Invalid birth year");
+      return null;
     }
-    if(numberedYear > 2015 || numberedYear < 1970){
-      toast.error("Birth year can not be more than 2015 or less than 1970")
-      return null
-    }
-
-    const genders= ["Male", "Female", "Other"]
-
-    if(!genders.includes(gender)){
-      toast.error("Please Select a gender")
-      return null
+    if (numberedYear > 2015 || numberedYear < 1970) {
+      toast.error("Birth year can not be more than 2015 or less than 1970");
+      return null;
     }
 
-    let dateOfBirth=`${year}-${month.trim().length < 2 ? "0" + month : month}-${day.trim().length < 2 ? "0" + day : day}`
+    const genders = ["Male", "Female", "Other"];
+
+    if (!genders.includes(gender)) {
+      toast.error("Please Select a gender");
+      return null;
+    }
+
+    let dateOfBirth = `${year}-${
+      month.trim().length < 2 ? "0" + month : month
+    }-${day.trim().length < 2 ? "0" + day : day}`;
 
     return {
       userName,
@@ -85,39 +94,36 @@ const SignUp: React.FC = () => {
       phoneNumber,
       dateOfBirth,
       gender,
-    }
+    };
   };
 
   const sendVerificationCode = () => {
-
-    const userInfo= validateUserInfo()
-    if(!userInfo) return
-
-    console.log(userInfo)
+    const userInfo = validateUserInfo();
+    if (!userInfo) return;
 
     setDissabled(true);
-    setScreen((prevCount) => prevCount + 1);
-    scrollDivToTop();
-    setDissabled(false);
 
-    // axiosInterceptor({
-    //   method: "post",
-    //   url: "/api/authentication/sendVerificationCode",
-    //   data: userInfo,
-    // })
-    //   .then((res) => {
-    //     setScreen((prevCount) => prevCount + 1);
-    //     scrollDivToTop();
-    //     setDissabled(false);
-    //     return toast.success(`OTP has been sent to ${userEmail}`);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.message);
-    //     setDissabled(false);
-    //     return navigate("/", { replace: true });
-    //   });
-  }
+    axiosInterceptor({
+      method: "post",
+      url: "/auth/forgot-password",
+      data: userInfo,
+    })
+      .then((res) => {
+        toast.success(res.message);
+        setTimeout(() => {
+          setScreen((prevCount) => prevCount + 1);
+          scrollDivToTop();
+          setDissabled(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        toast.error(err.message);
 
+        setTimeout(() => {
+          setDissabled(false);
+        }, 1000);
+      });
+  };
 
   // OTP VERIFICATION
 
@@ -125,31 +131,26 @@ const SignUp: React.FC = () => {
 
   const verifyOtp = () => {
     if (!otp.length) return toast.error(`Please enter OTP`);
-    if (otp.length < 6) return toast.error(`Incorrect OTP`);
-
+    if (otp.length < 4) return toast.error(`Incorrect OTP`);
     setDissabled(true);
 
-    setScreen((prevCount) => prevCount + 1);
-    // setOtp(res.data.otp);
-    setDissabled(false);
-
-    // axiosInterceptor({
-    //   method: "post",
-    //   url: "/api/authentication/verifyUserEmail",
-    //   data: { userEmail, otp },
-    // })
-    //   .then((res) => {
-    //     if (!res.success) return toast.error(res.message);
-    //     setScreen((prevCount) => prevCount + 1);
-    //     setOtp(res.data.otp);
-    //     setDissabled(false);
-    //     return toast.success(`OTP verification successfull`);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.message);
-    //     setDissabled(false);
-    //     return navigate("/", { replace: true });
-    //   });
+    axiosInterceptor({
+      method: "post",
+      url: "/auth/check-otp",
+      data: { otp, userEmail },
+    })
+      .then((res) => {
+        toast.success(res.message);
+        scrollDivToTop();
+        setTimeout(() => {
+          setScreen((prevCount) => prevCount + 1);
+          setDissabled(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setDissabled(false);
+      });
   };
 
   const [password, setPassword] = useState("");
@@ -164,7 +165,6 @@ const SignUp: React.FC = () => {
   });
 
   useEffect(() => {
-    
     let newObject = {
       text: "Password Strength",
       textColor: "bg-text-200",
@@ -219,6 +219,25 @@ const SignUp: React.FC = () => {
     if (passStColor.text !== "strong" && passStColor.text !== "moderate")
       return toast.error(`Your password is weak`);
 
+    axiosInterceptor({
+      method: "post",
+      url: "/auth/set-password",
+      data: { otp, userEmail, password },
+    })
+      .then((res) => {
+        toast.success(res.message);
+        setToken(res.token)
+          .then(() => {
+            navigate("/", { replace: true });
+          })
+          .catch(() => {
+            toast.error("Something went wrong");
+          });
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setDissabled(false);
+      });
 
     // toast.success(`Authentication Successfull `);
     // toast.success(`User ${userEmail} created`);
@@ -267,7 +286,9 @@ const SignUp: React.FC = () => {
                 className="px-8 py-3 mb-4 rounded-md w-100 bg-slate-100"
                 placeholder="Enter Email"
                 value={userEmail}
-                onChange={(e) => setUserEmail(e.currentTarget.value)}
+                onChange={(e) =>
+                  setUserEmail(e.currentTarget.value.toLocaleLowerCase())
+                }
               />
               <input
                 type="number"
@@ -337,16 +358,20 @@ const SignUp: React.FC = () => {
               </div>
 
               <div className="min-h-12"></div>
-              
+
               <div className="absolute bottom-0 w-100 m-auto py-md-4 pt-4 pb-3">
-              <button
-                disabled={dissabled}
-                className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
-                onClick={sendVerificationCode}
-              >
-                Send Verification Code
-              </button>
-            </div>
+                <button
+                  disabled={dissabled}
+                  className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
+                  onClick={sendVerificationCode}
+                >
+                  {dissabled ? (
+                    <div className="spinner-border spinner-border-sm text-white"></div>
+                  ) : (
+                    <span>Send Verification Code</span>
+                  )}
+                </button>
+              </div>
             </div>
           )}
 
@@ -361,17 +386,21 @@ const SignUp: React.FC = () => {
                 value={otp}
                 onChange={(e) => setOtp(e.currentTarget.value)}
               />
-            <div className="absolute bottom-14 left-0 w-100">
-              <div className="m-auto py-md-4 pt-4 pb-3 w-75">
-              <button
-                disabled={dissabled}
-                className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
-                onClick={verifyOtp}
-                >
-                Verify OTP
-              </button>
+              <div className="absolute bottom-14 left-0 w-100">
+                <div className="m-auto py-md-4 pt-4 pb-3 w-75">
+                  <button
+                    disabled={dissabled}
+                    className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
+                    onClick={verifyOtp}
+                  >
+                    {dissabled ? (
+                      <div className="spinner-border spinner-border-sm text-white"></div>
+                    ) : (
+                      <span>Verify OTP</span>
+                    )}
+                  </button>
                 </div>
-            </div>
+              </div>
             </div>
           )}
 
@@ -416,23 +445,26 @@ const SignUp: React.FC = () => {
               </div>
 
               <div className="absolute bottom-14 left-0 w-100">
-              <div className="m-auto py-md-4 pt-4 pb-3 w-75">
-              <button
-                disabled={dissabled}
-                className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
-                onClick={createUser}
-              >
-                Verify OTP
-              </button>
-
-            </div>
-            </div>
+                <div className="m-auto py-md-4 pt-4 pb-3 w-75">
+                  <button
+                    disabled={dissabled}
+                    className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
+                    onClick={createUser}
+                  >
+                    {dissabled ? (
+                      <div className="spinner-border spinner-border-sm text-white"></div>
+                    ) : (
+                      <span>Confirm Password</span>
+                    )}
+                  </button>
+                </div>
+              </div>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default SignUp;

@@ -1,14 +1,17 @@
 import { useState, useRef, useEffect } from "react";
-// import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { emailRegex, weakPasswordRegex, strongPasswordRegex } from "../../utils/regex";
+import {
+  emailRegex,
+  weakPasswordRegex,
+  strongPasswordRegex,
+} from "../../utils/regex";
 import { otpStrengthInterface } from "../../constants/interfaces";
-// import { initialUserSchema } from "../../utils/authSchemas.js";
-// import axiosInterceptor from "../../utils/axiosInterceptor";
+import axiosInterceptor from "../../utils/axiosInterceptor";
+import { setToken } from "../../utils/setLocalStorage";
 
 const ForgotPassword: React.FC = () => {
-  
-  // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const scrollableDivRef = useRef<HTMLDivElement | null>(null);
   function scrollDivToTop() {
@@ -26,45 +29,41 @@ const ForgotPassword: React.FC = () => {
   const [userEmail, setUserEmail] = useState<string>("");
 
   const validateUserInfo = (): null | string => {
-
-    if(!emailRegex.test(userEmail)){
-      toast.error("Enter a valid email address")
-      return null
+    if (!emailRegex.test(userEmail)) {
+      toast.error("Enter a valid email address");
+      return null;
     }
 
     return userEmail;
   };
 
   const sendVerificationCode = () => {
-
-    const userEmail= validateUserInfo()
-    if(!userEmail) return
-
-    console.log(userEmail)
+    const userEmail = validateUserInfo();
+    if (!userEmail) return;
 
     setDissabled(true);
-    setScreen((prevCount) => prevCount + 1);
-    scrollDivToTop();
-    setDissabled(false);
 
-    // axiosInterceptor({
-    //   method: "post",
-    //   url: "/api/authentication/sendVerificationCode",
-    //   data: userInfo,
-    // })
-    //   .then((res) => {
-    //     setScreen((prevCount) => prevCount + 1);
-    //     scrollDivToTop();
-    //     setDissabled(false);
-    //     return toast.success(`OTP has been sent to ${userEmail}`);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.message);
-    //     setDissabled(false);
-    //     return navigate("/", { replace: true });
-    //   });
-  }
+    axiosInterceptor({
+      method: "post",
+      url: "/auth/forgot-password",
+      data: { userEmail },
+    })
+      .then((res) => {
+        toast.success(res.message);
+        setTimeout(() => {
+          setScreen((prevCount) => prevCount + 1);
+          scrollDivToTop();
+          setDissabled(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        toast.error(err.message);
 
+        setTimeout(() => {
+          setDissabled(false);
+        }, 1000);
+      });
+  };
 
   // OTP VERIFICATION
 
@@ -72,31 +71,26 @@ const ForgotPassword: React.FC = () => {
 
   const verifyOtp = () => {
     if (!otp.length) return toast.error(`Please enter OTP`);
-    if (otp.length < 6) return toast.error(`Incorrect OTP`);
-
+    if (otp.length < 4) return toast.error(`Incorrect OTP`);
     setDissabled(true);
 
-    setScreen((prevCount) => prevCount + 1);
-    // setOtp(res.data.otp);
-    setDissabled(false);
-
-    // axiosInterceptor({
-    //   method: "post",
-    //   url: "/api/authentication/verifyUserEmail",
-    //   data: { userEmail, otp },
-    // })
-    //   .then((res) => {
-    //     if (!res.success) return toast.error(res.message);
-    //     setScreen((prevCount) => prevCount + 1);
-    //     setOtp(res.data.otp);
-    //     setDissabled(false);
-    //     return toast.success(`OTP verification successfull`);
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.message);
-    //     setDissabled(false);
-    //     return navigate("/", { replace: true });
-    //   });
+    axiosInterceptor({
+      method: "post",
+      url: "/auth/check-otp",
+      data: { otp, userEmail },
+    })
+      .then((res) => {
+        toast.success(res.message);
+        scrollDivToTop();
+        setTimeout(() => {
+          setScreen((prevCount) => prevCount + 1);
+          setDissabled(false);
+        }, 1000);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setDissabled(false);
+      });
   };
 
   const [password, setPassword] = useState("");
@@ -111,7 +105,6 @@ const ForgotPassword: React.FC = () => {
   });
 
   useEffect(() => {
-    
     let newObject = {
       text: "Password Strength",
       textColor: "bg-text-200",
@@ -166,24 +159,25 @@ const ForgotPassword: React.FC = () => {
     if (passStColor.text !== "strong" && passStColor.text !== "moderate")
       return toast.error(`Your password is weak`);
 
-
-    // toast.success(`Authentication Successfull `);
-    // toast.success(`User ${userEmail} created`);
-
-    // axiosInterceptor({
-    //   method: "put",
-    //   url: "/api/authentication/setUserPassword",
-    //   data: { userEmail, otp, password, src: "set" },
-    // })
-    //   .then((res) => {
-    //     toast.success(`Authentication Successfull `);
-    //     toast.success(`User ${userEmail} created`);
-    //     return navigate("/", { replace: true });
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.message);
-    //     return navigate("/", { replace: true });
-    //   });
+    axiosInterceptor({
+      method: "post",
+      url: "/auth/set-password",
+      data: { otp, userEmail, password },
+    })
+      .then((res) => {
+        toast.success(res.message);
+        setToken(res.token)
+          .then(() => {
+            navigate("/", { replace: true });
+          })
+          .catch(() => {
+            toast.error("Something went wrong");
+          });
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setDissabled(false);
+      });
   };
 
   return (
@@ -207,18 +201,24 @@ const ForgotPassword: React.FC = () => {
                 className="px-8 py-3 mb-4 rounded-md w-100 bg-slate-100"
                 placeholder="Enter Email"
                 value={userEmail}
-                onChange={(e) => setUserEmail(e.currentTarget.value)}
+                onChange={(e) =>
+                  setUserEmail(e.currentTarget.value.toLocaleLowerCase())
+                }
               />
 
-            <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
-              <button
-                disabled={dissabled}
-                className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
-                onClick={sendVerificationCode}
+              <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
+                <button
+                  disabled={dissabled}
+                  className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
+                  onClick={sendVerificationCode}
                 >
-                Send Verification Code
-              </button>
-            </div>
+                  {dissabled ? (
+                    <div className="spinner-border spinner-border-sm text-white"></div>
+                  ) : (
+                    <span>Send Verification Code</span>
+                  )}
+                </button>
+              </div>
             </div>
           )}
 
@@ -234,15 +234,19 @@ const ForgotPassword: React.FC = () => {
                 onChange={(e) => setOtp(e.currentTarget.value)}
               />
 
-            <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
-              <button
-                disabled={dissabled}
-                className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
-                onClick={verifyOtp}
-              >
-                Verify OTP
-              </button>
-            </div>
+              <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
+                <button
+                  disabled={dissabled}
+                  className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
+                  onClick={verifyOtp}
+                >
+                  {dissabled ? (
+                    <div className="spinner-border spinner-border-sm text-white"></div>
+                  ) : (
+                    <span>Verify OTP</span>
+                  )}
+                </button>
+              </div>
             </div>
           )}
 
@@ -286,22 +290,25 @@ const ForgotPassword: React.FC = () => {
                 />
               </div>
 
-
-            <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
-              <button
-                disabled={dissabled}
-                className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
-                onClick={createUser}
-              >
-                Verify OTP
-              </button>
-            </div>
+              <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
+                <button
+                  disabled={dissabled}
+                  className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
+                  onClick={createUser}
+                >
+                  {dissabled ? (
+                    <div className="spinner-border spinner-border-sm text-white"></div>
+                  ) : (
+                    <span>Change Password</span>
+                  )}
+                </button>
+              </div>
             </div>
           )}
         </div>
       </div>
     </div>
   );
-}
+};
 
 export default ForgotPassword;
