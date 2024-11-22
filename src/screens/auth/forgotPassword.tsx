@@ -206,7 +206,7 @@ const ForgotPassword: React.FC = () => {
                 }
               />
 
-              <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
+              <div className="absolute bottom-14 w-50 m-auto py-md-4 pt-4 pb-3">
                 <button
                   disabled={dissabled}
                   className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
@@ -234,7 +234,7 @@ const ForgotPassword: React.FC = () => {
                 onChange={(e) => setOtp(e.currentTarget.value)}
               />
 
-              <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
+              <div className="absolute bottom-14 w-50 m-auto py-md-4 pt-4 pb-3">
                 <button
                   disabled={dissabled}
                   className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
@@ -290,7 +290,7 @@ const ForgotPassword: React.FC = () => {
                 />
               </div>
 
-              <div className="absolute bottom-14 w-75 m-auto py-md-4 pt-4 pb-3">
+              <div className="absolute bottom-14 w-50 m-auto py-md-4 pt-4 pb-3">
                 <button
                   disabled={dissabled}
                   className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"

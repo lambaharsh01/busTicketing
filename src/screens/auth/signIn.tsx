@@ -26,7 +26,7 @@ const SignIn: React.FC = () => {
       .then((res) => {
         setToken(res.token)
           .then(() => {
-            toast.error(res.message);
+            toast.success(res.message);
             navigate("/", { replace: true });
           })
           .catch(() => {

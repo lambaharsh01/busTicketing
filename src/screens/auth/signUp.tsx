@@ -28,15 +28,13 @@ const SignUp: React.FC = () => {
     }
   }
 
+
   const [screen, setScreen] = useState<number>(0);
   const [dissabled, setDissabled] = useState<boolean>(false);
 
   const [userName, setUserName] = useState<string>("");
   const [userEmail, setUserEmail] = useState<string>("");
   const [phoneNumber, setPhoneNumber] = useState<string>("");
-  const [day, setDay] = useState<string>("");
-  const [month, setMonth] = useState<string>("");
-  const [year, setYear] = useState<string>("");
   const [gender, setGender] = useState<string>("");
 
   const validateUserInfo = (): null | initialSignUpDataInterface => {
@@ -105,7 +103,7 @@ const SignUp: React.FC = () => {
 
     axiosInterceptor({
       method: "post",
-      url: "/auth/forgot-password",
+      url: "/auth/initial-sign-up",
       data: userInfo,
     })
       .then((res) => {
@@ -118,7 +116,6 @@ const SignUp: React.FC = () => {
       })
       .catch((err) => {
         toast.error(err.message);
-
         setTimeout(() => {
           setDissabled(false);
         }, 1000);
@@ -225,7 +222,7 @@ const SignUp: React.FC = () => {
       data: { otp, userEmail, password },
     })
       .then((res) => {
-        toast.success(res.message);
+        toast.success("Your password has been set");
         setToken(res.token)
           .then(() => {
             navigate("/", { replace: true });
@@ -239,24 +236,72 @@ const SignUp: React.FC = () => {
         setDissabled(false);
       });
 
-    // toast.success(`Authentication Successfull `);
-    // toast.success(`User ${userEmail} created`);
-
-    // axiosInterceptor({
-    //   method: "put",
-    //   url: "/api/authentication/setUserPassword",
-    //   data: { userEmail, otp, password, src: "set" },
-    // })
-    //   .then((res) => {
-    //     toast.success(`Authentication Successfull `);
-    //     toast.success(`User ${userEmail} created`);
-    //     return navigate("/", { replace: true });
-    //   })
-    //   .catch((err) => {
-    //     toast.error(err.message);
-    //     return navigate("/", { replace: true });
-    //   });
   };
+
+
+
+  const [day, setDay] = useState<string>("");
+  const [month, setMonth] = useState<string>("");
+  const [year, setYear] = useState<string>("");
+
+  const dayInput = useRef<HTMLInputElement | null>(null);
+  const monthInput = useRef<HTMLInputElement | null>(null);
+  const yearInput = useRef<HTMLInputElement | null>(null);
+
+  const regex = /^[0-9]$/;
+
+  const handleDayInput = (e:React.KeyboardEvent<HTMLInputElement>)=>{
+    const keyPressed = e.key;
+    const inputValue = e.currentTarget.value;
+
+    if(!regex.test(keyPressed) &&  keyPressed !== "Backspace") return
+    
+    if(inputValue.length>2 && keyPressed !== "Backspace"){
+      monthInput.current?.focus()
+    }
+
+    if(inputValue.length===2 && keyPressed !== "Backspace"){
+      monthInput.current?.focus()
+    }
+  }
+
+  const handleMonthInput= (e:React.KeyboardEvent<HTMLInputElement>)=>{
+    const keyPressed = e.key;
+    const inputValue = e.currentTarget.value;
+
+    if(!regex.test(keyPressed) &&  keyPressed !== "Backspace") return
+
+    if(inputValue.length>2 && keyPressed !== "Backspace"){
+      yearInput.current?.focus()
+    }
+    
+    if(inputValue.length===2 && keyPressed !== "Backspace"){
+      yearInput.current?.focus()
+    }
+
+    if(inputValue.length===0 && keyPressed === "Backspace"){
+      e.currentTarget.value=""
+      dayInput.current?.focus()
+    }
+  }
+
+  const handleYearInput = (e:React.KeyboardEvent<HTMLInputElement>) =>{
+    const keyPressed = e.key;
+    const inputValue = e.currentTarget.value;
+
+    if(!regex.test(keyPressed) &&  keyPressed !== "Backspace") return
+    
+    if(inputValue.length>3 && keyPressed !== "Backspace"){
+      return e.currentTarget.value = e.currentTarget.value.slice(0,3)
+    }
+
+    if(inputValue.length===0 && keyPressed === "Backspace"){
+      e.currentTarget.value=""
+      monthInput.current?.focus()
+    }
+  }
+  
+
 
   return (
     <div className="flex justify-center w-full h-screen rentCoRed">
@@ -301,28 +346,34 @@ const SignUp: React.FC = () => {
                 <div className="w-25 pe-1">
                   <input
                     type="number"
+                    ref={dayInput}
                     className="ps-2 ps-md-4 py-3 rounded-md w-100 bg-slate-100"
                     placeholder="Day"
-                    value={day}
-                    onChange={(e) => setDay(e.currentTarget.value)}
+                    // value={day}
+                    onKeyDown={handleDayInput}
+                    onKeyUp={e=>setDay(e.currentTarget.value)}
                   />
                 </div>
                 <div className="w-25 px-1">
                   <input
                     type="number"
+                    ref={monthInput}
                     className="ps-2 ps-md-4 py-3 rounded-md w-100 bg-slate-100"
                     placeholder="Month"
-                    value={month}
-                    onChange={(e) => setMonth(e.currentTarget.value)}
+                    // value={month}
+                    onKeyDown={handleMonthInput}
+                    onKeyUp={e=>setMonth(e.currentTarget.value)}
                   />
                 </div>
                 <div className="w-50 ps-1">
                   <input
                     type="number"
+                    ref={yearInput}
                     className="ps-2 ps-md-4 py-3 rounded-md w-100 bg-slate-100"
                     placeholder="Birth Year"
-                    value={year}
-                    onChange={(e) => setYear(e.currentTarget.value)}
+                    // value={year}
+                    onKeyDown={handleYearInput}
+                    onKeyUp={e=>setYear(e.currentTarget.value)}
                   />
                 </div>
               </div>

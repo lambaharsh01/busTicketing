@@ -40,8 +40,7 @@ export default async function axiosInterceptor({
     if (!url) throw new Error("Url not provided");
 
     const apiMethod = method.toLowerCase().trim();
-    let apiUrl =
-      process.env.REACT_APP_BASE_URI || "http://192.168.69.145:8000/api";
+    let apiUrl = process.env.REACT_APP_BASE_URI || "http://192.168.116.92:8000/api";
     apiUrl += url.trim() + convertQueryString(query);
 
     const axiosInstance: AxiosInstance = axios.create();

@@ -60,10 +60,27 @@ export const setBusColors = async (
   try {
     const stringedBusColor: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
+
     if (stringedBusColor.mb > threeHundredKb)
       throw new Error(
         `Bus Colors are of size ${stringedBusColor.mb}mb exciding the limit of ${threeHundredKb}mb`
       );
+
+      
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-colors",
+          data: {colors: stringedBusColor.parsed},
+        })
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+
+
 
     localStorage.setItem(
       localStorageItems.busColors,
@@ -86,6 +103,21 @@ export const setBusInitials = async (
         `Bus Initials are of size ${stringedBusInitial.mb}mb exciding the limit of ${threeHundredKb}mb`
       );
 
+    
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-initials",
+          data: {initials: stringedBusInitial.parsed},
+        })
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+      
+
     localStorage.setItem(
       localStorageItems.busInitials,
       stringedBusInitial.stringified
@@ -107,6 +139,22 @@ export const setBusRoutesInfo = async (
         `Bus Colors are of size ${stringedBusRouteInfo.mb}mb exciding the limit of ${fiveHundredKb}mb`
       );
 
+
+      
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-routes",
+          data: {routes: stringedBusRouteInfo.parsed},
+        })
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+  
+
     localStorage.setItem(
       localStorageItems.busRoutes,
       stringedBusRouteInfo.stringified
@@ -127,6 +175,21 @@ export const setBusStops = async (
       throw new Error(
         `Bus Stops are of size ${stringedBusStops.mb}mb exciding the limit of ${threeHundredKb}mb`
       );
+
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-stops",
+          data: {stops: stringedBusStops.parsed},
+        })
+  
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+  
 
     localStorage.setItem(
       localStorageItems.busStops,
@@ -174,14 +237,19 @@ export const setTicketData = async (
       latitude: stringedLongitude,
     };
 
-    // try {
-    //   let apiResponse = await axiosInterceptor({
-    //     method: "post",
-    //     url: "/ticketing/add-ticket",
-    //   })
-    // } catch (err) {
+    try {
+      await axiosInterceptor({
+        method: "post",
+        url: "/ticketing/add-ticket",
+        data: ticketStaged,
+      })
 
-    // }
+    } catch (err: unknown) {
+      if (err instanceof Error){
+        throw new Error(err.message);
+      }
+        throw new Error("An unknown error occurred");
+    }
 
     const discountedCost: number = findDiscountedAmount(
       parameter.ticketAmount * parameter.ticketCount,
