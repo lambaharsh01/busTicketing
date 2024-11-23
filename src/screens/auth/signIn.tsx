@@ -16,6 +16,10 @@ const SignIn: React.FC = () => {
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
   const authenticateUser = () => {
+    
+    if(userEmail.length < 4) return toast.error("Please enter a valid email")
+    if(password.length < 4) return toast.error("Password is incorrect")
+
     setDissabled(true);
 
     axiosInterceptor({
