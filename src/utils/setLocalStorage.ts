@@ -4,27 +4,42 @@ import {
   busRouteInterface,
   ticketStyleInterface,
   ticketStagingInterface,
-  // ticketStagedInterface,
-  // coordinatesInterface,
+  ticketStagedInterface,
+  coordinatesInterface,
   busTicketStorageInterface,
 } from "../constants/interfaces";
 import { localStorageItems } from "../constants/localStorageDataDictionary";
 import errorMessage from "./errorMessage";
 import { getStringSize, findDiscountedAmount } from "./structures";
-// import fetchCoordinates from "./getGeoLocation";
+import fetchCoordinates from "./getGeoLocation";
 // import { getUserEmail, getTicketStore } from "./getLocalStorage";
 import { getTicketStore } from "./getLocalStorage";
 import { currentTimeStamp } from "./time";
 
-
-
 import { threeHundredKb, fiveHundredKb } from "../constants/config";
+import axiosInterceptor from "./axiosInterceptor";
 
-export const setTicketProcessingStatus= (parameter: boolean) =>{
-  localStorage.setItem(localStorageItems.ticketProcessingStatus, JSON.stringify(parameter));
-}
+export const setTicketProcessingStatus = (parameter: boolean) => {
+  localStorage.setItem(
+    localStorageItems.ticketProcessingStatus,
+    JSON.stringify(parameter)
+  );
+};
 
-export const setDiscount = async(parameter: number): Promise<localStorageResponse> => {
+export const setToken = async (
+  parameter: string
+): Promise<localStorageResponse> => {
+  try {
+    localStorage.setItem(localStorageItems.token, parameter);
+    return { success: true };
+  } catch (error) {
+    throw new Error(errorMessage(error));
+  }
+};
+
+export const setDiscount = async (
+  parameter: number
+): Promise<localStorageResponse> => {
   try {
     if (parameter < 0)
       throw new Error("Discount can not be of a negative value.");
@@ -35,18 +50,37 @@ export const setDiscount = async(parameter: number): Promise<localStorageRespons
 
     return { success: true };
   } catch (error) {
-    throw new Error(errorMessage(error))
+    throw new Error(errorMessage(error));
   }
 };
 
-export const setBusColors = async(parameter: string[]): Promise<localStorageResponse> => {
+export const setBusColors = async (
+  parameter: string[]
+): Promise<localStorageResponse> => {
   try {
     const stringedBusColor: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
+
     if (stringedBusColor.mb > threeHundredKb)
       throw new Error(
         `Bus Colors are of size ${stringedBusColor.mb}mb exciding the limit of ${threeHundredKb}mb`
       );
+
+      
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-colors",
+          data: {colors: stringedBusColor.parsed},
+        })
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+
+
 
     localStorage.setItem(
       localStorageItems.busColors,
@@ -54,11 +88,13 @@ export const setBusColors = async(parameter: string[]): Promise<localStorageResp
     );
     return { success: true };
   } catch (error) {
-    throw new Error(errorMessage(error))
+    throw new Error(errorMessage(error));
   }
 };
 
-export const setBusInitials = async(parameter: string[]): Promise<localStorageResponse> => {
+export const setBusInitials = async (
+  parameter: string[]
+): Promise<localStorageResponse> => {
   try {
     const stringedBusInitial: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
@@ -67,17 +103,32 @@ export const setBusInitials = async(parameter: string[]): Promise<localStorageRe
         `Bus Initials are of size ${stringedBusInitial.mb}mb exciding the limit of ${threeHundredKb}mb`
       );
 
+    
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-initials",
+          data: {initials: stringedBusInitial.parsed},
+        })
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+      
+
     localStorage.setItem(
       localStorageItems.busInitials,
       stringedBusInitial.stringified
     );
     return { success: true };
   } catch (error) {
-    throw new Error(errorMessage(error))
+    throw new Error(errorMessage(error));
   }
 };
 
-export const setBusRoutesInfo = async(
+export const setBusRoutesInfo = async (
   parameter: busRouteInterface[]
 ): Promise<localStorageResponse> => {
   try {
@@ -88,17 +139,35 @@ export const setBusRoutesInfo = async(
         `Bus Colors are of size ${stringedBusRouteInfo.mb}mb exciding the limit of ${fiveHundredKb}mb`
       );
 
+
+      
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-routes",
+          data: {routes: stringedBusRouteInfo.parsed},
+        })
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+  
+
     localStorage.setItem(
       localStorageItems.busRoutes,
       stringedBusRouteInfo.stringified
     );
     return { success: true };
   } catch (error) {
-    throw new Error(errorMessage(error))
+    throw new Error(errorMessage(error));
   }
 };
 
-export const setBusStops = async(parameter: string[]): Promise<localStorageResponse> => {
+export const setBusStops = async (
+  parameter: string[]
+): Promise<localStorageResponse> => {
   try {
     const stringedBusStops: structureGetStringSizeReturnInterface =
       getStringSize(parameter);
@@ -107,17 +176,32 @@ export const setBusStops = async(parameter: string[]): Promise<localStorageRespo
         `Bus Stops are of size ${stringedBusStops.mb}mb exciding the limit of ${threeHundredKb}mb`
       );
 
+      try {
+        await axiosInterceptor({
+          method: "post",
+          url: "/ticketing/save-bus-stops",
+          data: {stops: stringedBusStops.parsed},
+        })
+  
+      } catch (err: unknown) {
+        if (err instanceof Error){
+          throw new Error(err.message);
+        }
+          throw new Error("An unknown error occurred");
+      }
+  
+
     localStorage.setItem(
       localStorageItems.busStops,
       stringedBusStops.stringified
     );
     return { success: true };
   } catch (error) {
-    throw new Error(errorMessage(error))
+    throw new Error(errorMessage(error));
   }
 };
 
-export const setTicketStyling = async(
+export const setTicketStyling = async (
   parameter: ticketStyleInterface
 ): Promise<localStorageResponse> => {
   try {
@@ -131,63 +215,78 @@ export const setTicketStyling = async(
 
     return { success: true };
   } catch (error) {
-    throw new Error(errorMessage(error))
+    throw new Error(errorMessage(error));
   }
 };
 
-
-export const setTicketData = async(
-  parameter:ticketStagingInterface
-):Promise<busTicketStorageInterface> => {
-  try{
+export const setTicketData = async (
+  parameter: ticketStagingInterface
+): Promise<busTicketStorageInterface> => {
+  try {
     const currentTime: string = currentTimeStamp();
-    
-    // const { latitude, longitude }:coordinatesInterface= await fetchCoordinates();
-    // const stringedLatitude: string = latitude.toString()
-    // const stringedLongitude: string = longitude.toString()
 
-    // const userId= getUserEmail()
-    // if(!userId) throw new Error("User email is required")
+    const { latitude, longitude }: coordinatesInterface =
+      await fetchCoordinates();
+    const stringedLatitude: string = latitude.toString();
+    const stringedLongitude: string = longitude.toString();
 
-    // const ticketStaged:ticketStagedInterface={
-    // ...parameter,
-    // userId,
-    // purchaseTime:currentTime,
-    // longitude:stringedLatitude,
-    // latitude:stringedLongitude,
-    // }
+    const ticketStaged: ticketStagedInterface = {
+      ...parameter,
+      purchaseTime: currentTime,
+      longitude: stringedLatitude,
+      latitude: stringedLongitude,
+    };
+
+    try {
+      await axiosInterceptor({
+        method: "post",
+        url: "/ticketing/add-ticket",
+        data: ticketStaged,
+      })
+
+    } catch (err: unknown) {
+      if (err instanceof Error){
+        throw new Error(err.message);
+      }
+        throw new Error("An unknown error occurred");
+    }
 
     const discountedCost: number = findDiscountedAmount(
       parameter.ticketAmount * parameter.ticketCount,
       parameter.discount
     );
-    
-  const ticketToBeStored: busTicketStorageInterface ={
-    busColor: parameter.busColor,
-    busInitials:parameter.busInitials,
-    busNumber:parameter.busNumber,
-    busRoute:parameter.busRoute,
-    startingStop:parameter.startingStop,
-    endingStop:parameter.endStop,
-    totalCost: parameter.ticketAmount,
-    ticketCount: parameter.ticketCount,
-    discountedCost:discountedCost,
-    bookingTime:currentTime,
-  }
 
-  const currentTicketStore: busTicketStorageInterface[] = getTicketStore();
-  if(currentTicketStore.length > 9){ // i want it to be 6 at max
-    currentTicketStore.pop()
-    currentTicketStore.unshift(ticketToBeStored)
-  }else{
-    currentTicketStore.unshift(ticketToBeStored)
-  }
+    const ticketToBeStored: busTicketStorageInterface = {
+      busColor: parameter.busColor,
+      busInitials: parameter.busInitials,
+      busNumber: parameter.busNumber,
+      busRoute: parameter.busRoute,
+      startingStop: parameter.startingStop,
+      endingStop: parameter.endStop,
+      totalCost: parameter.ticketAmount,
+      ticketCount: parameter.ticketCount,
+      discountedCost: discountedCost,
+      bookingTime: currentTime,
+    };
 
-  const stringedCurrentTicketStore: string = JSON.stringify(currentTicketStore);
-  localStorage.setItem(localStorageItems.ticketStore, stringedCurrentTicketStore)
+    const currentTicketStore: busTicketStorageInterface[] = getTicketStore();
+    if (currentTicketStore.length > 9) {
+      // i want it to be 6 at max
+      currentTicketStore.pop();
+      currentTicketStore.unshift(ticketToBeStored);
+    } else {
+      currentTicketStore.unshift(ticketToBeStored);
+    }
+
+    const stringedCurrentTicketStore: string =
+      JSON.stringify(currentTicketStore);
+    localStorage.setItem(
+      localStorageItems.ticketStore,
+      stringedCurrentTicketStore
+    );
 
     return ticketToBeStored;
-  }catch(error){
-    throw new Error(errorMessage(error))
+  } catch (error) {
+    throw new Error(errorMessage(error));
   }
-}
+};

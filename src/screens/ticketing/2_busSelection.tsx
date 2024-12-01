@@ -146,7 +146,11 @@ const BusSelection: React.FC = () => {
   return (
     <div className="h-screen relative">
       <div className=" mb-2 pt-2 ps-1 flex items-inline font-bold text-lg bg-transparent">
-        <IoArrowBack className="text-2xl me-8 z-50" onClick={() => {}} />
+        <IoArrowBack 
+        className="text-2xl me-8 z-50" 
+        onClick={() => navigate(client.dashboard, { replace: true })}
+        />
+        
         <span className="text-xl">Bus Selection.</span>
       </div>
 

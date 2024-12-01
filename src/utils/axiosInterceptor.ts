@@ -1,4 +1,9 @@
-import axios, { AxiosInstance, AxiosResponse, InternalAxiosRequestConfig } from "axios";
+import axios, {
+  AxiosInstance,
+  AxiosResponse,
+  InternalAxiosRequestConfig,
+} from "axios";
+import { localStorageItems } from "../constants/localStorageDataDictionary";
 
 interface AxiosInterceptorProps {
   method: string;
@@ -10,7 +15,7 @@ interface AxiosInterceptorProps {
 const isObject = (value: any): value is Record<string, any> =>
   value !== null && typeof value === "object" && !Array.isArray(value);
 
-const convertQueryString = (object:any): string => {
+const convertQueryString = (object: any): string => {
   if (!object || !isObject(object) || !Object.values(object).length) return "";
 
   const queryParameters: string[] = [];
@@ -35,14 +40,14 @@ export default async function axiosInterceptor({
     if (!url) throw new Error("Url not provided");
 
     const apiMethod = method.toLowerCase().trim();
-    let apiUrl = process.env.REACT_APP_BASE_URI || "http://192.168.40.92:8000";
+    let apiUrl = "https://charter-backend.lambaharsh01.in/api";
     apiUrl += url.trim() + convertQueryString(query);
 
     const axiosInstance: AxiosInstance = axios.create();
 
     axiosInstance.interceptors.request.use(
       (req: InternalAxiosRequestConfig) => {
-        const token = localStorage.getItem("authToken");
+        const token = localStorage.getItem(localStorageItems.token);
         if (token) req.headers.Authorization = `Bearer ${token}`;
         return req;
       },
@@ -123,14 +128,14 @@ export default async function axiosInterceptor({
         break;
     }
 
-    if (errorCode === 401) {
+    if (errorCode === 401 && !url.includes("/auth")) {
       alert("Session expired, please log in again");
-      localStorage.removeItem("authToken");
+      localStorage.removeItem(localStorageItems.token);
       window.location.href = "/";
     }
 
     const errorMessage =
-      error?.response?.data?.message ?? error?.message ?? statusMessage;
+      error?.response?.data?.error ?? error?.error ?? statusMessage;
 
     throw new Error(errorMessage);
   }

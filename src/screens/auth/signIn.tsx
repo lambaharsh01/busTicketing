@@ -2,10 +2,12 @@ import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { client } from "../../constants/urlPath";
 import { IoMdEye, IoMdEyeOff } from "react-icons/io";
+import axiosInterceptor from "../../utils/axiosInterceptor";
+import { toast } from "react-toastify";
+import { setToken } from "../../utils/setLocalStorage";
 
 const SignIn: React.FC = () => {
-
-  const navigate = useNavigate()
+  const navigate = useNavigate();
 
   const [userEmail, setUserEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
@@ -13,42 +15,33 @@ const SignIn: React.FC = () => {
   const [dissabled, setDissabled] = useState<boolean>(false);
   const [showPassword, setShowPassword] = useState<boolean>(false);
 
- 
   const authenticateUser = () => {
+    
+    if(userEmail.length < 4) return toast.error("Please enter a valid email")
+    if(password.length < 4) return toast.error("Password is incorrect")
+
     setDissabled(true);
-    // loginSchema
-    //   .validate({ userEmail, password }, { abortEarly: false })
-    //   .then((validUser) => {
-    //     axiosInterceptor({
-    //       method: "post",
-    //       url: "/api/authentication/loginAuthentication",
-    //       data: validUser,
-    //     })
-    //       .then((res) => {
 
-    //         setDissabled(false);
-
-    //         if (!res.data.token)  toast.error("Something went wrong");
-    //         localStorage.setItem("authToken", res.data.token);
-    //         toast.success(`Welcome back ${res.data.userName}!`);
-
-    //         getTenantDetails(true);
-    //         return navigate("/dashboard", { replace: true });
-    //       })
-    //       .catch((err) => {
-    //         toast.error(err.message);
-    //         setUserEmail("");
-    //         setPassword("");
-    //         setDissabled(false);
-    //       });
-    //   })
-    //   .catch((err) => {
-    //     if (err.errors?.[0] ?? null) {
-    //       toast.error(err.errors?.[0]);
-    //     } else {
-    //       toast.error("Validation failed some unknown error");
-    //     }
-    //   });
+    axiosInterceptor({
+      method: "post",
+      url: "/auth/sign-in",
+      data: { userEmail, password },
+    })
+      .then((res) => {
+        setToken(res.token)
+          .then(() => {
+            toast.success(res.message);
+            navigate("/", { replace: true });
+          })
+          .catch(() => {
+            setDissabled(false);
+            toast.error("Something went wrong");
+          });
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setDissabled(false);
+      });
   };
 
   return (
@@ -73,33 +66,46 @@ const SignIn: React.FC = () => {
 
               <div className="relative w-full">
                 <input
-                  type={ showPassword ? "text":"password"}
-                  className="px-8 py-3 mb-4 rounded-md w-100 bg-slate-100 pr-10" // Add padding-right for icon space
+                  type={showPassword ? "text" : "password"}
+                  className="px-8 py-3 mb-4 rounded-md w-100 bg-slate-100 pr-10"
                   placeholder="Enter Password"
                   value={password}
                   onChange={(e) => setPassword(e.currentTarget.value)}
                 />
                 <span className="absolute right-4 pt-14 transform -translate-y-1/2">
-                    {!showPassword && (  
-                      <IoMdEye className="text-2xl text-gray-500" onClick={() => { setShowPassword(true) }} />
-                    )}
-                  
-                    {showPassword && (  
-                      <IoMdEyeOff className="text-2xl text-gray-500" onClick={() => { setShowPassword(false) }} />
-                    )}
+                  {!showPassword && (
+                    <IoMdEye
+                      className="text-2xl text-gray-500"
+                      onClick={() => {
+                        setShowPassword(true);
+                      }}
+                    />
+                  )}
+
+                  {showPassword && (
+                    <IoMdEyeOff
+                      className="text-2xl text-gray-500"
+                      onClick={() => {
+                        setShowPassword(false);
+                      }}
+                    />
+                  )}
                 </span>
               </div>
               <div className="-mt-2 charterBlueText text-sm font-medium flex justify-between px-2">
-                <span 
-                className="pointers"
-                onClick={()=>navigate(client.forgotPassword)}
-                >Forgot Password?</span>
-                <span 
-                className="pointers"
-                onClick={()=>navigate(client.signUp)}
-                >Sign Up</span>
-                </div>
-
+                <span
+                  className="pointers"
+                  onClick={() => navigate(client.forgotPassword)}
+                >
+                  Forgot Password?
+                </span>
+                <span
+                  className="pointers"
+                  onClick={() => navigate(client.signUp)}
+                >
+                  Sign Up
+                </span>
+              </div>
             </div>
             <div className="mb-14">
               <button
@@ -107,7 +113,11 @@ const SignIn: React.FC = () => {
                 className="bg-slate-950 rounded-md text-white text-lg px-md-12 px-8 py-3 w-100"
                 onClick={authenticateUser}
               >
-                { dissabled ? (<div className="spinner-border spinner-border-sm text-white"></div>) : (<span>Sign In</span>)} 
+                {dissabled ? (
+                  <div className="spinner-border spinner-border-sm text-white"></div>
+                ) : (
+                  <span>Sign In</span>
+                )}
               </button>
             </div>
           </div>
@@ -115,6 +125,6 @@ const SignIn: React.FC = () => {
       </div>
     </div>
   );
-}
+};
 
 export default SignIn;

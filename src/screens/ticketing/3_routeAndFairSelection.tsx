@@ -163,7 +163,6 @@ const RouteSelection: React.FC = () => {
     }
 
     setTicketData(ticketDetails).then((res: busTicketStorageInterface)=>{
-
       setStartingStopContext(res.startingStop);
       setEndingStopContext(res.endingStop);
       setTicketCostContext(res.totalCost);
@@ -177,14 +176,20 @@ const RouteSelection: React.FC = () => {
     }).catch(err=>{
       toast.error(err.message)
       setCountinueLoading(false);
+      setTimeout(()=>{
+        toast.error(err.message)
+        navigate(client.dashboard, {replace:true})
+      }, 1000)
     })
-
   };
 
   return (
     <div className="h-screen relative">
       <div className=" mb-2 pt-2 ps-1 flex items-inline font-bold text-lg bg-transparent">
-        <IoArrowBack className="text-2xl me-8 z-50" onClick={() => {}} />
+        <IoArrowBack 
+        className="text-2xl me-8 z-50" 
+        onClick={() => navigate(client.dashboard, { replace: true })}
+        />
         <span className="text-xl">Route Selection.</span>
       </div>
 

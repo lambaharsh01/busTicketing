@@ -15,7 +15,7 @@ import Map from "../components/map";
 import AllTicketsComponent from "../components/allTicketsComponent";
 
 import { useSpring, animated } from "@react-spring/web";
-import { useDrag } from "react-use-gesture"; 
+import { useDrag } from "react-use-gesture";
 import { client } from "../constants/urlPath";
 
 import { setTicketProcessingStatus } from "../utils/setLocalStorage";
@@ -25,30 +25,25 @@ import { busTicketStorageInterface } from "../constants/interfaces";
 export default function Dashboard() {
   const navigate = useNavigate();
 
-
   const [lastSource, setLastSource] = useState<string>("");
   const [lastDestination, setLastDestination] = useState<string>("");
-  
-useEffect(()=>{
-  const token = getToken()
-  console.log(token)
-  // if(!userEmail) navigate(client.signIn, {replace:true}) 
-},[navigate])
 
-  useEffect(()=>{
+  useEffect(() => {
+    const token = getToken();
+    if (!token) navigate(client.signIn, { replace: true });
+  }, [navigate]);
 
+  useEffect(() => {
     setTicketProcessingStatus(false);
 
-    const ticketHistory: busTicketStorageInterface[] =getTicketStore()
-    const lastTicket: busTicketStorageInterface | undefined =ticketHistory[0]
-    
-    if(lastTicket){
-      setLastSource(lastTicket.startingStop)
-      setLastDestination(lastTicket.endingStop)
+    const ticketHistory: busTicketStorageInterface[] = getTicketStore();
+    const lastTicket: busTicketStorageInterface | undefined = ticketHistory[0];
+
+    if (lastTicket) {
+      setLastSource(lastTicket.startingStop);
+      setLastDestination(lastTicket.endingStop);
     }
-
-  }, [])
-
+  }, []);
 
   // Dragging
   const dragThreshold = 100; // Drag distance to hide the component
@@ -168,26 +163,26 @@ useEffect(()=>{
               </div>
               <div className="text-center">
                 <h6 className="font-medium text-lg">
-                Routes <br /> Info
+                  Routes <br /> Info
                 </h6>
               </div>
             </div>
 
-          <div>
-                <div className="w-20 h-20 p-2">
-                  <div
-                    className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
-                    onClick={() => navigate(client.stops)}
-                  >
-                    <BsFillSignStopFill className="text-4xl" />
-                  </div>
-                </div>
-                <div className="text-center">
-                  <h6 className="font-medium text-lg">
-                    Bus <br /> Stops
-                  </h6>
+            <div>
+              <div className="w-20 h-20 p-2">
+                <div
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={() => navigate(client.stops)}
+                >
+                  <BsFillSignStopFill className="text-4xl" />
                 </div>
               </div>
+              <div className="text-center">
+                <h6 className="font-medium text-lg">
+                  Bus <br /> Stops
+                </h6>
+              </div>
+            </div>
             <div>
               <div className="w-20 h-20 p-2">
                 <div
@@ -210,7 +205,7 @@ useEffect(()=>{
           <div className="mt-2 p-2 rounded-md border bg-white">
             <h5 className="font-extrabold">You are here</h5>
             <div className=" mt-3 w-full h-full overflow-hidden">
-              <Map height="140px" key="mapProp"/>
+              <Map height="140px" key="mapProp" />
             </div>
           </div>
         </div>
@@ -220,16 +215,15 @@ useEffect(()=>{
         <div className="px-2 pt-0.5">
           <div className="mt-4 flex justify-between">
             <h5 className="font-extrabold">Tickets</h5>
-            <h6 
-            className="text-slate-500 pointers"
-            onClick={()=>navigate(client.allTickets)}
-            >View all tickets</h6>
+            <h6
+              className="text-slate-500 pointers"
+              onClick={() => navigate(client.allTickets)}
+            >
+              View all tickets
+            </h6>
           </div>
           <div className="rounded-md border bg-white pt-2 px-2 dashboardTicketScreen mb-5">
-
-          <AllTicketsComponent key="allTickets"/>
-
-
+            <AllTicketsComponent key="allTickets" />
           </div>
         </div>
         {/* Tickets END */}
@@ -267,25 +261,25 @@ useEffect(()=>{
               </div>
 
               <div className="relative">
-              <div className="absolute -top-1.5 w-full text-center">
-                <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
-                  New
-                </span>
-              </div>
-              <div className="w-20 h-20 p-2">
-                <div
-                  className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
-                  onClick={() => navigate(client.route)}
-                >
-                  <LiaRouteSolid className="text-4xl" />
+                <div className="absolute -top-1.5 w-full text-center">
+                  <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
+                    New
+                  </span>
+                </div>
+                <div className="w-20 h-20 p-2">
+                  <div
+                    className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
+                    onClick={() => navigate(client.route)}
+                  >
+                    <LiaRouteSolid className="text-4xl" />
+                  </div>
+                </div>
+                <div className="text-center">
+                  <h6 className="font-medium text-lg">
+                    Routes <br /> Info
+                  </h6>
                 </div>
               </div>
-              <div className="text-center">
-                <h6 className="font-medium text-lg">
-                Routes <br /> Info
-                </h6>
-              </div>
-            </div>
               <div>
                 <div className="w-20 h-20 p-2">
                   <div
@@ -365,7 +359,10 @@ useEffect(()=>{
                   </span>
                 </div>
                 <div className="w-20 h-20 p-2">
-                  <div className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg">
+                  <div 
+                  className="w-full h-full iconSectionBlue border shadow-sm flex justify-center items-center rounded-lg"
+                  onClick={()=>navigate(client.allTickets)}
+                  >
                     <IoTimerOutline className="text-4xl" />
                   </div>
                 </div>
