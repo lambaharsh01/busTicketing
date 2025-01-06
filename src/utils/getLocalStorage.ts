@@ -9,18 +9,21 @@ export const getToken = (): string | null => {
   return localStorage.getItem(localStorageItems.token);
 };
 
-export const getTicketProcessingStatus= ():boolean =>{
-  const stringedTicketProcessingStatus: string | null = localStorage.getItem(localStorageItems.ticketProcessingStatus);
-  if(!stringedTicketProcessingStatus) return false;
-  return JSON.parse(stringedTicketProcessingStatus)
-}
+export const getTicketProcessingStatus = (): boolean => {
+  const stringedTicketProcessingStatus: string | null = localStorage.getItem(
+    localStorageItems.ticketProcessingStatus
+  );
+  if (!stringedTicketProcessingStatus) return false;
+  return JSON.parse(stringedTicketProcessingStatus);
+};
 
 export const getBusColors = (): string[] => {
   let stringedBusColors: string | null = localStorage.getItem(
     localStorageItems.busColors
   );
   if (!stringedBusColors)
-    stringedBusColors = '["#2E81EB", "#E48B40", "#3FA1AD", "#219652"]';
+    stringedBusColors =
+      '["#2E81EB", "#E48B40", "#3FA1AD", "#219652", "#C54741"]';
 
   const parsedBusColors: string[] = JSON.parse(stringedBusColors);
   return parsedBusColors;
@@ -41,8 +44,7 @@ export const getBusRoutes = (): string[] => {
   let stringedBusRoute: string | null = localStorage.getItem(
     localStorageItems.busRoutes
   );
-  if (!stringedBusRoute)
-    stringedBusRoute = `[]`;
+  if (!stringedBusRoute) stringedBusRoute = `[]`;
 
   const parsedBusRoutes: busRouteInterface[] = JSON.parse(stringedBusRoute);
   return parsedBusRoutes.map((elem) => elem.route);
@@ -52,8 +54,7 @@ export const getBusRoutesInfo = (): busRouteInterface[] => {
   let stringedBusRoute: string | null = localStorage.getItem(
     localStorageItems.busRoutes
   );
-  if (!stringedBusRoute)
-    stringedBusRoute = `[]`;
+  if (!stringedBusRoute) stringedBusRoute = `[]`;
 
   const parsedBusRoutes: busRouteInterface[] = JSON.parse(stringedBusRoute);
   return parsedBusRoutes;
@@ -63,7 +64,9 @@ export const getBusStops = (): string[] => {
   let stringedBusStops: string | null = localStorage.getItem(
     localStorageItems.busStops
   );
-  if (!stringedBusStops) stringedBusStops = '["Uttam Nagar Terminal", "Ghuman Hera Depot 2", "Dichau Kalan Depot"]';
+  if (!stringedBusStops)
+    stringedBusStops =
+      '["Uttam Nagar Terminal", "Ghuman Hera Depot 2", "Dichau Kalan Depot"]';
 
   const parsedBusStops: string[] = JSON.parse(stringedBusStops);
   return parsedBusStops;
@@ -104,11 +107,13 @@ export const getTicketStyling = (): ticketStyleInterface => {
   return parsedTicketStyle;
 };
 
+export const getTicketStore = (): busTicketStorageInterface[] => {
+  let stringedTicketStore: string | null = localStorage.getItem(
+    localStorageItems.ticketStore
+  );
+  if (!stringedTicketStore) stringedTicketStore = "[]";
 
-export const getTicketStore = (): busTicketStorageInterface[]=>{
-  let stringedTicketStore:string | null= localStorage.getItem(localStorageItems.ticketStore)
-  if(!stringedTicketStore) stringedTicketStore= '[]'
-
-  const parsedTicketStore:busTicketStorageInterface[] = JSON.parse(stringedTicketStore)
-  return parsedTicketStore
-}
+  const parsedTicketStore: busTicketStorageInterface[] =
+    JSON.parse(stringedTicketStore);
+  return parsedTicketStore;
+};
