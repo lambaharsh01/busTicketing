@@ -29,12 +29,12 @@ const BusSelection: React.FC = () => {
     );
   }
 
-  useEffect(()=>{
-    const startedProcessing= getTicketProcessingStatus()
-    if(!startedProcessing){
-      navigate(client.dashboard, {replace:true})
+  useEffect(() => {
+    const startedProcessing = getTicketProcessingStatus();
+    if (!startedProcessing) {
+      navigate(client.dashboard, { replace: true });
     }
-  }, [navigate])
+  }, [navigate]);
 
   const busColors = getBusColors();
   const busInitials = getBusInitials();
@@ -45,7 +45,11 @@ const BusSelection: React.FC = () => {
   const [busColor, setBusColor] = useState<string>("");
   const [busRoute, setBusRoute] = useState<string>("");
 
-  const [busTerminals, setBusTerminals] = useState<busRouteInterface>({ route:"", terminalA:"", terminalB:""})
+  const [busTerminals, setBusTerminals] = useState<busRouteInterface>({
+    route: "",
+    terminalA: "",
+    terminalB: "",
+  });
 
   const [continueLoading, setCountinueLoading] = useState<boolean>(false);
   const [busCountComponent, setBusCountComponent] = useState<number>(0);
@@ -80,7 +84,7 @@ const BusSelection: React.FC = () => {
     if (busRouteContext) setBusRoute(busRouteContext);
     setBusCountComponent((prevCount) => prevCount + 1);
   }, [busRouteContext]);
-  
+
   // INITIALIZATION PAST DATA END
 
   const handleBusInitialsSelection = (selected: {
@@ -99,7 +103,21 @@ const BusSelection: React.FC = () => {
     value: string;
   }) => {
     setBusRoute(selected.value);
-    setBusTerminals(allBusRoutes.filter(elem=> elem.route===selected.value)[0])
+
+    let route: busRouteInterface[] = allBusRoutes.filter(
+      (elem) => elem.route === selected.value
+    );
+
+    if (route.length) {
+      setBusTerminals(route[0]);
+      return;
+    }
+
+    setBusTerminals({
+      route: selected.value,
+      terminalA: "Select later",
+      terminalB: "Select later",
+    });
   };
 
   const handleContinue = () => {
@@ -134,23 +152,22 @@ const BusSelection: React.FC = () => {
     setCountinueLoading(false);
   };
 
-  const handleAddRouteRedirection = () =>{
-
+  const handleAddRouteRedirection = () => {
     setBusInitialsContext(busInitial);
     setBusColorContext(busColor);
     // setBusRouteContext(busRoute);
 
-    navigate(client.route)
-  }
+    navigate(client.route);
+  };
 
   return (
     <div className="h-screen relative">
       <div className=" mb-2 pt-2 ps-1 flex items-inline font-bold text-lg bg-transparent">
-        <IoArrowBack 
-        className="text-2xl me-8 z-50" 
-        onClick={() => navigate(client.dashboard, { replace: true })}
+        <IoArrowBack
+          className="text-2xl me-8 z-50"
+          onClick={() => navigate(client.dashboard, { replace: true })}
         />
-        
+
         <span className="text-xl">Bus Selection.</span>
       </div>
 
@@ -186,28 +203,39 @@ const BusSelection: React.FC = () => {
 
       <div className="mt-4 w-full px-3">
         <span className="text-lg font-medium">Select Bus Route</span>
-        {busTerminals.route && (<div className="flex justify-between pb-1.5 w-full">
-        <div className="flex">
-          <span className="text-md font-medium text-slate-400">{busTerminals.terminalA}</span>
-          <BsArrowLeftRight className="mx-3"/>
-          <span className="text-md font-medium text-slate-400">{busTerminals.terminalB}</span>
-        </div>
-        { (busTerminals.terminalA === selectLaterOption || busTerminals.terminalB === selectLaterOption) && (
-          <div 
-          className="flex pointers"
-          onClick={handleAddRouteRedirection}
-          >
-          <span className="text-sm font-medium text-blue-400">Add Route</span>
-          <LiaRouteSolid className="text-xl me-1 text-blue-400"/> 
+        {busTerminals.route && (
+          <div className="flex justify-between pb-1.5 w-full">
+            <div className="flex">
+              <span className="text-md font-medium text-slate-400">
+                {busTerminals.terminalA}
+              </span>
+              <BsArrowLeftRight className="mx-3" />
+              <span className="text-md font-medium text-slate-400">
+                {busTerminals.terminalB}
+              </span>
+            </div>
+            {(busTerminals.terminalA === selectLaterOption ||
+              busTerminals.terminalB === selectLaterOption) && (
+              <div
+                className="flex pointers"
+                onClick={handleAddRouteRedirection}
+              >
+                <span className="text-sm font-medium text-blue-400">
+                  Add Route
+                </span>
+                <LiaRouteSolid className="text-xl me-1 text-blue-400" />
+              </div>
+            )}
           </div>
         )}
-        </div>)}
         <div>
           <DropdownSearch
             key={"SelectRoute" + busCountComponent}
             options={converArrayIntoSearchStream(busRoutes)}
             placeholder={busRoute || "Select Bus Route"}
             onSelect={handleBusRouteSelection}
+            showCustom={true}
+            src="routes"
           />
         </div>
       </div>

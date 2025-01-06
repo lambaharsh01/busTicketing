@@ -9,7 +9,10 @@ import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
 import { getTicketProcessingStatus } from "../../utils/getLocalStorage";
-import { ticketStagingInterface, busTicketStorageInterface } from "../../constants/interfaces";
+import {
+  ticketStagingInterface,
+  busTicketStorageInterface,
+} from "../../constants/interfaces";
 import { setTicketData } from "../../utils/setLocalStorage";
 
 const RouteSelection: React.FC = () => {
@@ -22,12 +25,12 @@ const RouteSelection: React.FC = () => {
     );
   }
 
-  useEffect(()=>{
-    const startedProcessing= getTicketProcessingStatus()
-    if(!startedProcessing){
-      navigate(client.dashboard, {replace:true})
+  useEffect(() => {
+    const startedProcessing = getTicketProcessingStatus();
+    if (!startedProcessing) {
+      navigate(client.dashboard, { replace: true });
     }
-  }, [navigate])
+  }, [navigate]);
 
   // INITIALIZATION START
   const {
@@ -87,7 +90,7 @@ const RouteSelection: React.FC = () => {
 
   const [ticketAmount, setTicketAmount] = useState<number>(10);
   const [ticketCount, setTicketCount] = useState<number>(1);
-  const [discount,] = useState<number>(savedDiscount);
+  const [discount] = useState<number>(savedDiscount);
   const [continueLoading, setCountinueLoading] = useState<boolean>(false);
 
   const startingStops: string[] = busStops.filter((elem) => elem !== endStop);
@@ -130,27 +133,25 @@ const RouteSelection: React.FC = () => {
       toast.error("Enter ticket amount greater than 0");
       return;
     }
-    
-    if(!busNumber){
+
+    if (!busNumber) {
       toast.error("Bus number not found");
-      return
+      return;
     }
-    if(!busInitials){
+    if (!busInitials) {
       toast.error("Bus initials not found");
-      return
+      return;
     }
-    if(!busColor){
+    if (!busColor) {
       toast.error("Bus color not found");
-      return
+      return;
     }
-    if(!busRoute){
+    if (!busRoute) {
       toast.error("Bus route not found");
-      return
+      return;
     }
 
-
-
-    const ticketDetails:ticketStagingInterface = {
+    const ticketDetails: ticketStagingInterface = {
       busNumber,
       busInitials,
       busColor,
@@ -160,35 +161,36 @@ const RouteSelection: React.FC = () => {
       ticketAmount,
       ticketCount,
       discount,
-    }
+    };
 
-    setTicketData(ticketDetails).then((res: busTicketStorageInterface)=>{
-      setStartingStopContext(res.startingStop);
-      setEndingStopContext(res.endingStop);
-      setTicketCostContext(res.totalCost);
-      setTicketCountContext(res.ticketCount);
-      setDiscountedCost(res.discountedCost);
-      setTime(res.bookingTime);
-      toast.success("Validation Complete");
-      navigate(client.ticket, {replace: true})
-      setCountinueLoading(false);
-
-    }).catch(err=>{
-      toast.error(err.message)
-      setCountinueLoading(false);
-      setTimeout(()=>{
-        toast.error(err.message)
-        navigate(client.dashboard, {replace:true})
-      }, 1000)
-    })
+    setTicketData(ticketDetails)
+      .then((res: busTicketStorageInterface) => {
+        setStartingStopContext(res.startingStop);
+        setEndingStopContext(res.endingStop);
+        setTicketCostContext(res.totalCost);
+        setTicketCountContext(res.ticketCount);
+        setDiscountedCost(res.discountedCost);
+        setTime(res.bookingTime);
+        toast.success("Validation Complete");
+        navigate(client.ticket, { replace: true });
+        setCountinueLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err.message);
+        setCountinueLoading(false);
+        setTimeout(() => {
+          toast.error(err.message);
+          navigate(client.dashboard, { replace: true });
+        }, 1000);
+      });
   };
 
   return (
     <div className="h-screen relative">
       <div className=" mb-2 pt-2 ps-1 flex items-inline font-bold text-lg bg-transparent">
-        <IoArrowBack 
-        className="text-2xl me-8 z-50" 
-        onClick={() => navigate(client.dashboard, { replace: true })}
+        <IoArrowBack
+          className="text-2xl me-8 z-50"
+          onClick={() => navigate(client.dashboard, { replace: true })}
         />
         <span className="text-xl">Route Selection.</span>
       </div>
@@ -209,6 +211,8 @@ const RouteSelection: React.FC = () => {
             options={converArrayIntoSearchStream(startingStops)}
             placeholder={startingStop || "Select Your Starting Stop"}
             onSelect={handleStartingStopSelect}
+            showCustom={true}
+            src="stops"
           />
         </div>
       </div>
@@ -221,6 +225,8 @@ const RouteSelection: React.FC = () => {
             options={converArrayIntoSearchStream(endStops)}
             placeholder={endStop || "Select Your End Stop"}
             onSelect={handleEndStopSelect}
+            showCustom={true}
+            src="stops"
           />
         </div>
       </div>
