@@ -40,7 +40,8 @@ export default async function axiosInterceptor({
     if (!url) throw new Error("Url not provided");
 
     const apiMethod = method.toLowerCase().trim();
-    let apiUrl = "https://charter-backend.lambaharsh01.in/api";
+    // let apiUrl = process.env.REACT_APP_BASE_URI || "http://localhost:8000/api";
+    let apiUrl = process.env.REACT_APP_BASE_URI || "https://charter-backend.lambaharsh01.in/api";
     apiUrl += url.trim() + convertQueryString(query);
 
     const axiosInstance: AxiosInstance = axios.create();

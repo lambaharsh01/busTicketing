@@ -155,8 +155,9 @@ const DropdownSearch: React.FC<searchProp> = ({
                       value={customValue}
                       onChange={(e) => setCustomValue(e.target.value)}
                     />
+                    <span className="ps-2 w-4/12">
                     <button
-                      className="w-3/12 p-2 border mt-1 rounded text-white cayanBackground font-semibold"
+                      className="w-100 p-2 border mt-1 rounded text-white cayanBackground font-semibold"
                       onClick={() =>
                         handleSelect(
                           {
@@ -174,6 +175,7 @@ const DropdownSearch: React.FC<searchProp> = ({
                         <span>Add</span>
                       )}
                     </button>
+                    </span>
                   </li>
                 )}
               </ul>

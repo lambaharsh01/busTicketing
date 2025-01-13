@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { BusContext } from "../../contexts/busContext";
 import { IoArrowBack } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa6";
-import { getBusStops, getDiscount } from "../../utils/getLocalStorage";
+import { getBusStops } from "../../utils/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
 import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
@@ -81,7 +81,7 @@ const RouteSelection: React.FC = () => {
   // INITIALIZATION END
 
   const busStops = getBusStops();
-  const savedDiscount = getDiscount();
+  // const savedDiscount = getDiscount();
 
   const [startingStop, setStartingStop] = useState<string>("");
   const [endStop, setEndStop] = useState<string>("");
@@ -90,7 +90,7 @@ const RouteSelection: React.FC = () => {
 
   const [ticketAmount, setTicketAmount] = useState<number>(10);
   const [ticketCount, setTicketCount] = useState<number>(1);
-  const [discount] = useState<number>(savedDiscount);
+  // const [discount, setDiscount] = useState<number>(savedDiscount);
   const [continueLoading, setCountinueLoading] = useState<boolean>(false);
 
   const startingStops: string[] = busStops.filter((elem) => elem !== endStop);
@@ -160,8 +160,8 @@ const RouteSelection: React.FC = () => {
       endStop,
       ticketAmount,
       ticketCount,
-      discount,
-    };
+      discount:0,
+    }
 
     setTicketData(ticketDetails)
       .then((res: busTicketStorageInterface) => {
@@ -199,7 +199,7 @@ const RouteSelection: React.FC = () => {
         <h4 className="font-bold text-end">
           Total | ₹{ticketAmount * ticketCount}
         </h4>
-        <h6 className="font-bold text-end">Discount | {discount}</h6>
+        {/*<h6 className="font-bold text-end">Discount | {discount}</h6>*/}
         <div></div>
       </div>
 

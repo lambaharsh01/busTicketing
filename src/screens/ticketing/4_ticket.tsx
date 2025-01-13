@@ -68,7 +68,7 @@ const Ticket: React.FC = () => {
     endingStop,
     totalCost: `₹${(Math.floor(ticketCost * 10) / 10).toFixed(1)}`,
     ticketCount: ticketCount.toString(),
-    discountedCost: `₹${(Math.floor(discountedCost * 10) / 10).toFixed(1)}`,
+    discountedCost: `₹${discountedCost.toFixed(2)}`,
     bookingTime: formatDate(time),
   });
 

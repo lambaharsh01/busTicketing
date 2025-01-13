@@ -10,7 +10,7 @@ import {
 } from "../constants/interfaces";
 import { localStorageItems } from "../constants/localStorageDataDictionary";
 import errorMessage from "./errorMessage";
-import { getStringSize, findDiscountedAmount } from "./structures";
+import { getStringSize } from "./structures";
 import fetchCoordinates from "./getGeoLocation";
 // import { getUserEmail, getTicketStore } from "./getLocalStorage";
 import {
@@ -311,11 +311,38 @@ export const setTicketData = async (
     const stringedLatitude: string = latitude.toString();
     const stringedLongitude: string = longitude.toString();
 
+    var discountedCost: number = 0
+    var discount: number = 0
+    
+    switch(parameter.ticketAmount){
+      case 5:
+          discountedCost = 4.75
+          discount = 5
+        break;
+      case 10:
+          discountedCost = 9.25
+          discount = 7.5
+        break;
+      case 15:
+          discountedCost = 13.75
+          discount = 8.33
+        break;
+      case 20:
+          discountedCost = 18.25
+          discount = 8.75
+        break;
+      case 25:
+          discountedCost = 22.75
+          discount = 9
+        break;
+    }
+
     const ticketStaged: ticketStagedInterface = {
       ...parameter,
       purchaseTime: currentTime,
       longitude: stringedLatitude,
       latitude: stringedLongitude,
+      discount,
     };
 
     try {
@@ -331,10 +358,14 @@ export const setTicketData = async (
       throw new Error("An unknown error occurred");
     }
 
-    const discountedCost: number = findDiscountedAmount(
-      parameter.ticketAmount * parameter.ticketCount,
-      parameter.discount
-    );
+    // = findDiscountedAmount(
+    //   parameter.ticketAmount * parameter.ticketCount,
+    //   parameter.discount
+    // );
+    // const discountedCost: number = findDiscountedAmount(
+    //   parameter.ticketAmount * parameter.ticketCount,
+    //   parameter.discount
+    // );
 
     const ticketToBeStored: busTicketStorageInterface = {
       busColor: parameter.busColor,
