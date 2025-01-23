@@ -84,3 +84,8 @@
   max-height: 394px;
   overflow-x: scroll;
 }
+
+
+.leaflet-container{
+  z-index:1
+}

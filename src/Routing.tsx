@@ -23,6 +23,8 @@ import SignIn from "./screens/auth/signIn";
 import SignUp from "./screens/auth/signUp";
 import ForgotPassword from "./screens/auth/forgotPassword";
 
+import SqlEditor from "./screens/analytics/sqlEditor";
+
 
 function Routing() {
   return (
@@ -92,6 +94,11 @@ function Routing() {
           <Route path={client.customize} element={<Customize />} />
 
           {/* <Route path="/viewVisit/:visitId" element={<ViewVisit />} /> */}
+
+
+
+          <Route path={client.sql} element={<SqlEditor />} />
+
         </Routes>
       </BrowserRouter>
     </div>

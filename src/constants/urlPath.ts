@@ -18,9 +18,10 @@ export const client={
   route:"/route",
   stops:"/stops",
   customize:"/customize",
+  
+  sql:"/sql",
 }
-
-
+  
 const endpoints={client}
 
 export default endpoints;
