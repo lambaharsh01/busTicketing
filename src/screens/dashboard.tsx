@@ -422,7 +422,7 @@ export default function Dashboard() {
                       </div>
                       <div className="text-center">
                         <h6 className="font-medium text-lg">
-                          Change <br /> Discount
+                          Query
                         </h6>
                       </div>
                     </div>

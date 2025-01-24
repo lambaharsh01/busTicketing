@@ -6,6 +6,7 @@ import { useDrag } from "react-use-gesture";
 import { useNavigate } from "react-router-dom";
 import { IoArrowBack } from "react-icons/io5";
 import { AiFillThunderbolt } from "react-icons/ai";
+import { BiSolidEraser } from "react-icons/bi";
 import { LiaThListSolid } from "react-icons/lia";
 import { client } from "../../constants/urlPath";
 
@@ -13,6 +14,7 @@ import CodeMirror from "@uiw/react-codemirror";
 import { sql } from "@codemirror/lang-sql";
 
 import axiosInterceptor from "../../utils/axiosInterceptor";
+import { toast } from "react-toastify";
 
 const SqlEditor: React.FC = () => {
   const navigate = useNavigate();
@@ -65,15 +67,18 @@ const SqlEditor: React.FC = () => {
 
   let lines: string = Array(24).fill("\n").join("");
 
-  const [sqlQuery, setSqlQuery] = useState<string>(
-    "-- SELECT * FROM users;" + lines
-  );
+  const [sqlQuery, setSqlQuery] = useState<string>(lines);
   const handleSqlQueryChange = (value: string) => {
     setSqlQuery(value);
   };
 
   const fetchData = () => {
-    const query = sqlQuery.trim().replaceAll(";", "");
+    const query = sqlQuery.trim().replaceAll(";", "").split("\n").filter(elem=> !elem.trim().startsWith("--")).join("\n").trim()
+
+    if(!query){
+      toast.error("Query is empty")
+      return
+    }
 
     setLoading(true);
     axiosInterceptor({
@@ -94,11 +99,30 @@ const SqlEditor: React.FC = () => {
       .catch((err) => {
         setErrorString(err?.message ?? "Some unknown error");
         setInitialSearch(-1);
+        setDataKeys([]);
 
         handleReset();
         setLoading(false);
       });
   };
+
+
+  const copyFieldToUserClipBoard = (field:string) => {
+    field = field?.toLowerCase() || "";
+    navigator.clipboard.writeText(field)
+
+    toast.success("Column Name Copied")
+  }
+
+  const copyFieldAndDataToUserClipBoard = (field:string, value:string) => {
+    field = field?.toLowerCase() || "";
+    const text = field + " = " + value
+    navigator.clipboard.writeText(text)
+
+    toast.success("Column Name & Data Copied")
+  }
+
+  const [clearQueryConfirmation, setClearQueryConfirmation] = useState(false)
 
   return (
     <div className="w-full max-h-screen overflow-y-auto">
@@ -125,8 +149,13 @@ const SqlEditor: React.FC = () => {
             )}
 
             <AiFillThunderbolt
-              className="text-3xl ms-2 me-3 text-yellow-400"
+              className="text-3xl ms-2 me-4 text-yellow-400"
               onClick={fetchData}
+            />
+
+            <BiSolidEraser
+              className="text-3xl ms-2 me-3 text-blue-400"
+              onClick={()=>setClearQueryConfirmation(true)}
             />
           </span>
         )}
@@ -170,8 +199,9 @@ const SqlEditor: React.FC = () => {
                     <th
                       key={header}
                       className="px-6 py-3 text-left text-xs font-semibold text-gray-700 uppercase tracking-wider"
+                      onDoubleClick={()=>copyFieldToUserClipBoard((header || ""))}
                     >
-                      {header.charAt(0).toUpperCase() + header.slice(1)}
+                      {header}
                     </th>
                   ))}
                 </tr>
@@ -186,6 +216,7 @@ const SqlEditor: React.FC = () => {
                       <td
                         key={header}
                         className="px-6 py-4 whitespace-nowrap text-sm text-gray-900"
+                        onDoubleClick={()=>copyFieldAndDataToUserClipBoard((header || ""), (item[header] || ""))}
                       >
                         {!Boolean(item[header]) ? (
                           <span>NULL</span>
@@ -204,6 +235,34 @@ const SqlEditor: React.FC = () => {
 
       {allOptionsOpen && (
         <div className="max-h-screen overlayWhenViewNavigationIsOpen"></div>
+      )}
+
+      {clearQueryConfirmation && (
+        <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50 px-4">
+          <div className="bg-white rounded-lg p-6 w-96 shadow-lg">
+            <h2 className="text-lg text-center font-medium mb-4 text-gray-800">
+              Are you sure you want to clear the query ?
+            </h2>
+            <br />
+            <div className="flex justify-around space-x-4">
+              <button
+                onClick={() => setClearQueryConfirmation(false)}
+                className="px-4 py-2 bg-gray-300 text-gray-700 rounded hover:bg-gray-400"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={()=>{
+                  setSqlQuery(lines)
+                  setClearQueryConfirmation(false)
+                }}
+                className="px-4 py-2 bg-red-500 text-white rounded hover:bg-red-600"
+              >
+                Clear
+              </button>
+            </div>
+          </div>
+        </div>
       )}
       {/* All Options Sections END */}
     </div>
