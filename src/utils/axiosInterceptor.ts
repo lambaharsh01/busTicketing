@@ -41,7 +41,7 @@ export default async function axiosInterceptor({
 
     const apiMethod = method.toLowerCase().trim();
     // let apiUrl = "http://192.168.8.145:3011/api";
-    // let apiUrl = process.env.REACT_APP_BASE_URI || "http://localhost:3011/api";
+    // let apiUrl = "http://localhost:3011/api";
     let apiUrl = "https://charter-backend.lambaharsh01.in/api";
     apiUrl += url.trim() + convertQueryString(query);
 
