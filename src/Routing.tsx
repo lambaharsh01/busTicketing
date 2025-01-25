@@ -25,6 +25,8 @@ import ForgotPassword from "./screens/auth/forgotPassword";
 
 import SqlEditor from "./screens/analytics/sqlEditor";
 
+import PermissionAccess from "./screens/adminPanel/permissionAccess";
+
 
 function Routing() {
   return (
@@ -98,6 +100,7 @@ function Routing() {
 
 
           <Route path={client.sql} element={<SqlEditor />} />
+          <Route path={client.permissionAccess} element={<PermissionAccess />} />
 
         </Routes>
       </BrowserRouter>

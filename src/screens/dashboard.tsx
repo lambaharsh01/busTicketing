@@ -1,16 +1,17 @@
 import { CSSProperties, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { PLACEHOLDERS } from "../constants/strings";
+
 import { IoMdSearch } from "react-icons/io";
 import { MdLocationOn } from "react-icons/md";
 import { IoTicket, IoTimerOutline } from "react-icons/io5";
 import { BsStack, BsPalette2, BsFillSignStopFill } from "react-icons/bs";
-
 import { LiaRouteSolid } from "react-icons/lia";
 import { BiSolidCustomize } from "react-icons/bi";
 import { FaRegWindowMaximize } from "react-icons/fa6";
 import { FaDatabase } from "react-icons/fa";
 import { LuLogOut } from "react-icons/lu";
+import { HiMiniUsers } from "react-icons/hi2";
 
 import Map from "../components/map";
 import AllTicketsComponent from "../components/allTicketsComponent";
@@ -405,7 +406,7 @@ export default function Dashboard() {
               {isAdmin && (
                 <>
                   <h4 className="ps-3 font-extrabold mt-4">Admin Rights</h4>
-                  <div className="pt-2 rounded-md bg-white flex justify-around overflow-visibl w-1/4">
+                  <div className="pt-2 rounded-md bg-white flex justify-around overflow-visibl w-1/2">
                     <div className="relative">
                       <div className="absolute -top-1.5 w-full text-center">
                         <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
@@ -423,6 +424,27 @@ export default function Dashboard() {
                       <div className="text-center">
                         <h6 className="font-medium text-lg">
                           Query
+                        </h6>
+                      </div>
+                    </div>
+
+                    <div className="relative">
+                      <div className="absolute -top-1.5 w-full text-center">
+                        <span className="blink bg-red-500 text-white rounded-lg text-sm px-1.5 py-0.5">
+                          New
+                        </span>
+                      </div>
+                      <div className="w-20 h-20 p-2">
+                        <div
+                          className="w-full h-full iconSectionYellow border shadow-sm flex justify-center items-center rounded-lg"
+                          onClick={() => navigate(client.permissionAccess)}
+                        >
+                          <HiMiniUsers className="text-4xl" />
+                        </div>
+                      </div>
+                      <div className="text-center">
+                        <h6 className="font-medium text-lg">
+                          Manage <br/> Users
                         </h6>
                       </div>
                     </div>

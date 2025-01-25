@@ -148,3 +148,16 @@ export interface otpStrengthInterface {
   second: string;
   thrid: string;
 }
+
+export interface userInfo {
+  name: string;
+  email: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
+  gender?: string;
+  ticketGenerationStatus: number;
+  userType: string | null;
+  createdAt: string | null;
+  openEditSection?: boolean
+
+}

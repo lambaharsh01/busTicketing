@@ -20,6 +20,7 @@ export const client={
   customize:"/customize",
   
   sql:"/sql",
+  permissionAccess:"/permission-access",
 }
   
 const endpoints={client}
