@@ -161,3 +161,22 @@ export interface userInfo {
   openEditSection?: boolean
 
 }
+
+
+export interface graphTabStructure {
+  label: string;
+  graphData: string;
+}
+
+export interface graphDataStructure {
+  label: string;
+  frequency: number | null
+  amount: number | null
+}
+
+
+export interface userFiltrationStructure {
+  id: number;
+  userName: string;
+  userEmail: string;
+}

@@ -13,7 +13,7 @@ import { getBusStops, getBusRoutesInfo } from "../../utils/getLocalStorage";
 import { busRouteInterface } from "../../constants/interfaces";
 import useClickOutside from "../../utils/useClickOutside";
 import DropdownSearch from "../../components/dropdownSearch";
-import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
+import {converArrayIntoSearchStream} from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 
 import { setBusRoutesInfo} from "../../utils/setLocalStorage";

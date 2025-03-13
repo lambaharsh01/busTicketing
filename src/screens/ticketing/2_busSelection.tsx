@@ -12,7 +12,7 @@ import {
 } from "../../utils/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
 import DropdownColorSelect from "../../components/dropdownColorSelect";
-import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
+import {converArrayIntoSearchStream} from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
 import { busRouteInterface } from "../../constants/interfaces";

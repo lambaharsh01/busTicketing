@@ -21,6 +21,7 @@ export const client={
   
   sql:"/sql",
   permissionAccess:"/permission-access",
+  graphs:"/graphs",
 }
   
 const endpoints={client}
