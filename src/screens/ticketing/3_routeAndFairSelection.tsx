@@ -5,7 +5,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { getBusStops } from "../../utils/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
-import converArrayIntoSearchStream from "../../utils/converArrayIntoSearchStream";
+import {converArrayIntoSearchStream} from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
 import { getTicketProcessingStatus } from "../../utils/getLocalStorage";

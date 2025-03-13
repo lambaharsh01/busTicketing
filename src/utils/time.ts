@@ -35,3 +35,21 @@ export const formatDate = (dateString: string): string => {
   const [, meridiem] = secAndMeridiem.split(" ");
   return `${day} ${month}, ${year} | ${hour}:${minuet} ${meridiem}`;
 };
+
+export const getCurrentMonthRange = (): { start: string; end: string } => {
+  const now = new Date();
+  const year = now.getFullYear();
+  const month = now.getMonth();
+
+  const startDate = new Date(year, month, 1); // 1st day of the month
+  const endDate = new Date(year, month + 1, 0); // Last day of the month
+
+  const formatDate = (date: Date): string =>
+    `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+
+  return {
+    start: formatDate(startDate),
+    end: formatDate(endDate),
+  };
+};
+

@@ -27,6 +27,7 @@ import SqlEditor from "./screens/analytics/sqlEditor";
 
 import PermissionAccess from "./screens/adminPanel/permissionAccess";
 
+import Graphs from "./screens/analytics/graphs";
 
 function Routing() {
   return (
@@ -101,6 +102,7 @@ function Routing() {
 
           <Route path={client.sql} element={<SqlEditor />} />
           <Route path={client.permissionAccess} element={<PermissionAccess />} />
+          <Route path={client.graphs} element={<Graphs />} />
 
         </Routes>
       </BrowserRouter>

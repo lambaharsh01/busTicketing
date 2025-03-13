@@ -3,13 +3,20 @@
 }
 
 .charterBlueBackground {
-  color: #355ba6;
+  background-color: #355ba6;
 }
 .headerCayanText {
   color: #5b9fab;
 }
 .cayanBackground {
   background-color: #5b9fab;
+}
+
+.purpleText{
+  color:#1E3A8A
+}
+.purpleBackground{
+  background-color:rgb(30, 58, 138)
 }
 
 .creamBackground {
