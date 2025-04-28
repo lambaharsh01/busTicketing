@@ -116,7 +116,7 @@ const SignIn: React.FC = () => {
                 {dissabled ? (
                   <div className="spinner-border spinner-border-sm text-white"></div>
                 ) : (
-                  <span>Signnnnnnnnnnnnnnnnn In</span>
+                  <span>Sign In</span>
                 )}
               </button>
             </div>
