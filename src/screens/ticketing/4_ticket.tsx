@@ -290,17 +290,17 @@ const Ticket: React.FC = () => {
 
 
               <div
-                className="w-full pb-2 flex justify-center mb-0.5"
+                className="w-full pb-2 flex justify-center mb-1"
                 style={{ paddingTop: 20 }}
               >
                 <div>
                   <img
                     src={SCREEN.ONDC_LOGO.PATH}
                     alt={SCREEN.ONDC_LOGO.ALT}
-                    style={{ height: 20, marginTop: 1 }}
+                    style={{ height: 18.4, marginTop: 1 }}
                   />
                 </div>
-                <span className="font-extrabold ps-0.5 text-lg" style={{ color: "#615757" }}>
+                <span className="font-extrabold ps-0.5" style={{ color: "#615757", fontSize: 18.4 }}>
                   NETWORK
                 </span>
               </div>

@@ -367,6 +367,8 @@ export const setTicketData = async (
     //   parameter.discount
     // );
 
+    discountedCost = Math.round((discountedCost * parameter.ticketCount) * 100) / 100; // 3.14 
+
     const ticketToBeStored: busTicketStorageInterface = {
       busColor: parameter.busColor,
       busInitials: parameter.busInitials,
