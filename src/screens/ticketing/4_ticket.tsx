@@ -5,20 +5,20 @@ import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
 import { client } from "../../constants/urlPath";
 import { ticketStyleInterface } from "../../constants/interfaces";
-import { getTicketStyling } from "../../utils/getLocalStorage";
+// import { getTicketStyling } from "../../utils/getLocalStorage";
 
 import { BusContext } from "../../contexts/busContext";
-import {toast} from "react-toastify"
+import { toast } from "react-toastify"
 import { formatDate } from "../../utils/time";
 import { setTicketProcessingStatus } from "../../utils/setLocalStorage";
 
 const Ticket: React.FC = () => {
 
-  useEffect(()=>{
+  useEffect(() => {
     setTicketProcessingStatus(false)
   }, [])
 
-  
+
   const navigate = useNavigate();
   const context = useContext(BusContext);
   if (!context) {
@@ -27,7 +27,7 @@ const Ticket: React.FC = () => {
     );
   }
 
-  const [idDate, setIdDate]= useState<string>("04112024")
+  const [idDate, setIdDate] = useState<string>("04112024")
   const [ticketInfo, setTicketInfo] = useState({
     busColor: "",
     busInitialsPlusNumber: "",
@@ -40,7 +40,7 @@ const Ticket: React.FC = () => {
     bookingTime: "",
   });
 
-  useEffect(()=>{
+  useEffect(() => {
     const {
       busNumber,
       busColor,
@@ -52,39 +52,40 @@ const Ticket: React.FC = () => {
       ticketCost,
       ticketCount,
       time,
-  } = context;
+    } = context;
 
-  if(!busColor || !busInitials || !busNumber || !busRoute || !startingStop || !endingStop || !discountedCost || !ticketCost || !ticketCount || !time){
-    toast.error("Missing base dependencies.")
-    navigate(client.dashboard)
-    return
-  }
+    if (!busColor || !busInitials || !busNumber || !busRoute || !startingStop || !endingStop || !discountedCost || !ticketCost || !ticketCount || !time) {
+      toast.error("Missing base dependencies.")
+      navigate(client.dashboard)
+      return
+    }
 
-  setTicketInfo({
-    busColor,
-    busInitialsPlusNumber: busInitials + busNumber.toString(),
-    busRoute,
-    startingStop,
-    endingStop,
-    totalCost: `₹${(Math.floor(ticketCost * 10) / 10).toFixed(1)}`,
-    ticketCount: ticketCount.toString(),
-    discountedCost: `₹${discountedCost.toFixed(2)}`,
-    bookingTime: formatDate(time),
-  });
+    setTicketInfo({
+      busColor,
+      busInitialsPlusNumber: busInitials + busNumber.toString(),
+      busRoute,
+      startingStop,
+      endingStop,
+      totalCost: `₹${(Math.floor(ticketCost * 10) / 10).toFixed(1)}`,
+      ticketCount: ticketCount.toString(),
+      discountedCost: `₹${discountedCost.toFixed(2)}`,
+      bookingTime: formatDate(time),
+    });
 
-  const [IdTime,]=time.split(" ")
-  setIdDate(IdTime.split("-").reverse().join(""))
+    const [IdTime,] = time.split(" ")
+    setIdDate(IdTime.split("-").reverse().join(""))
 
-  },[context, navigate])
+  }, [context, navigate])
 
   useEffect(() => {
-    setTicketStyle(getTicketStyling());
+    // setTicketStyle(getTicketStyling());
   }, []);
 
   const [showQrCode, setShowQrCode] = useState<boolean>(false);
 
-  const [ticketStyle, setTicketStyle] = useState<ticketStyleInterface>({
-    ticketInfoHeight: 58,
+  // const [ticketStyle, setTicketStyle] = useState<ticketStyleInterface>({
+  const [ticketStyle] = useState<ticketStyleInterface>({
+    ticketInfoHeight: 62.4,
     ticketHeaderMargin: 25,
     headerLeftFontSize: 18.5,
     headerRightFontSize: 15.5,
@@ -121,7 +122,7 @@ const Ticket: React.FC = () => {
         <span
           className="font-medium underline pointers"
           style={{ fontSize: ticketStyle.headerRightFontSize }}
-          onClick={()=>navigate(client.allTickets, {replace:true})}
+          onClick={() => navigate(client.allTickets, { replace: true })}
         >
           All Tickets
         </span>
@@ -271,12 +272,12 @@ const Ticket: React.FC = () => {
 
             {/* FOOTER SECTION */}
 
-            <div className="absolute bottom-0 w-full pe-8 pb-3">
-              <div className="text-center pb-1 text-slate-600">
+            <div className="absolute bottom-0 w-full pe-8">
+              <div className="text-center pb-1.5 text-slate-600">
                 T{idDate}7b18ec0efa
               </div>
               <div
-                className="bg-green-100 border-2 border-green-600 min-w-full min-h-12 rounded-md flex justify-center items-center "
+                className="bg-green-100 border-2 border-green-600 min-w-full min-h-11 py-2 rounded-md flex justify-center items-center "
                 onClick={() => setShowQrCode(true)}
               >
                 <div className="flex justify-center">
@@ -286,12 +287,32 @@ const Ticket: React.FC = () => {
                   </span>
                 </div>
               </div>
+
+
+              <div
+                className="w-full pb-2 flex justify-center mb-1"
+                style={{ paddingTop: 20 }}
+              >
+                <div>
+                  <img
+                    src={SCREEN.ONDC_LOGO.PATH}
+                    alt={SCREEN.ONDC_LOGO.ALT}
+                    style={{ height: 18.4, marginTop: 1 }}
+                  />
+                </div>
+                <span className="font-extrabold ps-0.5" style={{ color: "#615757", fontSize: 18.4 }}>
+                  NETWORK
+                </span>
+              </div>
+
             </div>
+
+
           </div>
         </div>
       )}
 
-      <div
+      {/* <div
         className="bottom-0 left-0 absolute w-full pb-6 flex justify-center"
         style={{ paddingTop: ticketStyle.ticketHeaderMargin }}
       >
@@ -305,7 +326,7 @@ const Ticket: React.FC = () => {
         <span className="font-bold ps-0.5" style={{ color: "#615757" }}>
           NETWORK
         </span>
-      </div>
+      </div> */}
     </div>
   );
 };
