@@ -333,9 +333,22 @@ const ScanBusNumber: React.FC = () => {
 
   // Fill inputs with busNumber if it exists
   useEffect(() => {
-    if (busNumber && busNumber.length === 4) {
+
+
+    const ticketProcessingStarted: boolean = getTicketProcessingStatus();
+    if (busNumber && busNumber.length === 4 && ticketProcessingStarted) {
       const digits = busNumber.split("");
       setInputValues(digits);
+    } else {
+
+      setInputValues(["", "", "", ""])
+
+      for (const input of inputRefs) {
+        if (input.current) {
+          input.current.value = ""
+        }
+      }
+
     }
   }, [busNumber]);
 
