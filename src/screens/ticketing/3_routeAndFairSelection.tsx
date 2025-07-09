@@ -5,7 +5,7 @@ import { IoArrowBack } from "react-icons/io5";
 import { FaPlus, FaMinus } from "react-icons/fa6";
 import { getBusStops } from "../../utils/getLocalStorage";
 import DropdownSearch from "../../components/dropdownSearch";
-import {converArrayIntoSearchStream} from "../../utils/converArrayIntoSearchStream";
+import { converArrayIntoSearchStream } from "../../utils/converArrayIntoSearchStream";
 import { toast } from "react-toastify";
 import { client } from "../../constants/urlPath";
 import { getTicketProcessingStatus } from "../../utils/getLocalStorage";
@@ -160,7 +160,7 @@ const RouteSelection: React.FC = () => {
       endStop,
       ticketAmount,
       ticketCount,
-      discount:0,
+      discount: 0,
     }
 
     setTicketData(ticketDetails)
@@ -171,7 +171,6 @@ const RouteSelection: React.FC = () => {
         setTicketCountContext(res.ticketCount);
         setDiscountedCost(res.discountedCost);
         setTime(res.bookingTime);
-        toast.success("Validation Complete");
         navigate(client.ticket, { replace: true });
         setCountinueLoading(false);
       })
@@ -193,6 +192,14 @@ const RouteSelection: React.FC = () => {
           onClick={() => navigate(client.dashboard, { replace: true })}
         />
         <span className="text-xl">Route Selection.</span>
+      </div>
+
+      <div className="flex items-center gap-2 bg-yellow-100 border-l-4 border-yellow-500 text-yellow-800 text-sm px-3 py-1 rounded-md shadow-sm">
+        <span>
+          Do not clear this app from recently used after generating the ticket.
+          <br />
+          If need arises go back to dashboard then clear your app data after generating ticket.
+        </span>
       </div>
 
       <div className="mt-2 w-full px-3">

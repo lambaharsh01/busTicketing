@@ -1,5 +1,6 @@
 import { RxCross2 } from "react-icons/rx";
 import { LiaQrcodeSolid } from "react-icons/lia";
+import { IoWarning } from "react-icons/io5";
 import { SCREEN } from "../../constants/paths";
 import { useEffect, useState, useContext } from "react";
 import { useNavigate } from "react-router-dom";
@@ -85,10 +86,10 @@ const Ticket: React.FC = () => {
 
   // const [ticketStyle, setTicketStyle] = useState<ticketStyleInterface>({
   const [ticketStyle] = useState<ticketStyleInterface>({
-    ticketInfoHeight: 62.4,
-    ticketHeaderMargin: 25,
-    headerLeftFontSize: 18.5,
-    headerRightFontSize: 15.5,
+    ticketInfoHeight: 60.6,
+    ticketHeaderMargin: 18,
+    headerLeftFontSize: 22,
+    headerRightFontSize: 16.6,
     mainHeaderFontSize: 22,
     mainHeaderMarginTop: 7,
     headermarginTop: 4,
@@ -106,7 +107,7 @@ const Ticket: React.FC = () => {
       style={{ backgroundColor: ticketInfo.busColor }}
     >
       <div
-        className="top-0 left-0 absolute w-full px-3 flex justify-between text-white"
+        className="top-0 left-0 absolute  w-full px-3 flex justify-between text-white"
         style={{ paddingTop: ticketStyle.ticketHeaderMargin }}
       >
         <div
@@ -114,17 +115,27 @@ const Ticket: React.FC = () => {
           style={{ fontSize: ticketStyle.headerLeftFontSize }}
         >
           <RxCross2
-            className="mt-1 me-3 text-xl pointers"
+            className="me-3 text-2xl pointers"
             onClick={() => navigate(client.dashboard)}
           />
-          <span>Ticket</span>
+
         </div>
         <span
-          className="font-medium underline pointers"
+          className="font-medium pointers flex"
           style={{ fontSize: ticketStyle.headerRightFontSize }}
           onClick={() => navigate(client.allTickets, { replace: true })}
         >
-          All Tickets
+          <span className="text-2xl me-1">
+            <IoWarning className="text-yellow-400" />
+          </span>
+          Issue with ticket?
+        </span>
+        <span
+          className="font-medium pointers"
+          style={{ fontSize: ticketStyle.headerRightFontSize }}
+          onClick={() => navigate(client.allTickets, { replace: true })}
+        >
+          View all tickets
         </span>
       </div>
 
@@ -297,10 +308,10 @@ const Ticket: React.FC = () => {
                   <img
                     src={SCREEN.ONDC_LOGO.PATH}
                     alt={SCREEN.ONDC_LOGO.ALT}
-                    style={{ height: 18.4, marginTop: 1 }}
+                    style={{ height: 17.8, marginTop: 1 }}
                   />
                 </div>
-                <span className="font-extrabold ps-0.5" style={{ color: "#615757", fontSize: 18.4 }}>
+                <span className="font-extrabold ps-0.5" style={{ color: "#615757", fontSize: 16.8 }}>
                   NETWORK
                 </span>
               </div>
