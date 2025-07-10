@@ -95,11 +95,27 @@ const Ticket: React.FC = () => {
     headermarginTop: 4,
     saperatingLineMarginTop: 8,
     saperatingLineMarginBottom: 9.5,
-    infoFontSize: 20.4,
-    subHeadingFontSize: 16.4,
+    infoFontSize: 19.6,
+    subHeadingFontSize: 16,
     subHeadingMarginBottom: -1,
     verticalMarginTop: 6.3,
   });
+
+  //  <div className="text-end">
+  //               <div
+  //                 style={{ marginBottom: ticketStyle.subHeadingMarginBottom }}
+  //               >
+  //                 <span style={{ fontSize: ticketStyle.subHeadingFontSize }}>
+  //                   Fare
+  //                 </span>
+  //               </div>
+  //               <span
+  //                 className="font-medium"
+  //                 style={{ fontSize: ticketStyle.infoFontSize }}
+  //               >
+  //                 {ticketInfo.totalCost}
+  //               </span>
+  //             </div>
 
   return (
     <div
