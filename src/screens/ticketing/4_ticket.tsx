@@ -95,7 +95,7 @@ const Ticket: React.FC = () => {
     headermarginTop: 4,
     saperatingLineMarginTop: 8,
     saperatingLineMarginBottom: 9.5,
-    infoFontSize: 19.6,
+    infoFontSize: 20,
     subHeadingFontSize: 16,
     subHeadingMarginBottom: -1,
     verticalMarginTop: 6.3,
@@ -304,7 +304,7 @@ const Ticket: React.FC = () => {
                 T{idDate}7b18ec0efa
               </div>
               <div
-                className="bg-green-100 border-2 border-green-600 min-w-full min-h-11 py-2 rounded-md flex justify-center items-center "
+                className="bg-green-100 border-2 border-green-600 min-w-full min-h-11 py-1.5 rounded-md flex justify-center items-center "
                 onClick={() => setShowQrCode(true)}
               >
                 <div className="flex justify-center">
